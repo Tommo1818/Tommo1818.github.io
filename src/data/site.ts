@@ -254,7 +254,7 @@ export const posts: PostItem[] = [
 export const outside = [
   {
     title: 'Gaming',
-    body: 'Counter-Strike at <strong>FACEIT level 9</strong> and osu! at <strong>5-digit global rank</strong>.',
+    body: 'Counter-Strike with my ex-Swansea uni team — <strong>top 30 in the UK</strong>, FACEIT level 9. osu! at <strong>5-digit global rank</strong>.',
   },
   {
     title: 'PC building',
