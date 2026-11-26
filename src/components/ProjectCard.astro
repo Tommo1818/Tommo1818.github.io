@@ -7,11 +7,17 @@ interface Props {
 }
 
 const { entry, index } = Astro.props;
-const { title, summary, kicker, year, stack, live, repo } = entry.data;
+const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
 const href = `/work/${entry.id}/`;
 ---
 
 <article class="card">
+  {diagram && (
+    <div class="card-media">
+      <img src={diagram} alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </div>
+  )}
+
   <div class="card-top">
     <span class="card-kicker">{kicker}</span>
     <span class="card-index">{String(index).padStart(2, '0')} · {year}</span>

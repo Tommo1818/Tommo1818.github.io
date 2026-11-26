@@ -54,14 +54,18 @@ is the house style.
 Everything below is deliberately left blank rather than invented — blank fields simply
 don't render.
 
-- [ ] Employer names for both roles (`experience` in `src/data/site.ts`)
+- [x] Employer names — Options Technology, Asia Space
+- [x] Music links — Spotify artist + Bandcamp / SoundCloud / Apple / Instagram
 - [ ] Dates for the Swansea degree and the two jobs (currently "1 year" / "In progress")
-- [ ] Music link — Spotify / SoundCloud / Bandcamp (`links.music`)
 - [ ] LinkedIn URL (`links.linkedin`)
 - [ ] A contact email (`links.email`) — currently points at the blog's contact page
 - [ ] `og-image.png` (1200×630) plus the matching `og:image` meta in `Base.astro`
-- [ ] Screenshots for the work cards — the biggest visual upgrade available
+- [ ] Real screenshots inside the case studies — the diagrams are hand-authored SVG for now
 - [ ] Location, if you want it on the site (currently omitted)
+
+Diagrams live in `public/diagrams/*.svg` and are referenced from the `diagram:` field in
+each case study's frontmatter. They appear both on the card and at the top of the case
+study page.
 
 ## Deploying
 

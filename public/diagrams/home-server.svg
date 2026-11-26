@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-labelledby="hs-title">
+  <title id="hs-title">A remote device reaches an Ubuntu host over a Tailscale tailnet with no public ports, running Home Assistant, a Matter server and ESPHome panels</title>
+  <defs>
+    <marker id="hs-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a4a5e"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" letter-spacing="1.6" fill="#5a5a72">NO PUBLIC PORTS · ONE PRIVATE NETWORK</text>
+
+  <rect x="24" y="62" width="592" height="226" rx="18" fill="none" stroke="#34344a" stroke-dasharray="7 7"/>
+  <text x="44" y="86" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#6f6f80">tailnet · encrypted</text>
+
+  <rect x="44" y="118" width="130" height="110" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+  <text x="109" y="164" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#e8e8f0">Phone / laptop</text>
+  <text x="109" y="184" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#7a7a8c">from anywhere</text>
+
+  <line x1="188" y1="173" x2="228" y2="173" stroke="#4a4a5e" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#hs-arrow)" marker-start="url(#hs-arrow)"/>
+
+  <rect x="240" y="104" width="274" height="172" rx="14" fill="#101018" stroke="#2a2a3a"/>
+  <text x="377" y="130" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#8f8fa4">Ubuntu host · Docker</text>
+
+  <rect x="256" y="142" width="242" height="34" rx="7" fill="#16161f" stroke="#2a2a3a"/>
+  <text x="377" y="164" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#c9c9d6">Home Assistant</text>
+
+  <rect x="256" y="184" width="242" height="34" rx="7" fill="#16161f" stroke="#2a2a3a"/>
+  <text x="377" y="206" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#c9c9d6">Matter server</text>
+
+  <rect x="256" y="226" width="242" height="34" rx="7" fill="#16161f" stroke="#2a2a3a"/>
+  <text x="377" y="248" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#c9c9d6">ESPHome panels</text>
+
+  <rect x="530" y="132" width="70" height="104" rx="12" fill="#a78bfa" fill-opacity=".08" stroke="#a78bfa" stroke-opacity=".55"/>
+  <text x="565" y="178" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="30" fill="#c4b1ff">0</text>
+  <text x="565" y="200" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#9b9bab">public</text>
+  <text x="565" y="214" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#9b9bab">ports</text>
+
+  <text x="24" y="322" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#7a7a8c">key-only SSH · UFW · fail2ban · unattended upgrades · exit node + subnet router</text>
+</svg>

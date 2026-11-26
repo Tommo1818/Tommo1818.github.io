@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-labelledby="mp-title">
+  <title id="mp-title">The browser talks to the macropad firmware over the HID configuration interface, then reads every write back to verify it</title>
+  <defs>
+    <marker id="mp-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5a5a72"/>
+    </marker>
+    <marker id="mp-arrow-up" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <text x="32" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" letter-spacing="1.6" fill="#5a5a72">NO DRIVER · NO BACKEND · NO INSTALL</text>
+
+  <rect x="32" y="110" width="160" height="112" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+  <text x="112" y="156" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#e8e8f0">Browser UI</text>
+  <text x="112" y="178" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#7a7a8c">static · GitHub Pages</text>
+
+  <rect x="240" y="110" width="160" height="112" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+  <text x="320" y="152" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#e8e8f0">HID interface</text>
+  <text x="320" y="176" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#a78bfa">0xFF00 / 0x01</text>
+
+  <rect x="448" y="110" width="160" height="112" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+  <text x="528" y="152" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#e8e8f0">CH57x firmware</text>
+  <text x="528" y="176" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#7a7a8c">3 layers · 6 effects</text>
+
+  <line x1="196" y1="150" x2="234" y2="150" stroke="#4a4a5e" stroke-width="1.5" marker-end="url(#mp-arrow)"/>
+  <line x1="404" y1="150" x2="442" y2="150" stroke="#4a4a5e" stroke-width="1.5" marker-end="url(#mp-arrow)"/>
+
+  <path d="M 520 224 C 520 276, 120 276, 120 230" fill="none" stroke="#a78bfa" stroke-opacity=".6" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#mp-arrow-up)"/>
+  <text x="320" y="296" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#8f8fa4">write → read back → verify</text>
+
+  <rect x="32" y="312" width="576" height="32" rx="8" fill="#101018" stroke="#26263a"/>
+  <text x="48" y="333" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#8f8fa4">A silent HID write looks like success until you press the key — so every save is read back.</text>
+</svg>

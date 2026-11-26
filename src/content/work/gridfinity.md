@@ -5,6 +5,7 @@ kicker: 'Tooling · 3D printing'
 year: '2026'
 order: 1
 stack: ['Vanilla JS', 'WebGL2', '3MF / STL', 'Static site']
+diagram: '/diagrams/gridfinity.svg'
 live: 'https://tommo1818.github.io/gridfinity-baseplates/'
 repo: 'https://github.com/Tommo1818/gridfinity-baseplates'
 ---

@@ -5,6 +5,7 @@ kicker: 'Infrastructure'
 year: '2026'
 order: 6
 stack: ['Ubuntu', 'Docker', 'Tailscale', 'Home Assistant', 'ESPHome', 'UFW']
+diagram: '/diagrams/home-server.svg'
 ---
 
 ## The problem

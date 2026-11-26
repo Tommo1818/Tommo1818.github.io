@@ -13,6 +13,8 @@ const work = defineCollection({
     /** Drives card order on the homepage. */
     order: z.number(),
     stack: z.array(z.string()).default([]),
+    /** Diagram in /public/diagrams, used on the card and the case study page. */
+    diagram: z.string().optional(),
     live: z.string().url().optional(),
     repo: z.string().url().optional(),
     featured: z.boolean().default(true),

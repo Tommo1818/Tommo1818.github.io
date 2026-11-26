@@ -5,6 +5,7 @@ kicker: 'Reverse engineering · WebHID'
 year: '2026'
 order: 2
 stack: ['WebHID', 'Vanilla JS', 'HID protocol', 'Static site']
+diagram: '/diagrams/macropad.svg'
 live: 'https://tommo1818.github.io/macropad-configurator/'
 repo: 'https://github.com/Tommo1818/macropad-configurator'
 ---

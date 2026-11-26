@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, summary, kicker, year, stack, live, repo } = entry.data;
+const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
 ---
 
 <Base title={`${title} — Tom Vernon`} description={summary}>
@@ -27,6 +27,13 @@ const { title, summary, kicker, year, stack, live, repo } = entry.data;
         {stack.map((item) => <span class="chip">{item}</span>)}
       </div>
     </header>
+
+    {diagram && (
+      <figure class="study-figure">
+        <img src={diagram} alt={`Diagram: ${title}`} width="640" height="360" />
+      </figure>
+    )}
+
 
     <div class="study-body">
       <Content />

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-labelledby="tx-title">
+  <title id="tx-title">Counter-Strike demo files are parsed into a chat corpus, scored by a deep learning model, then checked by human raters whose disagreement feeds back into tuning</title>
+  <defs>
+    <marker id="tx-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5a5a72"/>
+    </marker>
+    <marker id="tx-arrow-back" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc"/>
+    </marker>
+  </defs>
+
+  <text x="20" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" letter-spacing="1.6" fill="#5a5a72">DEMO FILES → JUDGEMENT</text>
+
+  <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+    <rect x="20" y="100" width="126" height="104" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+    <text x="83" y="146" font-size="14" fill="#e8e8f0">Demo files</text>
+    <text x="83" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#7a7a8c">real Valve data</text>
+
+    <rect x="178" y="100" width="126" height="104" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+    <text x="241" y="146" font-size="14" fill="#e8e8f0">Parser</text>
+    <text x="241" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#7a7a8c">chat corpus</text>
+
+    <rect x="336" y="100" width="126" height="104" rx="12" fill="#12121a" stroke="#2a2a3a"/>
+    <text x="399" y="146" font-size="14" fill="#e8e8f0">Deep learning</text>
+    <text x="399" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#7a7a8c">toxicity model</text>
+
+    <rect x="494" y="100" width="126" height="104" rx="12" fill="#12121a" stroke="#7dd3fc" stroke-opacity=".55"/>
+    <text x="557" y="146" font-size="14" fill="#e8e8f0">Human raters</text>
+    <text x="557" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9.5" fill="#7a7a8c">agreement check</text>
+  </g>
+
+  <line x1="148" y1="152" x2="174" y2="152" stroke="#4a4a5e" stroke-width="1.5" marker-end="url(#tx-arrow)"/>
+  <line x1="306" y1="152" x2="332" y2="152" stroke="#4a4a5e" stroke-width="1.5" marker-end="url(#tx-arrow)"/>
+  <line x1="464" y1="152" x2="490" y2="152" stroke="#4a4a5e" stroke-width="1.5" marker-end="url(#tx-arrow)"/>
+
+  <path d="M 557 208 L 557 250 L 399 250 L 399 212" fill="none" stroke="#7dd3fc" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#tx-arrow-back)"/>
+  <text x="478" y="272" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#8f8fa4">evaluation feeds back into tuning</text>
+
+  <rect x="20" y="304" width="600" height="36" rx="8" fill="#101018" stroke="#26263a"/>
+  <text x="320" y="327" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#c9c9d6">The model scored well. The raters disagreed. That gap became the finding.</text>
+</svg>

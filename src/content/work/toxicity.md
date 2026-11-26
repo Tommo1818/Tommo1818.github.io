@@ -5,6 +5,7 @@ kicker: 'Data & NLP · Research'
 year: '2024'
 order: 3
 stack: ['Python', 'NLP', 'Deep learning', 'Dataset construction', 'Human evaluation']
+diagram: '/diagrams/toxicity.svg'
 repo: 'https://github.com/Tommo1818/csgo-detoxify-final-project'
 ---
 

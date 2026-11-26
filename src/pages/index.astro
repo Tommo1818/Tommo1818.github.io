@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { site, links, experience, education, skillGroups, posts, outside } from '../data/site';
+import { site, links, experience, education, skillGroups, posts, outside, music } from '../data/site';
 
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const featured = work.filter((entry) => entry.data.featured);
@@ -44,6 +44,10 @@ const featured = work.filter((entry) => entry.data.featured);
       <span><b>1 yr</b> data engineering</span>
       <span><b>1 yr</b> technical support, finance</span>
     </div>
+
+    <p class="print-contact">
+      tommo1818.github.io · github.com/Tommo1818 · tomsblog.data.blog
+    </p>
   </section>
 
   <!-- ───────────────────────── About ───────────────────────── -->
@@ -61,18 +65,18 @@ const featured = work.filter((entry) => entry.data.featured);
           debugging someone&rsquo;s laptop at 9am and arguing about evaluation metrics at 9pm.
         </p>
         <p>
-          Outside work I build things. A browser tool that generates printer-ready
-          <a href="/work/gridfinity/">Gridfinity baseplates</a>, a
+          Outside work I build things: a browser tool that generates printer-ready{' '}
+          <a href="/work/gridfinity/">Gridfinity baseplates</a>, a{' '}
           <a href="/work/macropad/">WebHID configurator</a> for a macropad whose vendor
-          software does not work, an <a href="/work/smart-clock/">ESP32 desk clock</a>, and a
-          self-hosted home server that has to be reliable enough for other people to depend on.
-          My dissertation applied deep learning to toxicity in real Counter-Strike chat and
-          evaluated it with human raters — the first time I properly learned that the hard part
-          is not the model.
+          software does not work, and a{' '}
+          <a href="/work/home-server/">self-hosted home server</a> that has to be reliable
+          enough for other people to depend on. My dissertation applied deep learning to
+          toxicity in real Counter-Strike chat and evaluated it with human raters — the first
+          time I properly learned that the hard part is not the model.
         </p>
         <p>
           I also make house music, play more Counter-Strike and osu! than is strictly healthy,
-          build PCs for people, and write about
+          build PCs for people, and write about{' '}
           <a href={links.blog} target="_blank" rel="noopener noreferrer">anime pilgrimages in Japan</a>.
           The common thread is not &ldquo;tech&rdquo; — it is wanting to understand a system well
           enough to make something good with it.
@@ -86,7 +90,7 @@ const featured = work.filter((entry) => entry.data.featured);
     <div class="wrap">
       <div class="section-head" data-reveal>
         <p class="eyebrow">02 — Selected work</p>
-        <h2 class="section-title">Six things I built, and what was hard about them.</h2>
+        <h2 class="section-title">Things I built, and what was hard about them.</h2>
         <p class="section-lede">
           Not a repository list. Each one starts with a problem I actually had, and ends with
           the part that turned out to be the real work.
@@ -175,11 +179,65 @@ const featured = work.filter((entry) => entry.data.featured);
     </div>
   </section>
 
+  <!-- ───────────────────────── Music ───────────────────────── -->
+  <section class="section" id="music">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">05 — Music</p>
+        <h2 class="section-title">{music.headline}</h2>
+        <p class="section-lede" set:html={music.blurb} />
+      </div>
+
+      <div class="music-grid">
+        <a class="release-hero" href={music.latest.href} target="_blank" rel="noopener noreferrer">
+          <img
+            src={music.art}
+            alt={`Cover art for ${music.latest.title}`}
+            width="640"
+            height="640"
+          />
+          <div class="release-hero-body">
+            <span class="card-kicker">Latest release</span>
+            <strong>{music.latest.title}</strong>
+            <span class="release-hero-cta">Play on Spotify ↗</span>
+          </div>
+        </a>
+
+        <div>
+          <div class="stat-band">
+            {music.stats.map((stat) => (
+              <div>
+                <b>{stat.value}</b>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <ul class="release-list">
+            {music.releases.map((release) => (
+              <li>
+                <span class="r-title">{release.title}</span>
+                <span class="r-year">{release.year}</span>
+                <span class="r-note">{release.note}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="link-row">
+            {music.links.map((link) => (
+              <a class="chip" href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ───────────────────────── Writing ───────────────────────── -->
   <section class="section" id="writing">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">05 — Writing &amp; travel</p>
+        <p class="eyebrow">06 — Writing &amp; travel</p>
         <h2 class="section-title">Anime pilgrimages, documented.</h2>
         <p class="section-lede">
           A travel blog that has quietly accumulated 27,000+ reads: real trips to the places
@@ -209,7 +267,7 @@ const featured = work.filter((entry) => entry.data.featured);
   <section class="section" id="outside">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">06 — Outside the terminal</p>
+        <p class="eyebrow">07 — Outside the terminal</p>
         <h2 class="section-title">The rest of it.</h2>
       </div>
 
@@ -227,7 +285,7 @@ const featured = work.filter((entry) => entry.data.featured);
   <!-- ───────────────────────── Contact ───────────────────────── -->
   <section class="contact" id="contact">
     <div class="wrap">
-      <p class="eyebrow" style="justify-content:center">07 — Contact</p>
+      <p class="eyebrow" style="justify-content:center">08 — Contact</p>
       <h2>Want to build something?</h2>
       <p>
         I am open to data, software and engineering roles, and always interested in a project

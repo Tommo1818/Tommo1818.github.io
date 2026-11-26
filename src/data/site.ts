@@ -27,8 +27,7 @@ export const links = {
   /** TODO: fill in when available — hidden until then. */
   email: '',
   linkedin: '',
-  music: '',
-  soundcloud: '',
+  music: 'https://solo.to/tomvernon2',
 };
 
 export type Entry = {
@@ -44,7 +43,7 @@ export type Entry = {
 export const experience: Entry[] = [
   {
     role: 'Data Engineer',
-    org: '',
+    org: 'Asia Space',
     when: '1 year',
     blurb:
       'A year building and maintaining the pipelines that turn raw operational data into something people can actually query and trust.',
@@ -52,7 +51,7 @@ export const experience: Entry[] = [
   },
   {
     role: 'Technical Support Engineer',
-    org: 'Financial services',
+    org: 'Options Technology',
     when: '1 year',
     blurb: 'First- and second-line support in a regulated finance environment.',
     points: [
@@ -114,6 +113,37 @@ export const skillGroups: { title: string; items: string[] }[] = [
   },
 ];
 
+export const music = {
+  headline: 'House music, released as Tom Vernon.',
+  blurb:
+    'Debut EP <em>Amber Fade</em> landed on Lost Palms, the Shall Not Fade sub-label, in 2021. Since then: releases on Misplaced Recordings and Monolithic&rsquo;s Platonic Solids Inc., a 2022 EP called <em>Minobu</em> — named after the Yamanashi town at the centre of the Laid-Back Camp trips written up on the blog — and remixes on Beatport and Tidal.',
+  /** Static cover art: no third-party iframe, so the section can never render blank. */
+  art: '/music/miracle.jpg',
+  latest: {
+    title: 'Miracle (Tom Vernon Remix)',
+    href: 'https://open.spotify.com/album/0oDK8Gcvq2BYC1wnfbEHeX',
+  },
+  stats: [
+    { value: '13k+', label: 'monthly listeners' },
+    { value: '2.9k+', label: 'Spotify followers' },
+    { value: '10+', label: 'releases since 2021' },
+  ],
+  links: [
+    { label: 'Spotify', href: 'https://open.spotify.com/artist/0te5MBzPmi8hTk4dLkAfI7' },
+    { label: 'Bandcamp', href: 'https://tomvernon.bandcamp.com' },
+    { label: 'SoundCloud', href: 'https://soundcloud.com/tomvmusic2' },
+    { label: 'Apple Music', href: 'https://music.apple.com/gb/artist/tom-vernon/212562595' },
+    { label: 'Instagram', href: 'https://instagram.com/tom_vernon_music' },
+    { label: 'All links', href: 'https://solo.to/tomvernon2' },
+  ],
+  releases: [
+    { title: 'Miracle (Tom Vernon Remix)', year: '2026', note: 'Single' },
+    { title: 'I Try', year: '2025', note: 'EP · Lost Palms' },
+    { title: 'Minobu', year: '2022', note: 'EP · the Yamanashi link' },
+    { title: 'Amber Fade', year: '2021', note: 'Debut EP · Lost Palms' },
+  ],
+};
+
 export const posts = [
   {
     tag: 'Yuru Camp',
@@ -143,10 +173,6 @@ export const posts = [
 
 export const outside = [
   {
-    title: 'Music',
-    body: 'House music, released as <strong>Tom Vernon</strong>. Producing and mixing is the other half of the same instinct — build something, listen critically, iterate until it holds up.',
-  },
-  {
     title: 'Gaming',
     body: 'Counter-Strike at <strong>FACEIT level 9</strong> and osu! at <strong>5-digit global rank</strong>. Competitive games are where I learned to review my own mistakes without flinching.',
   },
@@ -156,6 +182,6 @@ export const outside = [
   },
   {
     title: 'Making',
-    body: '3D printing, parametric CAD and custom electronics. Recent builds include Gridfinity baseplates, a WebHID macropad configurator and an ESP32 desk clock.',
+    body: '3D printing, parametric CAD and custom electronics: Gridfinity baseplates, a WebHID macropad configurator, and a growing pile of parts that nearly worked first time.',
   },
 ];
