@@ -56,8 +56,9 @@ don't render.
 
 - [x] Employer names — Options Technology, Asia Space
 - [x] Music links — Spotify artist + Bandcamp / SoundCloud / Apple / Instagram
+- [x] LinkedIn URL — linkedin.com/in/tom-vernon-7442b0197
 - [ ] Dates for the Swansea degree and the two jobs (currently "1 year" / "In progress")
-- [ ] LinkedIn URL (`links.linkedin`)
+- [x] LinkedIn URL — linkedin.com/in/tom-vernon-7442b0197
 - [ ] A contact email (`links.email`) — currently points at the blog's contact page
 - [ ] `og-image.png` (1200×630) plus the matching `og:image` meta in `Base.astro`
 - [ ] Real screenshots inside the case studies — the diagrams are hand-authored SVG for now
