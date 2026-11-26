@@ -1,0 +1,131 @@
+---
+import '../styles/global.css';
+import { site, links } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} — ${site.role}`,
+  description = site.tagline,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+
+const sameAs = [links.github, links.linkedin, links.music, links.blog].filter(Boolean);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: 'Data scientist, engineer and maker',
+  description: site.tagline,
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Swansea University' },
+    { '@type': 'CollegeOrUniversity', name: 'University of Bristol' },
+  ],
+  knowsAbout: [
+    'Data engineering',
+    'Data science',
+    'Machine learning',
+    'Natural language processing',
+    'Embedded systems',
+    '3D printing',
+  ],
+  sameAs,
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#08080a" />
+    <meta name="author" content={site.name} />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">TV</span>
+          <span>{site.name}</span>
+        </a>
+        <nav class="nav-links" aria-label="Sections">
+          <a href="/#work">Work</a>
+          <a href="/#experience">Experience</a>
+          <a href="/#skills" data-optional>Skills</a>
+          <a href="/#writing">Writing</a>
+          <a href="/#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span class="mono">© {new Date().getFullYear()} {site.name}</span>
+        <span class="mono">
+          <a href={links.github}>GitHub</a> ·
+          <a href={links.blog}>Blog</a> ·
+          <a href="/#contact">Contact</a>
+        </span>
+      </div>
+    </footer>
+
+    <script>
+      const els = document.querySelectorAll('[data-reveal]');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced || !('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.05 },
+        );
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

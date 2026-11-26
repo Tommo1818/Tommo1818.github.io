@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, kicker, year, stack, live, repo } = entry.data;
+---
+
+<Base title={`${title} — Tom Vernon`} description={summary}>
+  <article class="wrap study">
+    <a class="back" href="/#work">← All work</a>
+
+    <header class="study-head">
+      <p class="card-kicker">{kicker} · {year}</p>
+      <h1>{title}</h1>
+      <p class="study-summary">{summary}</p>
+      <div class="study-meta">
+        {stack.map((item) => <span class="chip">{item}</span>)}
+      </div>
+    </header>
+
+    <div class="study-body">
+      <Content />
+    </div>
+
+    <footer class="study-foot">
+      <span>Written up by Tom Vernon</span>
+      <span>
+        {live && <a href={live} target="_blank" rel="noopener noreferrer">Live ↗</a>}
+        {live && repo && ' · '}
+        {repo && <a href={repo} target="_blank" rel="noopener noreferrer">Source ↗</a>}
+      </span>
+    </footer>
+  </article>
+</Base>

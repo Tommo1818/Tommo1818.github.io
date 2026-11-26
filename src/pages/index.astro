@@ -1,0 +1,250 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site, links, experience, education, skillGroups, posts, outside } from '../data/site';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const featured = work.filter((entry) => entry.data.featured);
+---
+
+<Base>
+  <!-- ───────────────────────── Hero ───────────────────────── -->
+  <section class="hero wrap">
+    <p class="hero-kicker">Data · Software · Hardware · Making</p>
+    <h1>
+      <span class="grad">{site.name}</span>
+    </h1>
+    <p class="hero-lede">
+      I take systems apart, work out how they tick, and ship tools that make them better —
+      whether that is a <strong>data pipeline</strong>, a <strong>firmware protocol</strong>,
+      or a <strong>drawer full of Gridfinity</strong>.
+    </p>
+
+    <div class="hero-actions">
+      <span class="pill">{site.availability}</span>
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn btn--primary" href="#work">
+        See the work
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub
+      </a>
+      <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">Read the blog</a>
+      <button class="btn" type="button" data-print>Download CV</button>
+    </div>
+
+    <div class="hero-meta">
+      <span><b>MSc Data Science</b> · Bristol, in progress</span>
+      <span><b>BSc Computer Science</b> · Swansea</span>
+      <span><b>1 yr</b> data engineering</span>
+      <span><b>1 yr</b> technical support, finance</span>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── About ───────────────────────── -->
+  <section class="section" id="about">
+    <div class="wrap about-grid" data-reveal>
+      <div>
+        <p class="eyebrow">01 — About</p>
+        <h2 class="section-title">A builder&rsquo;s range, with a data science spine.</h2>
+      </div>
+      <div class="about-body">
+        <p>
+          I started in computer science at Swansea, spent a year on first- and second-line
+          technical support in financial services, then a year as a data engineer. I am now
+          studying for an MSc in Data Science at Bristol. That path left me equally at home
+          debugging someone&rsquo;s laptop at 9am and arguing about evaluation metrics at 9pm.
+        </p>
+        <p>
+          Outside work I build things. A browser tool that generates printer-ready
+          <a href="/work/gridfinity/">Gridfinity baseplates</a>, a
+          <a href="/work/macropad/">WebHID configurator</a> for a macropad whose vendor
+          software does not work, an <a href="/work/smart-clock/">ESP32 desk clock</a>, and a
+          self-hosted home server that has to be reliable enough for other people to depend on.
+          My dissertation applied deep learning to toxicity in real Counter-Strike chat and
+          evaluated it with human raters — the first time I properly learned that the hard part
+          is not the model.
+        </p>
+        <p>
+          I also make house music, play more Counter-Strike and osu! than is strictly healthy,
+          build PCs for people, and write about
+          <a href={links.blog} target="_blank" rel="noopener noreferrer">anime pilgrimages in Japan</a>.
+          The common thread is not &ldquo;tech&rdquo; — it is wanting to understand a system well
+          enough to make something good with it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Work ───────────────────────── -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">02 — Selected work</p>
+        <h2 class="section-title">Six things I built, and what was hard about them.</h2>
+        <p class="section-lede">
+          Not a repository list. Each one starts with a problem I actually had, and ends with
+          the part that turned out to be the real work.
+        </p>
+      </div>
+
+      <div class="work-grid">
+        {featured.map((entry, i) => <ProjectCard entry={entry} index={i + 1} />)}
+      </div>
+
+      <div class="writing-foot">
+        <span>More experiments, coursework and half-finished ideas live on GitHub.</span>
+        <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">All repositories ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Experience ───────────────────────── -->
+  <section class="section" id="experience">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">03 — Experience &amp; education</p>
+        <h2 class="section-title">Two years of shipping, now going deeper.</h2>
+      </div>
+
+      <div class="timeline">
+        {experience.map((item) => (
+          <article class="tl-item">
+            <div class="tl-when">{item.when}</div>
+            <div>
+              <div class="tl-role">{item.role}</div>
+              {item.org && <div class="tl-org">{item.org}</div>}
+              {item.blurb && <p class="tl-note">{item.blurb}</p>}
+              {item.points && item.points.length > 0 && (
+                <ul>
+                  {item.points.map((point) => <li>{point}</li>)}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))}
+
+        {education.map((item) => (
+          <article class="tl-item">
+            <div class="tl-when">{item.when}</div>
+            <div>
+              <div class="tl-role">{item.role}</div>
+              <div class="tl-org">{item.org}</div>
+              {item.blurb && <p class="tl-note">{item.blurb}</p>}
+              {item.link && (
+                <p class="tl-note">
+                  <a href={item.link.href} target="_blank" rel="noopener noreferrer">
+                    {item.link.label} ↗
+                  </a>
+                </p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Skills ───────────────────────── -->
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">04 — Toolkit</p>
+        <h2 class="section-title">What I work with.</h2>
+        <p class="section-lede">
+          Grouped by where it shows up, not by confidence percentages. Every line here has a
+          project behind it.
+        </p>
+      </div>
+
+      <div class="skills">
+        {skillGroups.map((group) => (
+          <div class="skill">
+            <h3>{group.title}</h3>
+            <ul>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Writing ───────────────────────── -->
+  <section class="section" id="writing">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">05 — Writing &amp; travel</p>
+        <h2 class="section-title">Anime pilgrimages, documented.</h2>
+        <p class="section-lede">
+          A travel blog that has quietly accumulated 27,000+ reads: real trips to the places
+          behind the shows, photographed and written up properly.
+        </p>
+      </div>
+
+      <div class="writing">
+        {posts.map((post) => (
+          <a class="post" href={post.href} target="_blank" rel="noopener noreferrer">
+            <span class="tag">{post.tag}</span>
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+            <span class="date">{post.date}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="writing-foot">
+        <span>Yuru Camp · Hibike Euphonium · Tsuki ga Kirei · and more</span>
+        <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">tomsblog.data.blog ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Outside ───────────────────────── -->
+  <section class="section" id="outside">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">06 — Outside the terminal</p>
+        <h2 class="section-title">The rest of it.</h2>
+      </div>
+
+      <div class="outside">
+        {outside.map((item) => (
+          <div class="outside-item">
+            <h3>{item.title}</h3>
+            <p set:html={item.body} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Contact ───────────────────────── -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center">07 — Contact</p>
+      <h2>Want to build something?</h2>
+      <p>
+        I am open to data, software and engineering roles, and always interested in a project
+        that needs someone comfortable across the stack.
+      </p>
+      <div class="contact-actions">
+        <a class="btn btn--primary" href={links.contact} target="_blank" rel="noopener noreferrer">Get in touch</a>
+        <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a>
+        <button class="btn" type="button" data-print>Download CV</button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-print]')
+    .forEach((button) => button.addEventListener('click', () => window.print()));
+</script>
