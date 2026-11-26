@@ -1,0 +1,202 @@
+---
+---
+<div class="hero-showcase" data-hero-showcase data-active="geospatial">
+  <div class="showcase-hud">
+    <span class="showcase-hud-dot" aria-hidden="true"></span>
+    <span class="showcase-hud-tag" data-sc-hud>50.15°N 5.10°W · SAR</span>
+    <span class="showcase-hud-mode">LIVE TELEMETRY</span>
+  </div>
+
+  <div class="showcase-stage">
+    <svg viewBox="0 0 420 310" width="420" height="310" role="img" aria-label="Interactive domain orbital showcase: Geospatial, Hardware, Data & ML, Audio">
+      <defs>
+        <radialGradient id="hs-sc-core-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.32" />
+          <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.10" />
+          <stop offset="100%" stop-color="#06060b" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="hs-sc-sweep" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.34" />
+          <stop offset="100%" stop-color="#a78bfa" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+
+      <!-- Background Aura -->
+      <circle cx="210" cy="152" r="134" fill="url(#hs-sc-core-glow)" />
+
+      <!-- Concentric Orbital Rings -->
+      <circle cx="210" cy="152" r="120" fill="none" stroke="#26263a" stroke-dasharray="3 5" />
+      <circle cx="210" cy="152" r="88" fill="none" stroke="#2c2c42" />
+      <circle cx="210" cy="152" r="52" fill="none" stroke="#3b3b58" stroke-dasharray="6 4" />
+
+      <!-- Rotating Orbit Track 1 -->
+      <g class="sc-orbit sc-orbit--a">
+        <ellipse cx="210" cy="152" rx="116" ry="44" fill="none" stroke="#a78bfa" stroke-opacity="0.28" stroke-width="1.1" transform="rotate(-24 210 152)" />
+        <circle cx="316" cy="105" r="3.5" fill="#c4b1ff" />
+      </g>
+
+      <!-- Rotating Orbit Track 2 -->
+      <g class="sc-orbit sc-orbit--b">
+        <ellipse cx="210" cy="152" rx="112" ry="42" fill="none" stroke="#38bdf8" stroke-opacity="0.24" stroke-width="1.1" transform="rotate(26 210 152)" />
+        <circle cx="110" cy="102" r="3.2" fill="#7dd3fc" />
+      </g>
+
+      <!-- Radar Sweep Cone -->
+      <g class="sc-sweep">
+        <path d="M210,152 L210,64 A88,88 0 0,1 286,108 Z" fill="url(#hs-sc-sweep)" />
+      </g>
+
+      <!-- Central Geospatial Globe -->
+      <circle cx="210" cy="152" r="36" fill="#0d0d17" stroke="#5b5b7a" stroke-width="1.2" />
+      <ellipse cx="210" cy="152" rx="17" ry="36" fill="none" stroke="#363650" stroke-width="1" />
+      <line x1="174" y1="152" x2="246" y2="152" stroke="#363650" stroke-width="1" />
+      <line x1="180" y1="134" x2="240" y2="134" stroke="#2b2b42" stroke-width="0.9" />
+      <line x1="180" y1="170" x2="240" y2="170" stroke="#2b2b42" stroke-width="0.9" />
+      <circle cx="210" cy="152" r="4" fill="#ececf2" />
+
+      <!-- Node Connectors -->
+      <line x1="118" y1="78" x2="184" y2="128" stroke="#a78bfa" stroke-opacity="0.45" stroke-dasharray="3 3" />
+      <line x1="302" y1="78" x2="236" y2="128" stroke="#38bdf8" stroke-opacity="0.45" stroke-dasharray="3 3" />
+      <line x1="116" y1="226" x2="184" y2="176" stroke="#4ade80" stroke-opacity="0.45" stroke-dasharray="3 3" />
+      <line x1="304" y1="226" x2="236" y2="176" stroke="#f472b6" stroke-opacity="0.45" stroke-dasharray="3 3" />
+
+      <!-- 4 Interactive Nodes -->
+      <g class="sc-node is-active" data-sc-node="geospatial" role="button" tabindex="0" aria-label="Geospatial telemetry">
+        <rect x="20" y="46" width="112" height="36" rx="10" fill="#12121d" stroke="#a78bfa" />
+        <circle cx="34" cy="64" r="4" fill="#a78bfa" />
+        <text x="45" y="68" class="sc-node-text">Geospatial</text>
+      </g>
+
+      <g class="sc-node" data-sc-node="hardware" role="button" tabindex="0" aria-label="Hardware telemetry">
+        <rect x="288" y="46" width="112" height="36" rx="10" fill="#12121d" stroke="#2f2f45" />
+        <circle cx="302" cy="64" r="4" fill="#38bdf8" />
+        <text x="313" y="68" class="sc-node-text">Hardware</text>
+      </g>
+
+      <g class="sc-node" data-sc-node="data" role="button" tabindex="0" aria-label="Data & ML telemetry">
+        <rect x="20" y="220" width="112" height="36" rx="10" fill="#12121d" stroke="#2f2f45" />
+        <circle cx="34" cy="238" r="4" fill="#4ade80" />
+        <text x="45" y="242" class="sc-node-text">Data &amp; ML</text>
+      </g>
+
+      <g class="sc-node" data-sc-node="audio" role="button" tabindex="0" aria-label="Audio telemetry">
+        <rect x="288" y="220" width="112" height="36" rx="10" fill="#12121d" stroke="#2f2f45" />
+        <circle cx="302" cy="238" r="4" fill="#f472b6" />
+        <text x="313" y="242" class="sc-node-text">Audio</text>
+      </g>
+
+      <!-- Bottom status readout inside SVG -->
+      <rect x="20" y="270" width="380" height="28" rx="8" fill="#0d0d16" stroke="#26263a" />
+      <text x="210" y="288" text-anchor="middle" class="sc-svg-caption" data-sc-caption>
+        Aspia Space · Earth observation pipelines
+      </text>
+    </svg>
+  </div>
+
+  <div class="showcase-pills" role="group" aria-label="Focus domain">
+    <button type="button" class="diag-btn" data-sc-btn="geospatial" aria-pressed="true">Geospatial</button>
+    <button type="button" class="diag-btn" data-sc-btn="hardware" aria-pressed="false">Hardware</button>
+    <button type="button" class="diag-btn" data-sc-btn="data" aria-pressed="false">Data &amp; ML</button>
+    <button type="button" class="diag-btn" data-sc-btn="audio" aria-pressed="false">Audio</button>
+  </div>
+</div>
+
+<script>
+  const DOMAIN_MODES = [
+    {
+      id: 'geospatial',
+      color: '#a78bfa',
+      hud: '50.15°N 5.10°W · SAR',
+      caption: 'Aspia Space · Earth observation pipelines',
+    },
+    {
+      id: 'hardware',
+      color: '#38bdf8',
+      hud: 'HID 0xFF00 · 42MM',
+      caption: 'WebHID · Gridfinity CAD · ESP32',
+    },
+    {
+      id: 'data',
+      color: '#4ade80',
+      hud: 'MSc DATA · 2026–27',
+      caption: 'Bristol MSc · NLP & human evaluation',
+    },
+    {
+      id: 'audio',
+      color: '#f472b6',
+      hud: 'LOST PALMS · 124 BPM',
+      caption: 'Tom Vernon · 13k+ monthly listeners',
+    },
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-hero-showcase]').forEach((root) => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hudEl = root.querySelector<HTMLElement>('[data-sc-hud]');
+    const captionEl = root.querySelector<SVGTextElement>('[data-sc-caption]');
+    const nodeEls = Array.from(root.querySelectorAll<SVGGElement>('[data-sc-node]'));
+    const btnEls = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-sc-btn]'));
+
+    let idx = 0;
+    let userPaused = false;
+    let timer = 0;
+
+    const select = (id: string) => {
+      const found = DOMAIN_MODES.findIndex((m) => m.id === id);
+      if (found >= 0) idx = found;
+      const mode = DOMAIN_MODES[idx];
+
+      root.dataset.active = mode.id;
+      root.style.setProperty('--showcase-accent', mode.color);
+      if (hudEl) hudEl.textContent = mode.hud;
+      if (captionEl) captionEl.textContent = mode.caption;
+
+      nodeEls.forEach((n) => {
+        const active = n.dataset.scNode === mode.id;
+        n.classList.toggle('is-active', active);
+        const box = n.querySelector<SVGRectElement>('rect');
+        if (box) box.setAttribute('stroke', active ? mode.color : '#2f2f45');
+      });
+
+      btnEls.forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.scBtn === mode.id));
+      });
+    };
+
+    nodeEls.forEach((node) => {
+      const pick = () => {
+        userPaused = true;
+        if (timer) window.clearInterval(timer);
+        select(node.dataset.scNode ?? 'geospatial');
+      };
+      node.addEventListener('click', pick);
+      node.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pick();
+        }
+      });
+    });
+
+    btnEls.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        userPaused = true;
+        if (timer) window.clearInterval(timer);
+        select(btn.dataset.scBtn ?? 'geospatial');
+      });
+    });
+
+    root.addEventListener('pointerenter', () => {
+      userPaused = true;
+    });
+
+    select('geospatial');
+
+    if (!reduced) {
+      timer = window.setInterval(() => {
+        if (userPaused || document.hidden) return;
+        idx = (idx + 1) % DOMAIN_MODES.length;
+        select(DOMAIN_MODES[idx].id);
+      }, 4500);
+    }
+  });
+</script>

@@ -1,6 +1,6 @@
 ---
 title: 'Detecting toxicity in Counter-Strike chat'
-summary: 'Final-year dissertation: building a real chat corpus from game demos, applying deep learning to detect toxicity, and evaluating it with human raters.'
+summary: 'Counter-Strike chat corpus & deep learning detector with human raters.'
 kicker: 'Data & NLP · Research'
 year: '2024'
 order: 3

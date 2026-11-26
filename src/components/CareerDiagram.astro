@@ -1,0 +1,147 @@
+---
+---
+<div class="career-diagram" data-career-diagram>
+  <div class="career-diagram-stage">
+    <svg viewBox="0 0 780 212" width="780" height="212" role="img" aria-label="Interactive career and education timeline from 2017 to 2027">
+      <defs>
+        <linearGradient id="cd-axis-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3" />
+          <stop offset="55%" stop-color="#a78bfa" stop-opacity="0.7" />
+          <stop offset="100%" stop-color="#4ade80" stop-opacity="0.85" />
+        </linearGradient>
+        <linearGradient id="cd-aspia-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.32" />
+          <stop offset="35%" stop-color="#4ade80" stop-opacity="0.28" />
+          <stop offset="100%" stop-color="#4ade80" stop-opacity="0.36" />
+        </linearGradient>
+      </defs>
+
+      <!-- Track Labels -->
+      <text x="18" y="28" class="diag-kicker">EXPERIENCE</text>
+      <text x="18" y="196" class="diag-kicker">EDUCATION</text>
+
+      <!-- Flowing connection paths across tracks -->
+      <path d="M 155 154 C 175 154, 175 62, 198 62" fill="none" stroke="#363650" stroke-width="1.3" stroke-dasharray="4 4" />
+      <path d="M 272 62 C 284 62, 272 154, 290 154" fill="none" stroke="#363650" stroke-width="1.3" stroke-dasharray="4 4" />
+      <path d="M 488 154 C 504 154, 502 62, 520 62" fill="none" stroke="#4f4f72" stroke-width="1.4" stroke-dasharray="4 4" />
+      <path d="M 596 62 C 608 62, 608 62, 622 62" fill="none" stroke="#a78bfa" stroke-opacity="0.6" stroke-width="1.5" />
+      <path d="M 672 82 C 672 106, 682 114, 682 134" fill="none" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="1.3" stroke-dasharray="3 3" />
+
+      <!-- Center Year Axis -->
+      <line x1="20" y1="108" x2="762" y2="108" stroke="url(#cd-axis-grad)" stroke-width="1.6" />
+      <g class="cd-years" text-anchor="middle">
+        <line x1="42" y1="103" x2="42" y2="113" stroke="#42425a" />
+        <text x="42" y="126">2017</text>
+
+        <line x1="176" y1="103" x2="176" y2="113" stroke="#42425a" />
+        <text x="176" y="126">2019</text>
+
+        <line x1="306" y1="103" x2="306" y2="113" stroke="#42425a" />
+        <text x="306" y="126">2021</text>
+
+        <line x1="436" y1="103" x2="436" y2="113" stroke="#42425a" />
+        <text x="436" y="126">2023</text>
+
+        <line x1="566" y1="103" x2="566" y2="113" stroke="#5b5b7a" />
+        <text x="566" y="126">2025</text>
+
+        <line x1="636" y1="103" x2="636" y2="113" stroke="#a78bfa" />
+        <text x="636" y="126" fill="#c4b1ff">2026</text>
+
+        <line x1="742" y1="103" x2="742" y2="113" stroke="#38bdf8" />
+        <text x="742" y="126" fill="#7dd3fc">2027</text>
+      </g>
+
+      <!-- EXPERIENCE TRACK (TOP) -->
+      <g class="cd-pill" data-cd-id="threesixty" role="button" tabindex="0">
+        <rect x="192" y="42" width="108" height="38" rx="10" fill="rgba(251, 191, 36, 0.12)" stroke="#fbbf24" stroke-opacity="0.6" />
+        <text x="246" y="59" text-anchor="middle" class="cd-pill-title">ThreeSixty</text>
+        <text x="246" y="72" text-anchor="middle" class="cd-pill-sub">Jersey · 2019–20</text>
+      </g>
+
+      <g class="cd-pill" data-cd-id="options" role="button" tabindex="0">
+        <rect x="498" y="42" width="110" height="38" rx="10" fill="rgba(167, 139, 250, 0.14)" stroke="#a78bfa" stroke-opacity="0.7" />
+        <text x="553" y="59" text-anchor="middle" class="cd-pill-title">Options Tech</text>
+        <text x="553" y="72" text-anchor="middle" class="cd-pill-sub">Support · 2024–25</text>
+      </g>
+
+      <g class="cd-pill is-active" data-cd-id="aspia" role="button" tabindex="0">
+        <rect x="618" y="38" width="144" height="44" rx="11" fill="url(#cd-aspia-grad)" stroke="#4ade80" stroke-width="1.6" />
+        <line x1="654" y1="42" x2="654" y2="78" stroke="#4ade80" stroke-opacity="0.35" stroke-dasharray="2 2" />
+        <text x="636" y="64" text-anchor="middle" class="cd-pill-sub" fill="#d5fbe3">Intern</text>
+        <text x="706" y="58" text-anchor="middle" class="cd-pill-title">Aspia Space</text>
+        <text x="706" y="72" text-anchor="middle" class="cd-pill-sub">Geospatial Eng.</text>
+        <circle cx="751" cy="49" r="3.5" fill="#4ade80" class="cd-live-dot" />
+      </g>
+
+      <!-- EDUCATION TRACK (BOTTOM) -->
+      <g class="cd-pill" data-cd-id="malvern" role="button" tabindex="0">
+        <rect x="36" y="136" width="122" height="38" rx="10" fill="rgba(155, 155, 172, 0.10)" stroke="#5b5b76" />
+        <text x="97" y="153" text-anchor="middle" class="cd-pill-title">Malvern</text>
+        <text x="97" y="166" text-anchor="middle" class="cd-pill-sub">A Levels · C, B, A, A</text>
+      </g>
+
+      <g class="cd-pill" data-cd-id="swansea" role="button" tabindex="0">
+        <rect x="276" y="136" width="212" height="38" rx="10" fill="rgba(56, 189, 248, 0.13)" stroke="#38bdf8" stroke-opacity="0.7" />
+        <text x="382" y="153" text-anchor="middle" class="cd-pill-title">Swansea University · CS (2:1)</text>
+        <text x="382" y="166" text-anchor="middle" class="cd-pill-sub">Nov 2020 – Jan 2024</text>
+      </g>
+
+      <g class="cd-pill" data-cd-id="bristol" role="button" tabindex="0">
+        <rect x="636" y="136" width="126" height="38" rx="10" fill="rgba(167, 139, 250, 0.15)" stroke="#38bdf8" stroke-opacity="0.85" />
+        <text x="699" y="153" text-anchor="middle" class="cd-pill-title">Bristol · MSc</text>
+        <text x="699" y="166" text-anchor="middle" class="cd-pill-sub">Data Science · 2026–27</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="diag-readout" aria-live="polite" data-cd-readout>
+    Aspia Space · Geospatial Data Engineer (Mar 2026–Present) · select any milestone
+  </div>
+</div>
+
+<script>
+  const CAREER_NOTES: Record<string, string> = {
+    aspia: 'Aspia Space · Geospatial Data Engineer (Mar 2026–Present) · select any milestone',
+    options: 'Options Technology · Technical Support Engineer (Aug 2024–Aug 2025 · London)',
+    threesixty: 'ThreeSixty Jersey · Disassembly Engineer (Sep 2019–Feb 2020 · Jersey)',
+    bristol: 'University of Bristol · MSc Data Science (Sep 2026–Sep 2027)',
+    swansea: 'Swansea University · BSc Computer Science, 2:1 (Nov 2020–Jan 2024)',
+    malvern: 'Malvern College · A Levels C, B, A, A (2017–2019)',
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-career-diagram]').forEach((root) => {
+    const pills = Array.from(root.querySelectorAll<SVGGElement>('[data-cd-id]'));
+    const readout = root.querySelector<HTMLElement>('[data-cd-readout]');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-career-card]'));
+
+    const activate = (id: string) => {
+      pills.forEach((p) => p.classList.toggle('is-active', p.dataset.cdId === id));
+      cards.forEach((c) => c.classList.toggle('is-highlighted', c.dataset.careerCard === id));
+      if (readout && CAREER_NOTES[id]) {
+        readout.textContent = CAREER_NOTES[id];
+      }
+    };
+
+    pills.forEach((pill) => {
+      const id = pill.dataset.cdId ?? 'aspia';
+      pill.addEventListener('pointerenter', () => activate(id));
+      pill.addEventListener('click', () => activate(id));
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activate(id);
+        }
+      });
+    });
+
+    cards.forEach((card) => {
+      card.addEventListener('pointerenter', () => {
+        const id = card.dataset.careerCard;
+        if (id) activate(id);
+      });
+    });
+
+    activate('aspia');
+  });
+</script>

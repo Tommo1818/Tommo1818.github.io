@@ -92,9 +92,11 @@ const idSuffix = mode;
     </div>
   </div>
 
-  <div class="diag-readout" aria-live="polite" data-tx-readout>
-    Callout false positive · Model: 0.81 · Human raters: 0/5 · Feedback loop active
-  </div>
+  {mode === 'full' && (
+    <div class="diag-readout" aria-live="polite" data-tx-readout>
+      Callout false positive · Model: 0.81 · Human raters: 0/5 · Feedback loop active
+    </div>
+  )}
 </div>
 
 <script>
@@ -172,8 +174,6 @@ const idSuffix = mode;
     const sampleBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tx-sample]'));
     const stageEls = Array.from(root.querySelectorAll<SVGGElement>('[data-tx-stage]'));
 
-    if (!readoutEl) return;
-
     let animToken = 0;
 
     const animateDotAlong = (
@@ -241,7 +241,7 @@ const idSuffix = mode;
       }
 
       if (findingEl) findingEl.textContent = s.verdict;
-      readoutEl.textContent = s.readout;
+      if (readoutEl) readoutEl.textContent = s.readout;
 
       if (animate && !reduced) {
         animateDotAlong(pulseDot, [[83, 137], [557, 137]], 480, token);
@@ -264,7 +264,9 @@ const idSuffix = mode;
     stageEls.forEach((stage, idx) => {
       const inspectStage = () => {
         stageEls.forEach((el, i) => el.classList.toggle('is-selected', i === idx));
-        readoutEl.textContent = STAGE_NOTES[idx] ?? '';
+        const note = STAGE_NOTES[idx] ?? '';
+        if (findingEl) findingEl.textContent = note;
+        if (readoutEl) readoutEl.textContent = note;
       };
       stage.addEventListener('click', inspectStage);
       stage.addEventListener('keydown', (e) => {

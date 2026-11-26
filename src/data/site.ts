@@ -14,7 +14,7 @@ export const site = {
   availability: 'Open to data, software and engineering roles',
   /** One-line positioning. Keep it concrete. */
   tagline:
-    "I take systems apart, work out how they tick, and ship tools that make them better — whether that's a data pipeline, a firmware protocol, or a drawer full of Gridfinity.",
+    'Geospatial data engineer, MSc Data Science student, hardware tinkerer and house producer.',
 };
 
 export const links = {
@@ -37,6 +37,7 @@ export type SubRole = {
 };
 
 export type Entry = {
+  id: string;
   role: string;
   org: string;
   location?: string;
@@ -52,6 +53,7 @@ export type Entry = {
 
 export const experience: Entry[] = [
   {
+    id: 'aspia',
     role: 'Geospatial Data Engineer',
     org: 'Aspia Space',
     when: 'Nov 2025 – Present',
@@ -59,101 +61,133 @@ export const experience: Entry[] = [
       { role: 'Geospatial Data Engineer', when: 'Mar 2026 – Present', current: true },
       { role: 'Geospatial Data Engineer Intern', when: 'Nov 2025 – Feb 2026' },
     ],
-    blurb:
-      'Promoted from intern to Geospatial Data Engineer — building and maintaining pipelines that turn raw Earth-observation and geospatial data into datasets teams can reliably query and trust.',
+    blurb: 'Earth-observation & geospatial data pipelines.',
     points: [],
   },
   {
+    id: 'options',
     role: 'Technical Support Engineer',
     org: 'Options Technology',
     location: 'London Area, UK',
     when: 'Aug 2024 – Aug 2025',
-    blurb: 'First- and second-line support in a regulated financial services environment.',
-    points: [
-      'Front-line triage through to second-line diagnosis, owning issues end to end rather than handing them off.',
-      'Worked directly with users and internal systems where downtime has a real cost, so clarity and accuracy mattered more than speed alone.',
-    ],
+    blurb: '1st & 2nd-line finance support — end-to-end triage across live systems.',
+    points: [],
   },
   {
+    id: 'threesixty',
     role: 'Disassembly Engineer',
     org: 'ThreeSixty Jersey',
     location: 'Jersey',
     when: 'Sep 2019 – Feb 2020',
-    blurb:
-      'An environmentally conscious company specialising in recycling and repurposing electronics from around the island — early hands-on work stripping down, diagnosing and salvaging hardware.',
+    blurb: 'Electronics recycling & hardware teardown.',
     points: [],
   },
 ];
 
 export const education: Entry[] = [
   {
+    id: 'bristol',
     role: 'MSc Data Science',
     org: 'University of Bristol',
     when: 'Sep 2026 – Sep 2027',
-    blurb:
-      'Postgraduate study across large-scale data engineering, statistical methods and the organisational side of technical work.',
-    activities: ['Badminton', 'Music Production', 'DJ', 'Computer Gaming', 'Anime'],
+    blurb: 'Large-scale data engineering & statistical methods.',
+    activities: ['Badminton', 'Music Prod', 'DJ', 'Gaming', 'Anime'],
   },
   {
+    id: 'swansea',
     role: 'BSc (Hons) Computer Science',
     org: 'Swansea University',
     when: 'Nov 2020 – Jan 2024',
     grade: '2:1',
-    blurb:
-      'Undergraduate computer science, finishing with a dissertation on detecting toxicity in real Counter-Strike chat using NLP and deep learning, evaluated with human raters.',
-    activities: ['DJ Society', 'eSports Society', 'Motorsports Club', 'Badminton Society'],
+    blurb: 'CS toxicity NLP dissertation with human evaluation.',
+    activities: ['DJ', 'eSports', 'Motorsports', 'Badminton'],
     link: {
-      label: 'Read the dissertation',
+      label: 'Dissertation',
       href: 'https://github.com/Tommo1818/csgo-detoxify-final-project',
     },
   },
   {
+    id: 'malvern',
     role: 'A Levels',
     org: 'Malvern College',
     when: 'Sep 2017 – Jul 2019',
     grade: 'C, B, A, A',
-    blurb: 'Maths, Physics, Music Technology and Extended Project.',
+    blurb: 'Maths, Physics, Music Tech & EPQ.',
     activities: ['Badminton Club'],
   },
 ];
 
 export const earlierEducation = [
-  { school: 'Hautlieu School', when: 'Sep 2015 – Jul 2017' },
-  { school: 'Victoria College Jersey', when: 'Sep 2013 – Jul 2015' },
-  { school: 'Cité Scolaire Internationale de Lyon', when: 'Sep 2011 – Jul 2013' },
+  { school: 'Hautlieu School', when: '2015–17' },
+  { school: 'Victoria College Jersey', when: '2013–15' },
+  { school: 'Cité Scolaire Internationale de Lyon', when: '2011–13' },
 ];
 
-export const skillGroups: { title: string; items: string[] }[] = [
+export type SkillGroup = {
+  id: string;
+  shortLabel: string;
+  title: string;
+  accent: 'violet' | 'cyan' | 'emerald' | 'amber' | 'pink';
+  items: string[];
+};
+
+export const skillGroups: SkillGroup[] = [
   {
-    title: 'Languages',
-    items: ['Python', 'TypeScript / JavaScript', 'SQL', 'C / C++', 'C#', 'PHP', 'GDScript'],
-  },
-  {
+    id: 'data',
+    shortLabel: 'Data',
     title: 'Data & ML',
-    items: ['Geospatial pipelines', 'pandas', 'NumPy', 'scikit-learn', 'NLP & transformers', 'Jupyter', 'Data pipelines', 'Human evaluation'],
+    accent: 'violet',
+    items: [
+      'Geospatial pipelines',
+      'pandas',
+      'NumPy',
+      'scikit-learn',
+      'NLP & transformers',
+      'Jupyter',
+      'Human evaluation',
+    ],
   },
   {
+    id: 'languages',
+    shortLabel: 'Code',
+    title: 'Languages',
+    accent: 'cyan',
+    items: ['Python', 'TypeScript / JS', 'SQL', 'C / C++', 'C#', 'PHP', 'GDScript'],
+  },
+  {
+    id: 'ai',
+    shortLabel: 'AI',
     title: 'AI workflows',
-    items: ['LLM APIs (DeepSeek, Gemini)', 'Retrieval over local data', 'Agentic tooling', 'Prompt & system design'],
+    accent: 'pink',
+    items: ['LLM APIs (DeepSeek, Gemini)', 'Local RAG', 'Agentic tooling', 'System design'],
   },
   {
+    id: 'infra',
+    shortLabel: 'Infra',
     title: 'Infrastructure',
-    items: ['Linux', 'Docker', 'GitHub Actions', 'Tailscale', 'Cloudflare Workers', 'Self-hosting', 'Bash'],
+    accent: 'emerald',
+    items: ['Linux', 'Docker', 'GitHub Actions', 'Tailscale', 'Cloudflare Workers', 'Bash'],
   },
   {
+    id: 'hardware',
+    shortLabel: 'Hardware',
     title: 'Hardware & making',
-    items: ['ESP32 / embedded C', 'WebHID', 'I2C & QSPI', 'Parametric CAD (Build123d)', 'FDM 3D printing', 'Electronics'],
+    accent: 'amber',
+    items: ['ESP32 / embedded C', 'WebHID', 'I2C & QSPI', 'Build123d CAD', '3D printing'],
   },
   {
+    id: 'web',
+    shortLabel: 'Web',
     title: 'Web & delivery',
-    items: ['Astro', 'Vanilla JS', 'WebGL2', 'Static-first architecture', 'Git', 'Accessibility'],
+    accent: 'cyan',
+    items: ['Astro', 'Vanilla JS', 'WebGL2', 'Static-first', 'Git', 'Accessibility'],
   },
 ];
 
 export const music = {
-  headline: 'House music, released as Tom Vernon.',
+  headline: 'House music.',
   blurb:
-    'Debut EP <em>Amber Fade</em> landed on Lost Palms, the Shall Not Fade sub-label, in 2021. Since then: releases on Misplaced Recordings and Monolithic&rsquo;s Platonic Solids Inc., a 2022 EP called <em>Minobu</em> — named after the Yamanashi town at the centre of the Laid-Back Camp trips written up on the blog — and remixes on Beatport and Tidal.',
+    'Deep &amp; lo-fi house on <em>Lost Palms</em> (Shall Not Fade), <em>Misplaced Recordings</em>, and <em>Platonic Solids Inc.</em>',
   /** Static cover art: no third-party iframe, so the section can never render blank. */
   art: '/music/miracle.jpg',
   latest: {
@@ -176,33 +210,42 @@ export const music = {
   releases: [
     { title: 'Miracle (Tom Vernon Remix)', year: '2026', note: 'Single' },
     { title: 'I Try', year: '2025', note: 'EP · Lost Palms' },
-    { title: 'Minobu', year: '2022', note: 'EP · the Yamanashi link' },
+    { title: 'Minobu', year: '2022', note: 'EP · Yamanashi' },
     { title: 'Amber Fade', year: '2021', note: 'Debut EP · Lost Palms' },
   ],
 };
 
-export const posts = [
+export type PostItem = {
+  tag: string;
+  theme: 'yuru' | 'hibike' | 'tsuki';
+  title: string;
+  excerpt: string;
+  date: string;
+  href: string;
+};
+
+export const posts: PostItem[] = [
   {
     tag: 'Yuru Camp',
-    title: 'River Camping and Healing Onsens — Yuru Camp Backpacking Season 3',
-    excerpt:
-      'Backpacking the Yamanashi locations behind Laid-Back Camp, with onsens, river camps and mountain trains.',
+    theme: 'yuru',
+    title: 'Yuru Camp Backpacking — Season 3',
+    excerpt: 'Backpacking Yamanashi onsens, river camps and mountain trains.',
     date: '22 Apr 2025',
     href: 'https://tomsblog.data.blog/2025/04/22/river-camping-and-healing-onsens-yuru-camp-backpacking-season-3/',
   },
   {
     tag: 'Hibike Euphonium',
-    title: 'A Brief Visit to Uji After Hibike Euphonium Season 3',
-    excerpt:
-      'A day in Uji following the Sound! Euphonium locations, after the final season aired.',
+    theme: 'hibike',
+    title: 'A Visit to Uji — Hibike Euphonium S3',
+    excerpt: 'Walking Uji’s bridges and viewpoints after the final season.',
     date: '13 Jul 2024',
     href: 'https://tomsblog.data.blog/2024/07/13/a-brief-visit-to-uji-after-hibike-euphonium-season-3/',
   },
   {
     tag: 'Tsuki ga Kirei',
-    title: 'Tsukigakirei — Pilgrimage to Kawagoe',
-    excerpt:
-      'The original pilgrimage: Kawagoe, the setting for Tsuki ga Kirei, and the start of a habit.',
+    theme: 'tsuki',
+    title: 'Pilgrimage to Kawagoe — Tsuki ga Kirei',
+    excerpt: 'Kawagoe’s old streets — the pilgrimage that started the habit.',
     date: '12 Mar 2020',
     href: 'https://tomsblog.data.blog/2020/03/12/tsukigakirei-pilgrimage-to-kawagoe/',
   },
@@ -211,14 +254,14 @@ export const posts = [
 export const outside = [
   {
     title: 'Gaming',
-    body: 'Counter-Strike at <strong>FACEIT level 9</strong> and osu! at <strong>5-digit global rank</strong>. Competitive games are where I learned to review my own mistakes without flinching.',
+    body: 'Counter-Strike at <strong>FACEIT level 9</strong> and osu! at <strong>5-digit global rank</strong>.',
   },
   {
     title: 'PC building',
-    body: 'Years of building, rebuilding and troubleshooting machines for myself and other people — the reason I am comfortable at every layer from BIOS to drivers.',
+    body: 'Custom rigs & troubleshooting from BIOS to drivers.',
   },
   {
     title: 'Making',
-    body: '3D printing, parametric CAD and custom electronics: Gridfinity baseplates, a WebHID macropad configurator, and a growing pile of parts that nearly worked first time.',
+    body: '3D printing, Build123d CAD & custom electronics.',
   },
 ];

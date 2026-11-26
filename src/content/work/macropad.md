@@ -1,6 +1,6 @@
 ---
 title: 'Macropad Configurator'
-summary: 'A static, WebHID-based editor for cheap CH57x macropads — key bindings, macros and per-layer lighting, with read-back verification.'
+summary: 'Zero-install WebHID editor with lighting & read-back verification.'
 kicker: 'Reverse engineering · WebHID'
 year: '2026'
 order: 2

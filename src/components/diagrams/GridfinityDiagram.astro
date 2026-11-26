@@ -69,9 +69,11 @@ const idSuffix = mode;
     </div>
   )}
 
-  <div class="diag-readout" aria-live="polite" data-gf-readout>
-    11×9u grid · 6 balanced tiles · 2 unique groups · hover any tile to inspect
-  </div>
+  {mode === 'full' && (
+    <div class="diag-readout" aria-live="polite" data-gf-readout>
+      11×9u grid · 6 balanced tiles · 2 unique groups · hover any tile to inspect
+    </div>
+  )}
 </div>
 
 <script>
@@ -205,12 +207,13 @@ const idSuffix = mode;
     const wVal = root.querySelector<HTMLElement>('[data-gf-w-val]');
     const dVal = root.querySelector<HTMLElement>('[data-gf-d-val]');
 
-    if (!drawerGroup || !bedGroup || !readout) return;
+    if (!drawerGroup || !bedGroup) return;
 
     let drawerW = 480;
     let drawerD = 410;
     let bedMm = 180;
     let defaultSummary = '';
+    let defaultOutRight = '';
 
     const setHighlight = (groupKey: string | null) => {
       const tileEls = root.querySelectorAll<SVGGElement>('[data-tile-group]');
@@ -227,14 +230,16 @@ const idSuffix = mode;
       });
 
       if (!groupKey) {
-        readout.textContent = defaultSummary;
+        if (readout) readout.textContent = defaultSummary;
+        if (outRight) outRight.textContent = defaultOutRight;
         return;
       }
 
       const matching = root.querySelector<SVGGElement>(`[data-tile-group="${groupKey}"]`);
       if (matching) {
         const label = matching.dataset.tileDesc ?? '';
-        readout.textContent = label;
+        if (readout) readout.textContent = label;
+        if (outRight) outRight.textContent = label;
       }
     };
 
@@ -294,12 +299,13 @@ const idSuffix = mode;
       if (outLeft) {
         outLeft.textContent = `Bambu .3MF · ${plates.length} plate${plates.length === 1 ? '' : 's'} packed`;
       }
+      defaultOutRight = `${groupMap.size} unique tile shape${groupMap.size === 1 ? '' : 's'} (rotations merged)`;
       if (outRight) {
-        outRight.textContent = `${groupMap.size} unique tile shape${groupMap.size === 1 ? '' : 's'} (rotations merged)`;
+        outRight.textContent = defaultOutRight;
       }
 
       defaultSummary = `${cols}×${rows}u grid · ${tiles.length} tiles · ${groupMap.size} unique groups · ${plates.length} print plate${plates.length === 1 ? '' : 's'} · hover a tile`;
-      readout.textContent = defaultSummary;
+      if (readout) readout.textContent = defaultSummary;
 
       if (wSlider) wSlider.value = String(drawerW);
       if (dSlider) dSlider.value = String(drawerD);

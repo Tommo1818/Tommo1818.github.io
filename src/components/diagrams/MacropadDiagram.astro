@@ -99,9 +99,11 @@ const idSuffix = mode;
     </div>
   )}
 
-  <div class="diag-readout" aria-live="polite" data-mp-readout>
-    Layer 1 (Dev) · Keys: Build / Term / Diff · Read-back verified
-  </div>
+  {mode === 'full' && (
+    <div class="diag-readout" aria-live="polite" data-mp-readout>
+      Layer 1 (Dev) · Keys: Build / Term / Diff · Read-back verified
+    </div>
+  )}
 </div>
 
 <script>
@@ -150,8 +152,6 @@ const idSuffix = mode;
     const layerBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-mp-layer]'));
     const effectBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-mp-effect]'));
     const writeBtn = root.querySelector<HTMLButtonElement>('[data-mp-write]');
-
-    if (!readout) return;
 
     let layerIdx = 0;
     let effect = 'static';
@@ -221,7 +221,9 @@ const idSuffix = mode;
       if (frameText) {
         frameText.textContent = `OUT [${layer.keys[0].hex}] → HID 0xFF00/0x01 → CH57x`;
       }
-      readout.textContent = summaryLabel ?? `Writing Layer ${layerIdx + 1} (${layer.name}) to CH57x flash…`;
+      if (readout) {
+        readout.textContent = summaryLabel ?? `Writing Layer ${layerIdx + 1} (${layer.name}) to CH57x flash…`;
+      }
 
       await runPacket(pktOut, 420, (t) => [212 + (434 - 212) * t, 150], token);
       if (token !== animToken) return;
@@ -254,9 +256,11 @@ const idSuffix = mode;
         verifyText.setAttribute('fill', '#4ade80');
         verifyPill.setAttribute('stroke', '#4ade80');
       }
-      readout.textContent =
-        summaryLabel ??
-        `Layer ${layerIdx + 1} (${layer.name}) · ${layer.keys.map((k) => k.label).join(' / ')} · Read-back verified`;
+      if (readout) {
+        readout.textContent =
+          summaryLabel ??
+          `Layer ${layerIdx + 1} (${layer.name}) · ${layer.keys.map((k) => k.label).join(' / ')} · Read-back verified`;
+      }
     };
 
     const triggerKey = (idx: number) => {

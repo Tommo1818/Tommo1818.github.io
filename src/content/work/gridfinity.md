@@ -1,6 +1,6 @@
 ---
 title: 'Gridfinity Baseplate Studio'
-summary: 'A browser tool that generates printer-ready Gridfinity baseplates for any drawer, with balanced tiling and one-click .3MF export.'
+summary: 'Balanced drawer tiling and one-click Bambu .3MF export.'
 kicker: 'Tooling · 3D printing'
 year: '2026'
 order: 1

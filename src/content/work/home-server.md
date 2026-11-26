@@ -1,6 +1,6 @@
 ---
 title: 'Home server and smart home'
-summary: 'A self-hosted Ubuntu server running Home Assistant, a Matter bridge and ESPHome panels, reachable anywhere over Tailscale.'
+summary: 'Zero-port Ubuntu & Docker smart home over Tailscale.'
 kicker: 'Infrastructure'
 year: '2026'
 order: 6

@@ -86,9 +86,11 @@ const idSuffix = mode;
     </div>
   </div>
 
-  <div class="diag-readout" aria-live="polite" data-hs-readout>
-    Tailscale Remote · WireGuard encrypted · click any service or shield to inspect
-  </div>
+  {mode === 'full' && (
+    <div class="diag-readout" aria-live="polite" data-hs-readout>
+      Tailscale Remote · WireGuard encrypted · click any service or shield to inspect
+    </div>
+  )}
 </div>
 
 <script>
@@ -114,8 +116,6 @@ const idSuffix = mode;
     const statusText = root.querySelector<SVGTextElement>('[data-hs-status]');
     const pkt = root.querySelector<SVGCircleElement>('[data-hs-pkt]');
     const readout = root.querySelector<HTMLElement>('[data-hs-readout]');
-
-    if (!readout) return;
 
     let currentScenario = 'tailscale';
     let timerId = 0;
@@ -167,7 +167,7 @@ const idSuffix = mode;
         if (netLabel) netLabel.textContent = 'tailnet · WireGuard encrypted';
         if (clientSub) clientSub.textContent = 'via exit node';
         if (statusText) statusText.textContent = 'ALLOWED · Tailscale WireGuard tunnel → subnet router → Home Assistant';
-        readout.textContent = 'Tailscale Remote · WireGuard encrypted · click any service or shield to inspect';
+        if (readout) readout.textContent = 'Tailscale Remote · WireGuard encrypted · click any service or shield to inspect';
         pulsePacket([178, 175], [234, 175], '#4ade80');
       } else if (scenario === 'scan') {
         if (probeGroup) probeGroup.setAttribute('opacity', '1');
@@ -180,7 +180,7 @@ const idSuffix = mode;
         if (netLabel) netLabel.textContent = 'public internet → UFW default deny';
         if (clientSub) clientSub.textContent = 'idle';
         if (statusText) statusText.textContent = 'BLOCKED · Unsolicited WAN probe dropped by UFW (0 exposed ports)';
-        readout.textContent = 'Public Port Scan · UFW drops all inbound WAN packets · Fail2Ban guards SSH';
+        if (readout) readout.textContent = 'Public Port Scan · UFW drops all inbound WAN packets · Fail2Ban guards SSH';
         pulsePacket([630, 72], [584, 108], '#f87171', true);
       } else {
         if (probeGroup) probeGroup.setAttribute('opacity', '0');
@@ -193,7 +193,7 @@ const idSuffix = mode;
         if (netLabel) netLabel.textContent = 'local home LAN · zero internet hop';
         if (clientSub) clientSub.textContent = 'on home Wi-Fi';
         if (statusText) statusText.textContent = 'LOCAL · ESPHome & Matter talk directly to Home Assistant on LAN';
-        readout.textContent = 'Local LAN · sub-millisecond local control even if WAN goes offline';
+        if (readout) readout.textContent = 'Local LAN · sub-millisecond local control even if WAN goes offline';
         pulsePacket([365, 240], [365, 152], '#7dd3fc', true);
       }
     };
@@ -209,7 +209,10 @@ const idSuffix = mode;
         const key = nodeEl.dataset.hsNode ?? '';
         nodeEls.forEach((n) => n.classList.toggle('is-selected', n === nodeEl));
         const text = NODE_INFO[key];
-        if (text) readout.textContent = text;
+        if (text) {
+          if (statusText) statusText.textContent = text;
+          if (readout) readout.textContent = text;
+        }
       };
       nodeEl.addEventListener('click', selectNode);
       nodeEl.addEventListener('keydown', (e) => {
