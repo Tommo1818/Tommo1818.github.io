@@ -3,21 +3,16 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import HeroCanvas from '../components/HeroCanvas.astro';
 import HeroShowcase from '../components/HeroShowcase.astro';
-import CareerDiagram from '../components/CareerDiagram.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import {
-  site,
-  links,
-  experience,
-  education,
-  earlierEducation,
-  skillGroups,
-  posts,
-  music,
-} from '../data/site';
+import LabCard from '../components/LabCard.astro';
+import { site, links, posts, music } from '../data/site';
 
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const featured = work.filter((entry) => entry.data.featured);
+const byId = new Map(work.map((entry) => [entry.id, entry]));
+const lab = ['gridfinity', 'macropad', 'toxicity']
+  .map((id) => byId.get(id))
+  .filter(Boolean) as typeof work;
 
 const parseStat = (raw: string) => {
   const m = raw.match(/^(\d+(?:\.\d+)?)(.*)$/);
@@ -30,6 +25,8 @@ const parseStat = (raw: string) => {
     suffix: m[2] ?? '',
   };
 };
+
+const tools = ['Python', 'TypeScript', 'SQL', 'Docker', 'Linux', 'ESP32', 'Astro'];
 ---
 
 <Base>
@@ -47,9 +44,8 @@ const parseStat = (raw: string) => {
         </h1>
 
         <p class="hero-lede hero-enter" style="--enter-i: 2">
-          Geospatial data engineer, MSc Data Science student &amp; builder — shipping{' '}
-          <strong>data pipelines</strong>, <strong>hardware tools</strong>, and{' '}
-          <strong>house records</strong>.
+          Geospatial data engineer in Bristol. I take systems apart and ship sharper tools —{' '}
+          <strong>data pipelines</strong>, <strong>hardware</strong>, and <strong>house records</strong>.
         </p>
 
         <div class="hero-actions hero-enter" style="--enter-i: 3">
@@ -57,162 +53,39 @@ const parseStat = (raw: string) => {
             See the work
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-            GitHub
-          </a>
-          <a class="btn" href={links.linkedin} target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4v15h-4V8Zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V23h-4V8Z"/></svg>
-            LinkedIn
-          </a>
-          <button class="btn" type="button" data-print>Download CV</button>
+          <a class="btn" href="#lab">Play in the lab</a>
+          <a class="btn" href={music.latest.href} target="_blank" rel="noopener noreferrer">Hear the music</a>
         </div>
-
-        <div class="hero-meta hero-enter" style="--enter-i: 4">
-          <span><b>Aspia Space</b> · Geospatial Data Eng.</span>
-          <span><b>Bristol</b> · MSc Data Science</span>
-          <span><b>Swansea</b> · BSc CS (2:1)</span>
-        </div>
-
-        <p class="print-contact">
-          tommo1818.github.io · linkedin.com/in/tom-vernon-7442b0197 · github.com/Tommo1818
-        </p>
       </div>
 
       <div class="hero-visual hero-enter" style="--enter-i: 2">
         <HeroShowcase />
       </div>
     </div>
+
+    <div class="wrap">
+      <div class="now-strip" data-reveal>
+        <span class="now-label">Now</span>
+        <a href="#about">Geospatial Data Engineer @ Aspia Space</a>
+        <span class="now-sep" aria-hidden="true">/</span>
+        <a href={`/work/${work[0].id}/`}>Building {work[0].data.title}</a>
+        <span class="now-sep" aria-hidden="true">/</span>
+        <a href={music.latest.href} target="_blank" rel="noopener noreferrer">Playing {music.latest.title}</a>
+      </div>
+    </div>
   </section>
 
-  <!-- ───────────────────────── Snapshot Bento ───────────────────────── -->
-  <section class="section" id="about">
+  <!-- ───────────────────────── Lab ───────────────────────── -->
+  <section class="section" id="lab">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">01 — At a glance</p>
-        <h2 class="section-title">Data pipelines by day. Hardware &amp; house by night.</h2>
+      <div class="room-head" data-reveal>
+        <p class="room-label" style="--room-accent: #38bdf8">The lab</p>
+        <h2 class="section-title">Things you can actually play with.</h2>
+        <p class="section-lede">Live tools and interactive diagrams. Open one and break it.</p>
       </div>
 
-      <div class="bento-grid">
-        <article class="bento-card bento-card--bio" data-spotlight data-reveal>
-          <span class="bento-kicker">Background</span>
-          <p class="bento-bio">
-            I take systems apart and ship sharper tools — across{' '}
-            <strong>geospatial pipelines</strong>, <strong>hardware</strong>, and{' '}
-            <strong>house music</strong>.
-          </p>
-          <div class="bento-route" aria-label="Career path">
-            <span>Jersey</span>
-            <i aria-hidden="true">→</i>
-            <span>Swansea</span>
-            <i aria-hidden="true">→</i>
-            <span>London</span>
-            <i aria-hidden="true">→</i>
-            <span class="is-now">Aspia Space</span>
-            <i aria-hidden="true">→</i>
-            <span>Bristol</span>
-          </div>
-        </article>
-
-        <a
-          class="bento-card bento-card--audio bento-card--visual"
-          href={music.latest.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-spotlight
-          data-reveal
-          data-delay="70"
-        >
-          <span class="bento-kicker">Music · Tom Vernon</span>
-          <div class="bento-stat-row">
-            <b class="bento-stat" data-count="13" data-decimals="0" data-suffix="k+">13k+</b>
-            <span>Monthly Spotify listeners</span>
-          </div>
-          <svg class="bento-wave" viewBox="0 0 260 44" width="260" height="44" aria-hidden="true">
-            <defs>
-              <linearGradient id="bento-wave-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#f472b6" />
-                <stop offset="55%" stop-color="#a78bfa" />
-                <stop offset="100%" stop-color="#38bdf8" />
-              </linearGradient>
-            </defs>
-            <g fill="url(#bento-wave-grad)">
-              <rect x="4" y="18" width="5" height="10" rx="2.5" />
-              <rect x="15" y="11" width="5" height="24" rx="2.5" />
-              <rect x="26" y="6" width="5" height="34" rx="2.5" />
-              <rect x="37" y="14" width="5" height="18" rx="2.5" />
-              <rect x="48" y="8" width="5" height="30" rx="2.5" />
-              <rect x="59" y="16" width="5" height="14" rx="2.5" />
-              <rect x="70" y="4" width="5" height="38" rx="2.5" />
-              <rect x="81" y="12" width="5" height="22" rx="2.5" />
-              <rect x="92" y="17" width="5" height="12" rx="2.5" />
-              <rect x="103" y="9" width="5" height="28" rx="2.5" />
-              <rect x="114" y="5" width="5" height="36" rx="2.5" />
-              <rect x="125" y="13" width="5" height="20" rx="2.5" />
-              <rect x="136" y="10" width="5" height="26" rx="2.5" />
-              <rect x="147" y="16" width="5" height="14" rx="2.5" />
-              <rect x="158" y="6" width="5" height="34" rx="2.5" />
-              <rect x="169" y="12" width="5" height="22" rx="2.5" />
-              <rect x="180" y="18" width="5" height="10" rx="2.5" />
-              <rect x="191" y="8" width="5" height="30" rx="2.5" />
-              <rect x="202" y="14" width="5" height="18" rx="2.5" />
-              <rect x="213" y="5" width="5" height="36" rx="2.5" />
-              <rect x="224" y="11" width="5" height="24" rx="2.5" />
-              <rect x="235" y="15" width="5" height="16" rx="2.5" />
-              <rect x="246" y="19" width="5" height="8" rx="2.5" />
-            </g>
-          </svg>
-          <span class="bento-foot">Lost Palms · Shall Not Fade ↗</span>
-        </a>
-
-        <div class="bento-card bento-card--making bento-card--visual" data-spotlight data-reveal data-delay="120">
-          <div class="bento-icon-head">
-            <span class="bento-kicker">Making &amp; PCs</span>
-            <svg viewBox="0 0 36 36" width="28" height="28" fill="none" aria-hidden="true">
-              <rect x="4" y="4" width="12" height="12" rx="3" stroke="#38bdf8" stroke-width="1.5" />
-              <rect x="20" y="4" width="12" height="12" rx="3" stroke="#a78bfa" stroke-width="1.5" />
-              <rect x="4" y="20" width="12" height="12" rx="3" stroke="#38bdf8" stroke-opacity="0.55" stroke-width="1.5" />
-              <rect x="20" y="20" width="12" height="12" rx="3" fill="rgba(56,189,248,0.18)" stroke="#38bdf8" stroke-width="1.5" />
-            </svg>
-          </div>
-          <p>Parametric CAD, 3D printing, ESP32, WebHID &amp; custom rigs.</p>
-        </div>
-
-        <div class="bento-card bento-card--gaming bento-card--visual" data-spotlight data-reveal data-delay="170">
-          <div class="bento-icon-head">
-            <span class="bento-kicker">Competitive</span>
-            <svg viewBox="0 0 36 36" width="28" height="28" fill="none" aria-hidden="true">
-              <circle cx="18" cy="18" r="12" stroke="#4ade80" stroke-width="1.5" stroke-opacity="0.8" />
-              <circle cx="18" cy="18" r="4" fill="#4ade80" fill-opacity="0.25" stroke="#4ade80" stroke-width="1.5" />
-              <line x1="18" y1="2" x2="18" y2="9" stroke="#4ade80" stroke-width="1.5" />
-              <line x1="18" y1="27" x2="18" y2="34" stroke="#4ade80" stroke-width="1.5" />
-              <line x1="2" y1="18" x2="9" y2="18" stroke="#4ade80" stroke-width="1.5" />
-              <line x1="27" y1="18" x2="34" y2="18" stroke="#4ade80" stroke-width="1.5" />
-            </svg>
-          </div>
-          <p><strong>FACEIT Lv. 9</strong> Counter-Strike &amp; <strong>5-digit</strong> global osu!</p>
-        </div>
-
-        <a
-          class="bento-card bento-card--travel bento-card--visual"
-          href={links.blog}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-spotlight
-          data-reveal
-          data-delay="220"
-        >
-          <span class="bento-kicker">Japan Travel Blog</span>
-          <div class="bento-stat-row">
-            <b class="bento-stat" data-count="27" data-decimals="0" data-suffix="k+">27k+</b>
-            <span>Pilgrimage reads</span>
-          </div>
-          <svg class="bento-fuji" viewBox="0 0 180 42" width="180" height="42" fill="none" aria-hidden="true">
-            <path d="M8 38 L58 14 L74 22 L102 6 L124 20 L144 13 L172 38" stroke="#fbbf24" stroke-opacity="0.7" stroke-width="1.6" stroke-linejoin="round" />
-            <path d="M90 13 L102 6 L112 13 L104 16 L97 12 Z" fill="#fbbf24" fill-opacity="0.25" />
-          </svg>
-          <span class="bento-foot">tomsblog.data.blog ↗</span>
-        </a>
+      <div class="lab-grid">
+        {lab.map((entry, i) => <LabCard entry={entry} delay={i * 70} />)}
       </div>
     </div>
   </section>
@@ -220,182 +93,27 @@ const parseStat = (raw: string) => {
   <!-- ───────────────────────── Work ───────────────────────── -->
   <section class="section" id="work">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">02 — Selected work</p>
-        <h2 class="section-title">Selected builds.</h2>
+      <div class="room-head" data-reveal>
+        <p class="room-label" style="--room-accent: #a78bfa">Work</p>
+        <h2 class="section-title">Things I&rsquo;ve built.</h2>
+        <p class="section-lede">Four projects, from drawer organisers to a Counter-Strike toxicity detector.</p>
       </div>
 
       <div class="work-grid">
         {featured.map((entry, i) => <ProjectCard entry={entry} index={i + 1} />)}
       </div>
 
-      <div class="writing-foot" style="justify-content: flex-end">
+      <div class="section-foot">
         <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">All repositories ↗</a>
       </div>
     </div>
   </section>
 
-  <!-- ───────────────────────── Journey ───────────────────────── -->
-  <section class="section" id="experience">
+  <!-- ───────────────────────── Sound ───────────────────────── -->
+  <section class="section" id="sound">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">03 — Journey</p>
-        <h2 class="section-title">Career &amp; education.</h2>
-      </div>
-
-      <div data-reveal>
-        <CareerDiagram />
-      </div>
-
-      <div class="journey-grid">
-        <div class="journey-col">
-          <p class="tl-group-label" data-reveal>Experience</p>
-          <div class="journey-cards">
-            {experience.map((item, idx) => {
-              const isCurrent =
-                item.when.includes('Present') || Boolean(item.subRoles?.some((sr) => sr.current));
-              return (
-                <article
-                  class={`journey-card ${isCurrent ? 'is-current-card' : ''}`}
-                  data-career-card={item.id}
-                  data-spotlight
-                  data-reveal
-                  data-delay={String(idx * 60)}
-                >
-                  <div class="journey-head">
-                    <span class="tl-when">
-                      {isCurrent && <span class="tl-live-dot" aria-hidden="true" />}
-                      {item.when}
-                    </span>
-                    {item.location && <span class="tl-loc">{item.location}</span>}
-                  </div>
-                  <div class="tl-role">
-                    <span>{item.role}</span>
-                  </div>
-                  <div class="tl-org">{item.org}</div>
-
-                  {item.subRoles && item.subRoles.length > 0 && (
-                    <ul class="tl-subroles" aria-label="Role progression">
-                      {item.subRoles.map((sr) => (
-                        <li class={sr.current ? 'is-current' : ''}>
-                          <strong>{sr.role}</strong>
-                          <span>{sr.when}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {item.blurb && <p class="tl-note">{item.blurb}</p>}
-                  {item.points && item.points.length > 0 && (
-                    <ul class="journey-points">
-                      {item.points.map((point) => <li>{point}</li>)}
-                    </ul>
-                  )}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-
-        <div class="journey-col">
-          <p class="tl-group-label" data-reveal>Education</p>
-          <div class="journey-cards">
-            {education.map((item, idx) => (
-              <article
-                class="journey-card"
-                data-career-card={item.id}
-                data-spotlight
-                data-reveal
-                data-delay={String(idx * 60)}
-              >
-                <div class="journey-head">
-                  <span class="tl-when">{item.when}</span>
-                  {item.grade && <span class="tl-grade">{item.grade}</span>}
-                </div>
-                <div class="tl-role">
-                  <span>{item.role}</span>
-                </div>
-                <div class="tl-org">{item.org}</div>
-                {item.blurb && <p class="tl-note">{item.blurb}</p>}
-                {item.activities && item.activities.length > 0 && (
-                  <div class="tl-activities" aria-label="Activities and societies">
-                    {item.activities.map((act) => <span class="chip">{act}</span>)}
-                  </div>
-                )}
-                {item.link && (
-                  <p class="tl-note tl-link">
-                    <a href={item.link.href} target="_blank" rel="noopener noreferrer">
-                      {item.link.label} ↗
-                    </a>
-                  </p>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div class="tl-earlier" data-reveal>
-        <span class="tl-earlier-label">Earlier schooling</span>
-        <div class="tl-earlier-list">
-          {earlierEducation.map((school, i) => (
-            <span>
-              {i > 0 && <span class="tl-sep" aria-hidden="true"> · </span>}
-              <b>{school.school}</b> ({school.when})
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────────────────────── Stack ───────────────────────── -->
-  <section class="section" id="skills">
-    <div class="wrap">
-      <div class="section-head stack-head" data-reveal>
-        <div>
-          <p class="eyebrow">04 — Stack</p>
-          <h2 class="section-title">Toolkit.</h2>
-        </div>
-
-        <div class="skill-filters" role="group" aria-label="Filter stack categories">
-          <button class="diag-btn" type="button" data-skill-filter="all" aria-pressed="true">All</button>
-          {skillGroups.map((group) => (
-            <button class="diag-btn" type="button" data-skill-filter={group.id} aria-pressed="false">
-              {group.shortLabel}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div class="skills">
-        {skillGroups.map((group, i) => (
-          <div
-            class="skill"
-            data-accent={group.accent}
-            data-skill-cat={group.id}
-            data-spotlight
-            data-reveal
-            data-delay={String(i * 45)}
-          >
-            <div class="skill-head">
-              <h3>{group.title}</h3>
-              <span class="skill-dot" aria-hidden="true"></span>
-            </div>
-            <ul>
-              {group.items.map((item) => <li>{item}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────────────────────── Music ───────────────────────── -->
-  <section class="section" id="music">
-    <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">05 — Music</p>
+      <div class="room-head" data-reveal>
+        <p class="room-label" style="--room-accent: #f472b6">Sound</p>
         <h2 class="section-title">{music.headline}</h2>
         <p class="section-lede" set:html={music.blurb} />
       </div>
@@ -467,13 +185,26 @@ const parseStat = (raw: string) => {
     </div>
   </section>
 
-  <!-- ───────────────────────── Writing ───────────────────────── -->
-  <section class="section" id="writing">
+  <!-- ───────────────────────── Japan ───────────────────────── -->
+  <section class="section" id="japan">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">06 — Writing</p>
-        <h2 class="section-title">Japan anime pilgrimages.</h2>
-        <p class="section-lede">27,000+ reads from real trips across Japan.</p>
+      <div class="room-head" data-reveal>
+        <p class="room-label" style="--room-accent: #fbbf24">Field notes</p>
+        <h2 class="section-title">Japan, on foot.</h2>
+        <p class="section-lede">Anime pilgrimages, mountain trains and 27,000+ reads from real trips.</p>
+      </div>
+
+      <div class="japan-route" data-reveal>
+        <span class="japan-route-label">Route so far</span>
+        <a class="japan-pin" href={posts[2].href} target="_blank" rel="noopener noreferrer">Kawagoe</a>
+        <span class="japan-arrow" aria-hidden="true">→</span>
+        <a class="japan-pin" href={posts[1].href} target="_blank" rel="noopener noreferrer">Uji</a>
+        <span class="japan-arrow" aria-hidden="true">→</span>
+        <a class="japan-pin" href={posts[0].href} target="_blank" rel="noopener noreferrer">Yamanashi</a>
+        <span class="japan-route-links">
+          <a href={links.blog} target="_blank" rel="noopener noreferrer">Read the blog ↗</a>
+          <a href={links.polarsteps} target="_blank" rel="noopener noreferrer">Trip map ↗</a>
+        </span>
       </div>
 
       <div class="writing">
@@ -555,9 +286,102 @@ const parseStat = (raw: string) => {
         ))}
       </div>
 
-      <div class="writing-foot" style="justify-content: flex-end">
-        <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">tomsblog.data.blog ↗</a>
+      <div class="section-foot">
+        <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">All field notes ↗</a>
       </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Play ───────────────────────── -->
+  <section class="section" id="play">
+    <div class="wrap">
+      <div class="room-head" data-reveal>
+        <p class="room-label" style="--room-accent: #4ade80">Play</p>
+        <h2 class="section-title">After hours.</h2>
+        <p class="section-lede">Competitive games, custom PCs, and the occasional rabbit hole.</p>
+      </div>
+
+      <div class="play-grid">
+        <article class="play-card" data-spotlight data-reveal>
+          <span class="play-icon" aria-hidden="true">
+            <svg viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="11" stroke="#4ade80" stroke-width="1.5" stroke-opacity="0.7" />
+              <circle cx="18" cy="18" r="3.5" fill="#4ade80" fill-opacity="0.25" stroke="#4ade80" stroke-width="1.5" />
+              <path d="M18 3 V9 M18 27 V33 M3 18 H9 M27 18 H33" stroke="#4ade80" stroke-width="1.5" />
+            </svg>
+          </span>
+          <span class="play-kicker">Counter-Strike</span>
+          <b class="play-stat">FACEIT Lv. 9</b>
+          <p>Mostly SoloQ, occasionally a good team.</p>
+        </article>
+
+        <article class="play-card" data-spotlight data-reveal data-delay="70">
+          <span class="play-icon" aria-hidden="true">
+            <svg viewBox="0 0 36 36" fill="none">
+              <circle cx="15" cy="15" r="8" stroke="#f472b6" stroke-width="1.5" />
+              <path d="M21 21 L31 31" stroke="#f472b6" stroke-width="1.5" stroke-linecap="round" />
+              <circle cx="15" cy="15" r="2.5" fill="#f472b6" fill-opacity="0.35" />
+            </svg>
+          </span>
+          <span class="play-kicker">osu!</span>
+          <b class="play-stat">5-digit global</b>
+          <p>Mouse and keyboard. No tablet, no excuses.</p>
+        </article>
+
+        <article class="play-card" data-spotlight data-reveal data-delay="140">
+          <span class="play-icon" aria-hidden="true">
+            <svg viewBox="0 0 36 36" fill="none">
+              <rect x="9" y="5" width="18" height="26" rx="3" stroke="#38bdf8" stroke-width="1.5" />
+              <path d="M14 11 H22 M14 16 H22 M14 21 H19" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" />
+              <circle cx="18" cy="27" r="1.4" fill="#38bdf8" />
+            </svg>
+          </span>
+          <span class="play-kicker">PC building</span>
+          <b class="play-stat">BIOS to drivers</b>
+          <p>Custom rigs and cable management nobody sees.</p>
+        </article>
+      </div>
+
+      <p class="play-note" data-reveal>
+        Current rotation: Counter-Strike · osu! · whatever the group chat is playing.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── About ───────────────────────── -->
+  <section class="section" id="about">
+    <div class="wrap about-grid">
+      <div class="about-copy" data-reveal>
+        <p class="room-label" style="--room-accent: #fbbf24">About</p>
+        <h2 class="section-title">The long way round.</h2>
+        <p>
+          I started by taking electronics apart in Jersey, then moved to Swansea for a computer
+          science degree. A year of live finance support in London taught me how to stay calm
+          when systems break.
+        </p>
+        <p>
+          Now I build Earth-observation pipelines at Aspia Space and study data science at
+          Bristol. The rest of the time goes on hardware, house records and the next Japan trip.
+        </p>
+        <div class="about-route" aria-label="Route so far">
+          <span>Jersey</span><i aria-hidden="true">→</i>
+          <span>Swansea</span><i aria-hidden="true">→</i>
+          <span>London</span><i aria-hidden="true">→</i>
+          <span class="is-now">Aspia Space</span><i aria-hidden="true">→</i>
+          <span>Bristol</span>
+        </div>
+        <a class="btn" href="/cv">CV &amp; experience ↗</a>
+      </div>
+
+      <aside class="about-panel" data-spotlight data-reveal data-delay="80">
+        <div class="about-row"><span>Now</span><b>Geospatial Data Engineer @ Aspia Space</b></div>
+        <div class="about-row"><span>Studying</span><b>MSc Data Science, University of Bristol</b></div>
+        <div class="about-row"><span>Based</span><b>Bristol / Jersey</b></div>
+        <div class="about-row"><span>Elsewhere</span><a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
+        <div class="about-tools">
+          {tools.map((tool) => <span class="chip">{tool}</span>)}
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -565,38 +389,17 @@ const parseStat = (raw: string) => {
   <section class="contact" id="contact">
     <div class="wrap" data-reveal>
       <div class="contact-card" data-spotlight>
-        <p class="eyebrow" style="justify-content:center">07 — Contact</p>
-        <h2>Want to build something?</h2>
-        <p>Open to data, software &amp; engineering roles.</p>
+        <p class="room-label" style="justify-content: center; --room-accent: #4ade80">Contact</p>
+        <h2>Let&rsquo;s make something.</h2>
+        <p>Open to data, software and engineering roles — or a good side project.</p>
         <div class="contact-actions">
           <a class="btn btn--primary" href={links.contact} target="_blank" rel="noopener noreferrer">Get in touch</a>
           <a class="btn" href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="btn" href="/cv">CV</a>
           <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a>
-          <button class="btn" type="button" data-print>Download CV</button>
         </div>
       </div>
     </div>
   </section>
 </Base>
-
-<script>
-  document
-    .querySelectorAll<HTMLElement>('[data-print]')
-    .forEach((button) => button.addEventListener('click', () => window.print()));
-
-  const filterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-skill-filter]'));
-  const skillCards = Array.from(document.querySelectorAll<HTMLElement>('[data-skill-cat]'));
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const cat = btn.dataset.skillFilter ?? 'all';
-      filterBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-      skillCards.forEach((card) => {
-        const match = cat === 'all' || card.dataset.skillCat === cat;
-        card.classList.toggle('is-dimmed', !match);
-        card.classList.toggle('is-matched', cat !== 'all' && match);
-      });
-    });
-  });
-</script>

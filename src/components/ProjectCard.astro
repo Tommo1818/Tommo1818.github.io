@@ -12,11 +12,11 @@ const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
 const href = `/work/${entry.id}/`;
 ---
 
-<article class="card" data-spotlight data-reveal data-delay={String((index - 1) * 80)}>
+<article class="card card--story" data-spotlight data-reveal data-delay={String((index - 1) * 80)}>
   {diagram && (
-    <div class="card-media">
+    <a class="card-media" href={href} aria-label={`Read the ${title} case study`}>
       <WorkDiagram slug={entry.id} diagram={diagram} title={title} mode="card" />
-    </div>
+    </a>
   )}
 
   <div class="card-top">
@@ -24,18 +24,15 @@ const href = `/work/${entry.id}/`;
     <span class="card-index">{String(index).padStart(2, '0')} · {year}</span>
   </div>
 
-  <h3><a class="stretch" href={href}>{title}</a></h3>
+  <h3><a class="card-title" href={href}>{title}</a></h3>
   <p>{summary}</p>
-
-  <div class="card-chips">
-    {stack.map((item) => <span class="chip">{item}</span>)}
-  </div>
+  <p class="card-stack">{stack.join(' · ')}</p>
 
   <div class="card-foot">
     <span class="links">
       {live && <a href={live} target="_blank" rel="noopener noreferrer">Live ↗</a>}
       {repo && <a href={repo} target="_blank" rel="noopener noreferrer">Code ↗</a>}
     </span>
-    <span class="more">Case study <span aria-hidden="true">→</span></span>
+    <a class="more" href={href}>Read the build <span aria-hidden="true">→</span></a>
   </div>
 </article>

@@ -14,6 +14,11 @@ const {
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 
+const onCv = Astro.url.pathname.replace(/\/$/, '') === '/cv';
+const navCtaHref = onCv ? links.contact : '/cv';
+const navCtaLabel = onCv ? 'Get in touch' : 'Open to roles';
+const navCtaShort = onCv ? 'Contact' : 'CV';
+
 const sameAs = [links.github, links.linkedin, links.music, links.blog].filter(Boolean);
 
 const personSchema = {
@@ -83,14 +88,19 @@ const personSchema = {
           <span class="brand-mark" aria-hidden="true">TV</span>
           <span>{site.name}</span>
         </a>
-        <nav class="nav-links" aria-label="Sections">
+        <nav class="nav-links" aria-label="Rooms">
           <a href="/#work">Work</a>
-          <a href="/#experience">Journey</a>
-          <a href="/#skills">Stack</a>
-          <a href="/#music">Music</a>
-          <a href="/#writing">Writing</a>
-          <a href="/#contact">Contact</a>
+          <a href="/#lab">Lab</a>
+          <a href="/#sound">Sound</a>
+          <a href="/#japan">Japan</a>
+          <a href="/#play">Play</a>
         </nav>
+
+        <a class="nav-cta" href={navCtaHref} target={onCv ? '_blank' : undefined} rel={onCv ? 'noopener noreferrer' : undefined}>
+          <span class="nav-cta-full">{navCtaLabel}</span>
+          <span class="nav-cta-short">{navCtaShort}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
 
         <details class="nav-mobile">
           <summary aria-label="Open menu">
@@ -101,10 +111,12 @@ const personSchema = {
           </summary>
           <div class="nav-mobile-panel">
             <a href="/#work">Work</a>
-            <a href="/#experience">Journey</a>
-            <a href="/#skills">Stack</a>
-            <a href="/#music">Music</a>
-            <a href="/#writing">Writing</a>
+            <a href="/#lab">Lab</a>
+            <a href="/#sound">Sound</a>
+            <a href="/#japan">Japan</a>
+            <a href="/#play">Play</a>
+            <a href="/#about">About</a>
+            <a href="/cv">CV &amp; experience</a>
             <a href="/#contact">Contact</a>
           </div>
         </details>
@@ -125,6 +137,8 @@ const personSchema = {
           <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <span class="footer-sep" aria-hidden="true">·</span>
           <a href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a>
+          <span class="footer-sep" aria-hidden="true">·</span>
+          <a href="/cv">CV</a>
           <span class="footer-sep" aria-hidden="true">·</span>
           <a href="/#contact">Contact</a>
         </span>

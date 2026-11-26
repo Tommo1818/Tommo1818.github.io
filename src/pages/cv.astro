@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { site, links, experience, education, skillGroups } from '../data/site';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="CV — Tom Vernon"
+  description="Tom Vernon — geospatial data engineer, MSc Data Science student and builder."
+>
+  <article class="wrap cv-page">
+    <header class="cv-head">
+      <p class="room-label" style="--room-accent: #4ade80">Curriculum vitae</p>
+      <h1>{site.name}</h1>
+      <p class="cv-role">Geospatial Data Engineer · MSc Data Science</p>
+      <p class="cv-contact">
+        <span>Bristol, UK</span>
+        <a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href={links.contact} target="_blank" rel="noopener noreferrer">Get in touch ↗</a>
+        <a href={site.url}>tommo1818.github.io ↗</a>
+      </p>
+      <div class="cv-actions">
+        <a class="btn btn--primary" href="/tom-vernon-cv.pdf" download>Download PDF</a>
+        <button class="btn" type="button" data-print>Print this page</button>
+        <a class="btn" href="/#work">See the work</a>
+      </div>
+      <p class="cv-summary">
+        Geospatial data engineer building Earth-observation pipelines at Aspia Space. Currently
+        studying an MSc in Data Science at Bristol after a BSc in Computer Science at Swansea.
+        Comfortable across data engineering, Python and TypeScript, Linux and Docker, and embedded
+        hardware.
+      </p>
+    </header>
+
+    <section class="cv-section">
+      <h2>Experience</h2>
+      {experience.map((item) => (
+        <div class="cv-job">
+          <h3>{item.role}</h3>
+          <span class="cv-when">{item.when}</span>
+          <p class="cv-org">
+            {item.org}{item.location ? ` · ${item.location}` : ''}
+          </p>
+          {item.subRoles && (
+            <p class="cv-subroles">
+              {item.subRoles.map((sub) => `${sub.role} (${sub.when})`).join(' · ')}
+            </p>
+          )}
+          {item.blurb && <p>{item.blurb}</p>}
+        </div>
+      ))}
+    </section>
+
+    <section class="cv-section">
+      <h2>Education</h2>
+      {education.map((item) => (
+        <div class="cv-job">
+          <h3>{item.role}</h3>
+          <span class="cv-when">{item.when}</span>
+          <p class="cv-org">
+            {item.org}{item.grade ? ` · ${item.grade}` : ''}
+          </p>
+          {item.blurb && <p>{item.blurb}</p>}
+          {item.link && (
+            <p class="cv-subroles">
+              <a href={item.link.href} target="_blank" rel="noopener noreferrer">{item.link.label} ↗</a>
+            </p>
+          )}
+        </div>
+      ))}
+    </section>
+
+    <section class="cv-section">
+      <h2>Selected projects</h2>
+      <div class="cv-projects">
+        {work.map((entry) => (
+          <a class="cv-project" href={`/work/${entry.id}/`}>
+            <span class="cv-project-meta">{entry.data.kicker} · {entry.data.year}</span>
+            <h3>{entry.data.title}</h3>
+            <p>{entry.data.summary}</p>
+            <span class="cv-project-stack">{entry.data.stack.join(' · ')}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <h2>Skills</h2>
+      {skillGroups.map((group) => (
+        <div class="cv-skill-row">
+          <span>{group.title}</span>
+          <p>{group.items.join(' · ')}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="cv-section">
+      <h2>Elsewhere</h2>
+      <p class="cv-elsewhere">
+        <a href={links.music} target="_blank" rel="noopener noreferrer">Music ↗</a> ·
+        <a href={links.blog} target="_blank" rel="noopener noreferrer">Japan field notes ↗</a> ·
+        <a href={links.polarsteps} target="_blank" rel="noopener noreferrer">Trip map ↗</a>
+      </p>
+    </section>
+  </article>
+</Base>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-print]')
+    .forEach((button) => button.addEventListener('click', () => window.print()));
+</script>

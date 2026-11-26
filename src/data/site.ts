@@ -9,7 +9,7 @@ export const site = {
   name: 'Tom Vernon',
   handle: 'Tommo1818',
   url: 'https://tommo1818.github.io',
-  role: 'Data, software and hardware',
+  role: 'Data, hardware & house music',
   /** Shown in the availability pill under the hero. */
   availability: 'Open to data, software and engineering roles',
   /** One-line positioning. Keep it concrete. */
