@@ -11,16 +11,16 @@ repo: 'https://github.com/Tommo1818/csgo-detoxify-final-project'
 
 ## The problem
 
-Every competitive online game has the same problem: the communication channel that makes team play possible is also where the abuse happens. Counter-Strike is a good test case because chat is fast, terse, full of game-specific slang and often hostile — exactly the conditions where a general-purpose toxicity model starts to fail.
+Everyone who plays Counter-Strike knows how fast team chat goes downhill. Off-the-shelf toxicity models struggle with it though, because CS chat is full of shorthand, map callouts, typos and banter that looks aggressive out of context.
 
 ## What I did
 
-The dataset was the hard part. Rather than borrowing a generic labelled corpus, I parsed **real Counter-Strike demo files** into a chat corpus, wrote text-extraction tooling for the demo format, and handled the in-game vocabulary — acronyms, callouts, deliberate misspellings — that make naive text cleaning useless.
+Getting proper data was the main job. Instead of grabbing a generic dataset, I pulled real chat logs straight out of **Counter-Strike demo files**, wrote parsing tools for the demo format, and handled game-specific slang and deliberate misspellings that normal text cleaning mangles.
 
-On top of that corpus I applied **deep learning toxicity classification** and then evaluated it with **real people**, not just offline metrics. The distinction matters: a model can score well on a leaderboard while still being wrong in the cases that would get a player punished.
+I ran deep learning toxicity classifiers over that corpus and then got **human raters** to label the same messages, rather than trusting accuracy numbers alone. A model can look great on paper and still flag standard callouts like "kill guy ct then bomb" if you'd actually use it to dish out bans.
 
-The dissertation, *Defending Fun*, concluded that detecting toxicity in Counter-Strike with deep learning is feasible, but that high accuracy demands careful fine-tuning — which is essential if predictions are going to justify a sanction.
+The dissertation (*Defending Fun*) showed deep learning can spot toxicity in CS chat fairly well, as long as it's fine-tuned on actual game chat rather than generic internet comments.
 
 ## What I learned
 
-The gap between a working model and a system you would trust with a punishment is almost entirely about evaluation. Human raters disagreed with the model, and with each other, in ways that no accuracy figure had predicted.
+Evaluation is the tricky bit. The human raters didn't always agree with the model, and half the time they didn't agree with each other either, which no accuracy score prepares you for.

@@ -135,7 +135,7 @@ const idSuffix = mode;
       score: 0.54,
       raters: 3,
       disagree: true,
-      verdict: 'Borderline trash talk: raters split 3/5 — human agreement sets the threshold.',
+      verdict: 'Borderline trash talk: raters split 3/5, so human agreement sets the bar.',
       readout: 'Rater Split (60%) · Model: 0.54 · Human raters: 3/5 · Needs calibration',
     },
     {
@@ -153,7 +153,7 @@ const idSuffix = mode;
     'Demo parser: extracts team/all-chat messages and round timestamps from raw Valve .dem files.',
     'Chat tokenizer: preserves Counter-Strike slang, map callouts (ct, awp, mid) and deliberate misspellings.',
     'Deep learning scorer: predicts toxicity probability before thresholding against sanction risk.',
-    'Human evaluation: 5 raters judge real match context — rater disagreement drives fine-tuning.',
+    'Human evaluation: 5 raters judge real match context and feed back into fine-tuning.',
   ];
 
   document.querySelectorAll<HTMLElement>('[data-diagram="toxicity"]').forEach((root) => {
@@ -237,7 +237,7 @@ const idSuffix = mode;
         feedbackLabel.setAttribute('fill-opacity', s.disagree ? '1' : '0.45');
         feedbackLabel.textContent = s.disagree
           ? 'Disagreement detected → feeds back into fine-tuning'
-          : 'Model & human raters align — no tuning penalty';
+          : 'Model & human raters agree (no tuning penalty)';
       }
 
       if (findingEl) findingEl.textContent = s.verdict;

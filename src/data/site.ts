@@ -14,7 +14,7 @@ export const site = {
   availability: 'Open to data, software and engineering roles',
   /** One-line positioning. Keep it concrete. */
   tagline:
-    'Geospatial data engineer, MSc Data Science student, hardware tinkerer and house producer.',
+    'Geospatial data engineer, MSc Data Science student, and I make house music and hardware projects.',
 };
 
 export const links = {
@@ -59,7 +59,7 @@ export const experience: Entry[] = [
       { role: 'Geospatial Data Engineer', when: 'Mar 2026 – Present', current: true },
       { role: 'Geospatial Data Engineer Intern', when: 'Nov 2025 – Feb 2026' },
     ],
-    blurb: 'Earth-observation & geospatial data pipelines.',
+    blurb: 'Earth-observation and geospatial data pipelines. Started as an intern and moved into the full-time role.',
     points: [],
   },
   {
@@ -68,7 +68,7 @@ export const experience: Entry[] = [
     org: 'Options Technology',
     location: 'London Area, UK',
     when: 'Aug 2024 – Aug 2025',
-    blurb: '1st & 2nd-line finance support — end-to-end triage across live systems.',
+    blurb: '1st and 2nd-line finance support, fixing incidents end to end on live systems.',
     points: [],
   },
   {
@@ -77,7 +77,7 @@ export const experience: Entry[] = [
     org: 'ThreeSixty Jersey',
     location: 'Jersey',
     when: 'Sep 2019 – Feb 2020',
-    blurb: 'Electronics recycling & hardware teardown.',
+    blurb: 'Stripping down and salvaging old electronics for recycling across Jersey.',
     points: [],
   },
 ];
@@ -88,7 +88,7 @@ export const education: Entry[] = [
     role: 'MSc Data Science',
     org: 'University of Bristol',
     when: 'Sep 2026 – Sep 2027',
-    blurb: 'Large-scale data engineering & statistical methods.',
+    blurb: 'Large-scale data engineering and statistical methods.',
     activities: ['Badminton', 'Music Prod', 'DJ', 'Gaming', 'Anime'],
   },
   {
@@ -97,7 +97,7 @@ export const education: Entry[] = [
     org: 'Swansea University',
     when: 'Nov 2020 – Jan 2024',
     grade: '2:1',
-    blurb: 'CS toxicity NLP dissertation with human evaluation.',
+    blurb: 'Dissertation on catching toxicity in Counter-Strike chat using NLP and human raters.',
     activities: ['DJ', 'eSports', 'Motorsports', 'Badminton'],
     link: {
       label: 'Dissertation',
@@ -110,7 +110,7 @@ export const education: Entry[] = [
     org: 'Malvern College',
     when: 'Sep 2017 – Jul 2019',
     grade: 'C, B, A, A',
-    blurb: 'Maths, Physics, Music Tech & EPQ.',
+    blurb: 'Maths, Physics, Music Tech and EPQ.',
     activities: ['Badminton Club'],
   },
 ];
@@ -185,7 +185,7 @@ export const skillGroups: SkillGroup[] = [
 export const music = {
   headline: 'House music.',
   blurb:
-    'Deep &amp; lo-fi house on <em>Lost Palms</em> (Shall Not Fade), <em>Misplaced Recordings</em>, and <em>Platonic Solids Inc.</em>',
+    'House records on <em>Lost Palms</em> (Shall Not Fade), <em>Misplaced Recordings</em> and <em>Platonic Solids Inc.</em>',
   /** Static cover art: no third-party iframe, so the section can never render blank. */
   art: '/music/miracle.jpg',
   latest: {
@@ -226,24 +226,24 @@ export const posts: PostItem[] = [
   {
     tag: 'Yuru Camp',
     theme: 'yuru',
-    title: 'Yuru Camp Backpacking — Season 3',
-    excerpt: 'Backpacking Yamanashi onsens, river camps and mountain trains.',
+    title: 'River Camping and Healing Onsens — Yuru Camp Season 3',
+    excerpt: 'Backpacking Yamanashi onsens, rainy river camps and the Minobu line.',
     date: '22 Apr 2025',
     href: 'https://tomsblog.data.blog/2025/04/22/river-camping-and-healing-onsens-yuru-camp-backpacking-season-3/',
   },
   {
     tag: 'Hibike Euphonium',
     theme: 'hibike',
-    title: 'A Visit to Uji — Hibike Euphonium S3',
-    excerpt: 'Walking Uji’s bridges and viewpoints after the final season.',
+    title: 'A Brief Visit to Uji — Hibike Euphonium Season 3',
+    excerpt: 'Walking round Uji’s bridges and viewpoints after the last season aired.',
     date: '13 Jul 2024',
     href: 'https://tomsblog.data.blog/2024/07/13/a-brief-visit-to-uji-after-hibike-euphonium-season-3/',
   },
   {
     tag: 'Tsuki ga Kirei',
     theme: 'tsuki',
-    title: 'Pilgrimage to Kawagoe — Tsuki ga Kirei',
-    excerpt: 'Kawagoe’s old streets — the pilgrimage that started the habit.',
+    title: 'Tsukigakirei — Pilgrimage to Kawagoe',
+    excerpt: 'Kawagoe’s old streets. The trip that kicked off the whole blog.',
     date: '12 Mar 2020',
     href: 'https://tomsblog.data.blog/2020/03/12/tsukigakirei-pilgrimage-to-kawagoe/',
   },
@@ -252,14 +252,14 @@ export const posts: PostItem[] = [
 export const outside = [
   {
     title: 'Gaming',
-    body: 'Counter-Strike with my ex-Swansea uni team — <strong>top 30 in the UK</strong>, FACEIT level 9. osu! at <strong>5-digit global rank</strong>.',
+    body: 'Counter-Strike with my ex-Swansea uni team (<strong>top 30 in the UK</strong>, FACEIT level 9), plus <strong>5-digit global rank</strong> on osu!',
   },
   {
     title: 'PC building',
-    body: 'Custom rigs for other people — spec’d, built and supported from BIOS to drivers.',
+    body: 'Custom PCs for mates and clients, from picking parts to BIOS and drivers.',
   },
   {
     title: 'Making',
-    body: '3D printing, Build123d CAD & custom electronics.',
+    body: '3D printing, Build123d CAD and whatever hardware problem is annoying me that week.',
   },
 ];
