@@ -485,6 +485,114 @@ img { max-width: 100%; height: auto; display: block; }
   min-width: 0;
 }
 
+.hero-head {
+  max-width: 52rem;
+}
+
+.hero-head .hero-kicker { margin-bottom: 0.9rem; }
+
+/* ---------- Launchpad tiles ---------- */
+
+.launchpad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+@media (max-width: 900px) {
+  .launchpad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px) {
+  .launchpad { grid-template-columns: 1fr; }
+}
+
+.launch-tile {
+  --tile-accent: var(--accent);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.2rem 1.25rem 1.25rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--tile-accent);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 55%),
+    var(--panel);
+  text-decoration: none;
+  color: var(--fg);
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.launch-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(85% 65% at 18% 0%, color-mix(in srgb, var(--tile-accent) 16%, transparent), transparent 62%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.launch-tile:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--tile-accent) 55%, var(--line));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42), 0 0 0 1px color-mix(in srgb, var(--tile-accent) 22%, transparent);
+}
+
+.launch-tile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.launch-tile-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--tile-accent);
+}
+
+.launch-tile-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.launch-tile-arrow {
+  font-family: var(--font-mono);
+  color: var(--dim);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.launch-tile:hover .launch-tile-arrow {
+  transform: translateX(3px);
+  color: var(--tile-accent);
+}
+
+.launch-tile-title {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  letter-spacing: -0.02em;
+}
+
+.launch-tile-hook {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.launch-tile-meta {
+  margin-top: auto;
+  padding-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
 /* ---------- Hero Showcase ---------- */
 
 .hero-showcase {
@@ -1217,6 +1325,57 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--dim);
 }
 
+.card-live-badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 999px;
+  background: rgba(9, 9, 15, 0.85);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: #b6f2c9;
+  backdrop-filter: blur(6px);
+}
+
+.card-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 8px var(--good);
+  animation: sc-blink 2.2s ease-in-out infinite;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+}
+
+.card-minilink,
+.card-title-link {
+  font-size: 0.8rem;
+  color: var(--accent-soft);
+  text-decoration: none;
+}
+
+.card-title-link { color: var(--muted); }
+
+.card-minilink:hover,
+.card-title-link:hover { color: var(--fg); }
+
+.card-title-link { margin-left: auto; }
+
 .card-media {
   position: relative;
   z-index: 2;
@@ -1243,9 +1402,6 @@ img { max-width: 100%; height: auto; display: block; }
   object-fit: cover;
   display: block;
 }
-
-/* The lab owns the controls; story cards stay editorial. */
-.card-media .diagram-controls { display: none; }
 
 /* ---------- Interactive diagrams ---------- */
 

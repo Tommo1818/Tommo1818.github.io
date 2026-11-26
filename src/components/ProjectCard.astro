@@ -12,11 +12,17 @@ const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
 const href = `/work/${entry.id}/`;
 ---
 
-<article class="card card--story" data-spotlight data-reveal data-delay={String((index - 1) * 80)}>
+<article class="card" data-spotlight data-reveal data-delay={String((index - 1) * 80)}>
   {diagram && (
-    <a class="card-media" href={href} aria-label={`Read the ${title} case study`}>
+    <div class="card-media">
       <WorkDiagram slug={entry.id} diagram={diagram} title={title} mode="card" />
-    </a>
+      {live && (
+        <span class="card-live-badge">
+          <span class="card-live-dot" aria-hidden="true"></span>
+          Live
+        </span>
+      )}
+    </div>
   )}
 
   <div class="card-top">
@@ -28,11 +34,13 @@ const href = `/work/${entry.id}/`;
   <p>{summary}</p>
   <p class="card-stack">{stack.join(' · ')}</p>
 
-  <div class="card-foot">
-    <span class="links">
-      {live && <a href={live} target="_blank" rel="noopener noreferrer">Live ↗</a>}
-      {repo && <a href={repo} target="_blank" rel="noopener noreferrer">Code ↗</a>}
-    </span>
-    <a class="more" href={href}>Read the build <span aria-hidden="true">→</span></a>
+  <div class="card-actions">
+    {live && (
+      <a class="btn btn--sm" href={live} target="_blank" rel="noopener noreferrer">Try it live ↗</a>
+    )}
+    {repo && (
+      <a class="card-minilink" href={repo} target="_blank" rel="noopener noreferrer">Code ↗</a>
+    )}
+    <a class="card-title-link" href={href}>Read the build <span aria-hidden="true">→</span></a>
   </div>
 </article>

@@ -2,17 +2,11 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import HeroCanvas from '../components/HeroCanvas.astro';
-import HeroShowcase from '../components/HeroShowcase.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import LabCard from '../components/LabCard.astro';
 import { site, links, posts, music } from '../data/site';
 
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const featured = work.filter((entry) => entry.data.featured);
-const byId = new Map(work.map((entry) => [entry.id, entry]));
-const lab = ['gridfinity', 'macropad', 'toxicity']
-  .map((id) => byId.get(id))
-  .filter(Boolean) as typeof work;
 
 const parseStat = (raw: string) => {
   const m = raw.match(/^(\d+(?:\.\d+)?)(.*)$/);
@@ -30,40 +24,89 @@ const tools = ['Python', 'TypeScript', 'SQL', 'Docker', 'Linux', 'ESP32', 'Astro
 ---
 
 <Base>
-  <!-- ───────────────────────── Hero ───────────────────────── -->
+  <!-- ───────────────────────── Launchpad ───────────────────────── -->
   <section class="hero">
     <HeroCanvas />
-    <div class="wrap hero-content hero-grid">
-      <div class="hero-copy">
-        <div class="hero-actions hero-enter" style="--enter-i: 0">
+    <div class="wrap hero-content">
+      <div class="hero-head">
+        <div class="hero-enter" style="--enter-i: 0">
           <span class="pill">{site.availability}</span>
         </div>
-
+        <p class="hero-kicker hero-enter" style="--enter-i: 1">Data · Hardware · Sound</p>
         <h1 class="hero-enter" style="--enter-i: 1">
           <span class="grad">{site.name}</span>
         </h1>
-
         <p class="hero-lede hero-enter" style="--enter-i: 2">
-          Geospatial data engineer in Bristol. I take systems apart and ship sharper tools —{' '}
+          Geospatial data engineer &amp; builder in Bristol. I make{' '}
           <strong>data pipelines</strong>, <strong>hardware</strong>, and <strong>house records</strong>.
         </p>
-
-        <div class="hero-actions hero-enter" style="--enter-i: 3">
-          <a class="btn btn--primary" href="#work">
-            See the work
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a class="btn" href="#lab">Play in the lab</a>
-          <a class="btn" href={music.latest.href} target="_blank" rel="noopener noreferrer">Hear the music</a>
-        </div>
       </div>
 
-      <div class="hero-visual hero-enter" style="--enter-i: 2">
-        <HeroShowcase />
-      </div>
-    </div>
+      <div class="launchpad">
+        <a class="launch-tile hero-enter" style="--enter-i: 3; --tile-accent: #a78bfa" href="#work" data-spotlight>
+          <span class="launch-tile-top">
+            <span class="launch-tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none">
+                <rect x="6" y="6" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.5" />
+                <path d="M6 15 H13 V11 H19 V21 H26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="13" cy="11" r="1.6" fill="currentColor" />
+                <circle cx="19" cy="21" r="1.6" fill="currentColor" />
+              </svg>
+            </span>
+            <span class="launch-tile-arrow" aria-hidden="true">→</span>
+          </span>
+          <span class="launch-tile-title">Builds</span>
+          <span class="launch-tile-hook">Data tools, hardware and research — live where they run.</span>
+          <span class="launch-tile-meta">4 builds · 2 live tools</span>
+        </a>
 
-    <div class="wrap">
+        <a class="launch-tile hero-enter" style="--enter-i: 4; --tile-accent: #f472b6" href="#sound" data-spotlight>
+          <span class="launch-tile-top">
+            <span class="launch-tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none">
+                <path d="M4 21 V13 M9 25 V8 M14 20 V12 M19 26 V6 M24 18 V14 M29 22 V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span class="launch-tile-arrow" aria-hidden="true">→</span>
+          </span>
+          <span class="launch-tile-title">Sound</span>
+          <span class="launch-tile-hook">Deep &amp; lo-fi house on Lost Palms and friends.</span>
+          <span class="launch-tile-meta">13k+ monthly listeners</span>
+        </a>
+
+        <a class="launch-tile hero-enter" style="--enter-i: 5; --tile-accent: #fbbf24" href="#japan" data-spotlight>
+          <span class="launch-tile-top">
+            <span class="launch-tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none">
+                <path d="M5 26 C11 22 17 16 21 10 C23 7 26 7 26 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="2 3" />
+                <circle cx="8" cy="24" r="2" fill="currentColor" />
+                <circle cx="26" cy="5" r="2.4" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+            </span>
+            <span class="launch-tile-arrow" aria-hidden="true">→</span>
+          </span>
+          <span class="launch-tile-title">Japan</span>
+          <span class="launch-tile-hook">Anime pilgrimages and mountain trains, on foot.</span>
+          <span class="launch-tile-meta">27k+ reads</span>
+        </a>
+
+        <a class="launch-tile hero-enter" style="--enter-i: 6; --tile-accent: #4ade80" href="#play" data-spotlight>
+          <span class="launch-tile-top">
+            <span class="launch-tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="9" stroke="currentColor" stroke-width="1.5" stroke-opacity="0.6" />
+                <circle cx="16" cy="16" r="3" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="1.5" />
+                <path d="M16 3 V8 M16 24 V29 M3 16 H8 M24 16 H29" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+            </span>
+            <span class="launch-tile-arrow" aria-hidden="true">→</span>
+          </span>
+          <span class="launch-tile-title">Play</span>
+          <span class="launch-tile-hook">Counter-Strike, osu! and PCs nobody sees.</span>
+          <span class="launch-tile-meta">FACEIT Lv. 9</span>
+        </a>
+      </div>
+
       <div class="now-strip" data-reveal>
         <span class="now-label">Now</span>
         <a href="#about">Geospatial Data Engineer @ Aspia Space</a>
@@ -75,28 +118,13 @@ const tools = ['Python', 'TypeScript', 'SQL', 'Docker', 'Linux', 'ESP32', 'Astro
     </div>
   </section>
 
-  <!-- ───────────────────────── Lab ───────────────────────── -->
-  <section class="section" id="lab">
-    <div class="wrap">
-      <div class="room-head" data-reveal>
-        <p class="room-label" style="--room-accent: #38bdf8">The lab</p>
-        <h2 class="section-title">Things you can actually play with.</h2>
-        <p class="section-lede">Live tools and interactive diagrams. Open one and break it.</p>
-      </div>
-
-      <div class="lab-grid">
-        {lab.map((entry, i) => <LabCard entry={entry} delay={i * 70} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────────────────────── Work ───────────────────────── -->
+  <!-- ───────────────────────── Builds ───────────────────────── -->
   <section class="section" id="work">
     <div class="wrap">
       <div class="room-head" data-reveal>
-        <p class="room-label" style="--room-accent: #a78bfa">Work</p>
+        <p class="room-label" style="--room-accent: #a78bfa">Builds</p>
         <h2 class="section-title">Things I&rsquo;ve built.</h2>
-        <p class="section-lede">Four projects, from drawer organisers to a Counter-Strike toxicity detector.</p>
+        <p class="section-lede">Four projects, live where they run. The diagrams are interactive — poke at them.</p>
       </div>
 
       <div class="work-grid">
