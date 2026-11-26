@@ -26,7 +26,7 @@ export const links = {
     'https://www.polarsteps.com/TomVernon/7568138-tom-and-kath-return-to-japan',
   /** TODO: fill in when available — hidden until then. */
   email: '',
-  linkedin: '',
+  linkedin: 'https://www.linkedin.com/in/tom-vernon-7442b0197',
   music: 'https://solo.to/tomvernon2',
 };
 
