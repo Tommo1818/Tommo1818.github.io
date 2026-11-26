@@ -1,0 +1,27 @@
+---
+import GridfinityDiagram from './GridfinityDiagram.astro';
+import MacropadDiagram from './MacropadDiagram.astro';
+import ToxicityDiagram from './ToxicityDiagram.astro';
+import HomeServerDiagram from './HomeServerDiagram.astro';
+
+interface Props {
+  slug: string;
+  diagram?: string;
+  title: string;
+  mode?: 'card' | 'full';
+}
+
+const { slug, diagram, title, mode = 'card' } = Astro.props;
+---
+
+{slug === 'gridfinity' ? (
+  <GridfinityDiagram mode={mode} />
+) : slug === 'macropad' ? (
+  <MacropadDiagram mode={mode} />
+) : slug === 'toxicity' ? (
+  <ToxicityDiagram mode={mode} />
+) : slug === 'home-server' ? (
+  <HomeServerDiagram mode={mode} />
+) : diagram ? (
+  <img src={diagram} alt={mode === 'full' ? `Diagram: ${title}` : ''} width="640" height="360" loading="lazy" decoding="async" />
+) : null}

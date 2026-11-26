@@ -1,0 +1,225 @@
+---
+interface Props {
+  mode?: 'card' | 'full';
+}
+
+const { mode = 'card' } = Astro.props;
+const idSuffix = mode;
+---
+
+<div class={`diagram-wrap diagram-wrap--${mode}`} data-diagram="home-server" data-mode={mode}>
+  <div class="diagram-stage">
+    <svg viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Interactive zero-port Tailscale and Docker home server topology diagram">
+      <defs>
+        <marker id={`hs-arrow-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#4ade80" />
+        </marker>
+        <marker id={`hs-arrow-scan-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#f87171" />
+        </marker>
+      </defs>
+
+      <text x="24" y="30" class="diag-kicker">TAILSCALE TAILNET · DOCKER · ZERO PUBLIC PORTS</text>
+
+      <!-- Tailnet Boundary -->
+      <rect x="24" y="54" width="490" height="236" rx="18" fill="none" stroke="#34344c" stroke-dasharray="7 6" data-hs-boundary />
+      <text x="42" y="76" class="diag-sub" data-hs-net-label>tailnet · WireGuard encrypted</text>
+
+      <!-- Client device -->
+      <g class="hs-node" data-hs-node="client" role="button" tabindex="0">
+        <rect x="42" y="118" width="132" height="114" rx="12" fill="#12121a" stroke="#4ade80" stroke-opacity="0.55" />
+        <text x="108" y="166" text-anchor="middle" class="diag-title">Phone / laptop</text>
+        <text x="108" y="186" text-anchor="middle" class="diag-sub" data-hs-client-sub>via exit node</text>
+      </g>
+
+      <!-- Tunnel link -->
+      <line x1="180" y1="175" x2="226" y2="175" stroke="#4ade80" stroke-opacity="0.7" stroke-width="1.7" class="diag-flow-line" marker-end={`url(#hs-arrow-${idSuffix})`} marker-start={`url(#hs-arrow-${idSuffix})`} data-hs-tunnel-line />
+
+      <!-- Ubuntu Host -->
+      <rect x="234" y="96" width="262" height="178" rx="14" fill="#101018" stroke="#2c2c3e" />
+      <text x="365" y="120" text-anchor="middle" class="diag-sub">Ubuntu host · Docker + UFW</text>
+
+      <g class="hs-node" data-hs-node="ha" role="button" tabindex="0">
+        <rect x="250" y="134" width="230" height="36" rx="7" fill="#171724" stroke="#323248" />
+        <text x="365" y="157" text-anchor="middle" class="diag-mono">Home Assistant</text>
+      </g>
+
+      <g class="hs-node" data-hs-node="matter" role="button" tabindex="0">
+        <rect x="250" y="178" width="230" height="36" rx="7" fill="#171724" stroke="#323248" />
+        <text x="365" y="201" text-anchor="middle" class="diag-mono">Matter server (host net)</text>
+      </g>
+
+      <g class="hs-node" data-hs-node="esphome" role="button" tabindex="0">
+        <rect x="250" y="222" width="230" height="36" rx="7" fill="#171724" stroke="#323248" />
+        <text x="365" y="245" text-anchor="middle" class="diag-mono">ESPHome panels (LAN)</text>
+      </g>
+
+      <!-- Firewall Shield -->
+      <g class="hs-node" data-hs-node="shield" role="button" tabindex="0">
+        <rect x="528" y="106" width="88" height="132" rx="12" fill="rgba(167, 139, 250, 0.08)" stroke="#a78bfa" stroke-opacity="0.6" data-hs-shield-box />
+        <text x="572" y="160" text-anchor="middle" font-family="Space Grotesk, ui-sans-serif, sans-serif" font-size="32" font-weight="600" fill="#c4b1ff">0</text>
+        <text x="572" y="182" text-anchor="middle" class="diag-sub">public</text>
+        <text x="572" y="197" text-anchor="middle" class="diag-sub">ports</text>
+        <text x="572" y="220" text-anchor="middle" class="diag-mono" fill="#a78bfa" data-hs-shield-badge>UFW LOCKED</text>
+      </g>
+
+      <!-- Internet Probe Overlay (shown in scan scenario) -->
+      <g data-hs-probe-group opacity="0">
+        <line x1="636" y1="68" x2="588" y2="104" stroke="#f87171" stroke-width="1.6" stroke-dasharray="4 3" marker-end={`url(#hs-arrow-scan-${idSuffix})`} />
+        <text x="572" y="64" text-anchor="middle" class="diag-mono" fill="#f87171">WAN SCAN BLOCKED</text>
+      </g>
+
+      <!-- Moving traffic packet -->
+      <circle cx="180" cy="175" r="4.5" fill="#4ade80" opacity="0" data-hs-pkt />
+
+      <!-- Footer -->
+      <rect x="24" y="308" width="592" height="34" rx="8" fill="#101018" stroke="#26263a" />
+      <text x="40" y="329" class="diag-mono" data-hs-status>ALLOWED · Tailscale WireGuard tunnel → subnet router → Home Assistant</text>
+    </svg>
+  </div>
+
+  <div class="diagram-controls">
+    <div class="diag-group" role="group" aria-label="Network traffic scenarios">
+      <button class="diag-btn" type="button" data-hs-scenario="tailscale" aria-pressed="true">Tailscale Remote</button>
+      <button class="diag-btn" type="button" data-hs-scenario="scan" aria-pressed="false">Public Port Scan</button>
+      <button class="diag-btn" type="button" data-hs-scenario="lan" aria-pressed="false">Local LAN</button>
+    </div>
+  </div>
+
+  <div class="diag-readout" aria-live="polite" data-hs-readout>
+    Tailscale Remote · WireGuard encrypted · click any service or shield to inspect
+  </div>
+</div>
+
+<script>
+  const NODE_INFO: Record<string, string> = {
+    client: 'Client device: connects from anywhere over Tailscale as exit node + subnet router.',
+    ha: 'Home Assistant: Docker container running core household automations & dashboards.',
+    matter: 'Matter server: runs on host network so mDNS / Matter commissioning works reliably.',
+    esphome: 'ESPHome panels: local wall displays communicating over LAN with zero cloud dependency.',
+    shield: 'Hardening: 0 public ports open · key-only SSH (root/password off) · UFW + Fail2Ban.',
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-diagram="home-server"]').forEach((root) => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scenarioBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-hs-scenario]'));
+    const nodeEls = Array.from(root.querySelectorAll<SVGGElement>('[data-hs-node]'));
+
+    const tunnelLine = root.querySelector<SVGLineElement>('[data-hs-tunnel-line]');
+    const shieldBox = root.querySelector<SVGRectElement>('[data-hs-shield-box]');
+    const shieldBadge = root.querySelector<SVGTextElement>('[data-hs-shield-badge]');
+    const probeGroup = root.querySelector<SVGGElement>('[data-hs-probe-group]');
+    const netLabel = root.querySelector<SVGTextElement>('[data-hs-net-label]');
+    const clientSub = root.querySelector<SVGTextElement>('[data-hs-client-sub]');
+    const statusText = root.querySelector<SVGTextElement>('[data-hs-status]');
+    const pkt = root.querySelector<SVGCircleElement>('[data-hs-pkt]');
+    const readout = root.querySelector<HTMLElement>('[data-hs-readout]');
+
+    if (!readout) return;
+
+    let currentScenario = 'tailscale';
+    let timerId = 0;
+    let rafId = 0;
+
+    const stopPkt = () => {
+      if (timerId) window.clearTimeout(timerId);
+      if (rafId) cancelAnimationFrame(rafId);
+      pkt?.setAttribute('opacity', '0');
+    };
+
+    const pulsePacket = (from: [number, number], to: [number, number], color: string, bounceBack = false) => {
+      stopPkt();
+      if (!pkt || reduced) return;
+      pkt.setAttribute('fill', color);
+      const runCycle = () => {
+        pkt.setAttribute('opacity', '1');
+        const start = performance.now();
+        const duration = 900;
+        const step = (now: number) => {
+          const raw = Math.min(1, (now - start) / duration);
+          const t = bounceBack ? (raw < 0.5 ? raw * 2 : (1 - raw) * 2) : raw;
+          pkt.setAttribute('cx', (from[0] + (to[0] - from[0]) * t).toFixed(1));
+          pkt.setAttribute('cy', (from[1] + (to[1] - from[1]) * t).toFixed(1));
+          if (raw < 1) {
+            rafId = requestAnimationFrame(step);
+          } else {
+            timerId = window.setTimeout(runCycle, 350);
+          }
+        };
+        rafId = requestAnimationFrame(step);
+      };
+      runCycle();
+    };
+
+    const applyScenario = (scenario: string) => {
+      currentScenario = scenario;
+      scenarioBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.hsScenario === scenario)));
+      nodeEls.forEach((n) => n.classList.remove('is-selected'));
+
+      if (scenario === 'tailscale') {
+        if (probeGroup) probeGroup.setAttribute('opacity', '0');
+        if (tunnelLine) tunnelLine.setAttribute('stroke', '#4ade80');
+        if (shieldBox) shieldBox.setAttribute('stroke', '#a78bfa');
+        if (shieldBadge) {
+          shieldBadge.textContent = 'UFW LOCKED';
+          shieldBadge.setAttribute('fill', '#a78bfa');
+        }
+        if (netLabel) netLabel.textContent = 'tailnet · WireGuard encrypted';
+        if (clientSub) clientSub.textContent = 'via exit node';
+        if (statusText) statusText.textContent = 'ALLOWED · Tailscale WireGuard tunnel → subnet router → Home Assistant';
+        readout.textContent = 'Tailscale Remote · WireGuard encrypted · click any service or shield to inspect';
+        pulsePacket([178, 175], [234, 175], '#4ade80');
+      } else if (scenario === 'scan') {
+        if (probeGroup) probeGroup.setAttribute('opacity', '1');
+        if (tunnelLine) tunnelLine.setAttribute('stroke', '#3c3c52');
+        if (shieldBox) shieldBox.setAttribute('stroke', '#f87171');
+        if (shieldBadge) {
+          shieldBadge.textContent = 'DROP · 0 OPEN';
+          shieldBadge.setAttribute('fill', '#f87171');
+        }
+        if (netLabel) netLabel.textContent = 'public internet → UFW default deny';
+        if (clientSub) clientSub.textContent = 'idle';
+        if (statusText) statusText.textContent = 'BLOCKED · Unsolicited WAN probe dropped by UFW (0 exposed ports)';
+        readout.textContent = 'Public Port Scan · UFW drops all inbound WAN packets · Fail2Ban guards SSH';
+        pulsePacket([630, 72], [584, 108], '#f87171', true);
+      } else {
+        if (probeGroup) probeGroup.setAttribute('opacity', '0');
+        if (tunnelLine) tunnelLine.setAttribute('stroke', '#3c3c52');
+        if (shieldBox) shieldBox.setAttribute('stroke', '#a78bfa');
+        if (shieldBadge) {
+          shieldBadge.textContent = 'UFW LOCKED';
+          shieldBadge.setAttribute('fill', '#a78bfa');
+        }
+        if (netLabel) netLabel.textContent = 'local home LAN · zero internet hop';
+        if (clientSub) clientSub.textContent = 'on home Wi-Fi';
+        if (statusText) statusText.textContent = 'LOCAL · ESPHome & Matter talk directly to Home Assistant on LAN';
+        readout.textContent = 'Local LAN · sub-millisecond local control even if WAN goes offline';
+        pulsePacket([365, 240], [365, 152], '#7dd3fc', true);
+      }
+    };
+
+    scenarioBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        applyScenario(btn.dataset.hsScenario ?? 'tailscale');
+      });
+    });
+
+    nodeEls.forEach((nodeEl) => {
+      const selectNode = () => {
+        const key = nodeEl.dataset.hsNode ?? '';
+        nodeEls.forEach((n) => n.classList.toggle('is-selected', n === nodeEl));
+        const text = NODE_INFO[key];
+        if (text) readout.textContent = text;
+      };
+      nodeEl.addEventListener('click', selectNode);
+      nodeEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectNode();
+        }
+      });
+    });
+
+    applyScenario(currentScenario);
+  });
+</script>

@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import WorkDiagram from './diagrams/WorkDiagram.astro';
 
 interface Props {
   entry: CollectionEntry<'work'>;
@@ -11,10 +12,10 @@ const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
 const href = `/work/${entry.id}/`;
 ---
 
-<article class="card">
+<article class="card" data-spotlight data-reveal data-delay={String((index - 1) * 80)}>
   {diagram && (
     <div class="card-media">
-      <img src={diagram} alt="" width="640" height="360" loading="lazy" decoding="async" />
+      <WorkDiagram slug={entry.id} diagram={diagram} title={title} mode="card" />
     </div>
   )}
 

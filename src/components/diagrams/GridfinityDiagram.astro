@@ -1,0 +1,502 @@
+---
+interface Props {
+  mode?: 'card' | 'full';
+}
+
+const { mode = 'card' } = Astro.props;
+const idSuffix = mode;
+---
+
+<div class={`diagram-wrap diagram-wrap--${mode}`} data-diagram="gridfinity" data-mode={mode}>
+  <div class="diagram-stage">
+    <svg viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Interactive Gridfinity drawer tiler and printer plate packer">
+      <defs>
+        <marker id={`gf-arrow-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc" />
+        </marker>
+      </defs>
+
+      <text x="34" y="30" class="diag-kicker">DRAWER → BALANCED TILING → PRINT PLATES</text>
+
+      <!-- Drawer region -->
+      <rect x="34" y="48" width="232" height="206" rx="14" fill="#0d0d14" stroke="#2a2a3a" />
+      <g data-gf-drawer></g>
+      <text x="150" y="278" text-anchor="middle" class="diag-title" data-gf-dim-label>480 × 410 mm</text>
+      <text x="150" y="296" text-anchor="middle" class="diag-sub" data-gf-grid-label>11×9u · rim 18×32 mm</text>
+
+      <!-- Flow connector -->
+      <line x1="274" y1="150" x2="348" y2="150" stroke="#7dd3fc" stroke-opacity="0.55" stroke-width="1.6" class="diag-flow-line" marker-end={`url(#gf-arrow-${idSuffix})`} />
+      <text x="311" y="137" text-anchor="middle" class="diag-sub">balanced</text>
+      <text x="311" y="168" text-anchor="middle" class="diag-sub">tiling</text>
+
+      <!-- Printer bed region -->
+      <rect x="356" y="48" width="250" height="206" rx="14" fill="#0c0c12" stroke="#3a3a4e" stroke-dasharray="6 5" />
+      <text x="481" y="69" text-anchor="middle" class="diag-sub" data-gf-bed-label>Bambu A1 mini · 180 mm (4×4u)</text>
+      <g data-gf-bed></g>
+
+      <!-- Output badges -->
+      <rect x="34" y="314" width="268" height="30" rx="8" fill="#12121b" stroke="#26263a" />
+      <text x="46" y="333" class="diag-mono" data-gf-out-left>Bambu .3MF · plate 1 of 3 packed</text>
+
+      <rect x="312" y="314" width="294" height="30" rx="8" fill="#12121b" stroke="#26263a" />
+      <text x="324" y="333" class="diag-mono" data-gf-out-right>Hovered tile links drawer ↔ bed</text>
+    </svg>
+  </div>
+
+  <div class="diagram-controls">
+    <div class="diag-group" role="group" aria-label="Drawer size presets">
+      <button class="diag-btn" type="button" data-gf-preset="300x520" aria-pressed="false">Alex 300×520</button>
+      <button class="diag-btn" type="button" data-gf-preset="480x410" aria-pressed="true">Kitchen 480×410</button>
+      <button class="diag-btn" type="button" data-gf-preset="600x350" aria-pressed="false">Desk 600×350</button>
+    </div>
+
+    <div class="diag-group" role="group" aria-label="Printer bed size">
+      <button class="diag-btn" type="button" data-gf-bed-btn="180" aria-pressed="true">A1 mini · 180mm</button>
+      <button class="diag-btn" type="button" data-gf-bed-btn="256" aria-pressed="false">P1S · 256mm</button>
+    </div>
+  </div>
+
+  {mode === 'full' && (
+    <div class="diag-sliders">
+      <label class="diag-slider">
+        <span>Width <b data-gf-w-val>480 mm</b></span>
+        <input type="range" min="200" max="680" step="10" value="480" data-gf-w />
+      </label>
+      <label class="diag-slider">
+        <span>Depth <b data-gf-d-val>410 mm</b></span>
+        <input type="range" min="200" max="560" step="10" value="410" data-gf-d />
+      </label>
+    </div>
+  )}
+
+  <div class="diag-readout" aria-live="polite" data-gf-readout>
+    11×9u grid · 6 balanced tiles · 2 unique groups · hover any tile to inspect
+  </div>
+</div>
+
+<script>
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const UNIT = 42;
+  const PALETTE = [
+    { fill: 'rgba(167, 139, 250, 0.20)', stroke: '#a78bfa', text: '#e5dcff' },
+    { fill: 'rgba(125, 211, 252, 0.18)', stroke: '#7dd3fc', text: '#d8f3ff' },
+    { fill: 'rgba(74, 222, 128, 0.16)', stroke: '#4ade80', text: '#d5fbe3' },
+    { fill: 'rgba(251, 191, 36, 0.16)', stroke: '#fbbf24', text: '#fef0c7' },
+  ];
+
+  const splitBalanced = (total: number, maxSpan: number): number[] => {
+    if (total <= 0) return [];
+    const parts = Math.max(1, Math.ceil(total / maxSpan));
+    const base = Math.floor(total / parts);
+    const rem = total % parts;
+    const spans: number[] = [];
+    for (let i = 0; i < parts; i++) {
+      spans.push(i < rem ? base + 1 : base);
+    }
+    return spans;
+  };
+
+  type Tile = {
+    id: string;
+    xU: number;
+    yU: number;
+    wU: number;
+    hU: number;
+    groupKey: string;
+    groupLabel: string;
+    colorIdx: number;
+  };
+
+  type PlacedTile = Tile & {
+    bedX: number;
+    bedY: number;
+    bedW: number;
+    bedH: number;
+    rotated: boolean;
+  };
+
+  const packPlates = (tiles: Tile[], maxU: number): PlacedTile[][] => {
+    const plates: PlacedTile[][] = [];
+    const remaining = [...tiles].sort((a, b) => b.wU * b.hU - a.wU * a.hU);
+
+    while (remaining.length > 0) {
+      const plate: PlacedTile[] = [];
+      let cursorX = 0;
+      let cursorY = 0;
+      let shelfH = 0;
+
+      for (let i = 0; i < remaining.length; ) {
+        const t = remaining[i];
+        const orientations: Array<{ w: number; h: number; rotated: boolean }> =
+          t.wU === t.hU
+            ? [{ w: t.wU, h: t.hU, rotated: false }]
+            : [
+                { w: t.wU, h: t.hU, rotated: false },
+                { w: t.hU, h: t.wU, rotated: true },
+              ];
+
+        let placed: PlacedTile | null = null;
+        for (const ori of orientations) {
+          if (ori.w <= maxU - cursorX && ori.h <= maxU - cursorY) {
+            placed = {
+              ...t,
+              bedX: cursorX,
+              bedY: cursorY,
+              bedW: ori.w,
+              bedH: ori.h,
+              rotated: ori.rotated,
+            };
+            cursorX += ori.w;
+            shelfH = Math.max(shelfH, ori.h);
+            break;
+          }
+        }
+
+        if (!placed) {
+          // Try next shelf
+          const nextY = cursorY + shelfH;
+          for (const ori of orientations) {
+            if (ori.w <= maxU && ori.h <= maxU - nextY) {
+              cursorX = ori.w;
+              cursorY = nextY;
+              shelfH = ori.h;
+              placed = {
+                ...t,
+                bedX: 0,
+                bedY: cursorY,
+                bedW: ori.w,
+                bedH: ori.h,
+                rotated: ori.rotated,
+              };
+              break;
+            }
+          }
+        }
+
+        if (placed) {
+          plate.push(placed);
+          remaining.splice(i, 1);
+        } else {
+          i++;
+        }
+      }
+
+      if (plate.length === 0) break;
+      plates.push(plate);
+    }
+
+    return plates;
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-diagram="gridfinity"]').forEach((root) => {
+    const drawerGroup = root.querySelector<SVGGElement>('[data-gf-drawer]');
+    const bedGroup = root.querySelector<SVGGElement>('[data-gf-bed]');
+    const dimLabel = root.querySelector<SVGTextElement>('[data-gf-dim-label]');
+    const gridLabel = root.querySelector<SVGTextElement>('[data-gf-grid-label]');
+    const bedLabel = root.querySelector<SVGTextElement>('[data-gf-bed-label]');
+    const outLeft = root.querySelector<SVGTextElement>('[data-gf-out-left]');
+    const outRight = root.querySelector<SVGTextElement>('[data-gf-out-right]');
+    const readout = root.querySelector<HTMLElement>('[data-gf-readout]');
+
+    const presetBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-gf-preset]'));
+    const bedBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-gf-bed-btn]'));
+    const wSlider = root.querySelector<HTMLInputElement>('[data-gf-w]');
+    const dSlider = root.querySelector<HTMLInputElement>('[data-gf-d]');
+    const wVal = root.querySelector<HTMLElement>('[data-gf-w-val]');
+    const dVal = root.querySelector<HTMLElement>('[data-gf-d-val]');
+
+    if (!drawerGroup || !bedGroup || !readout) return;
+
+    let drawerW = 480;
+    let drawerD = 410;
+    let bedMm = 180;
+    let defaultSummary = '';
+
+    const setHighlight = (groupKey: string | null) => {
+      const tileEls = root.querySelectorAll<SVGGElement>('[data-tile-group]');
+      tileEls.forEach((el) => {
+        if (!groupKey) {
+          el.classList.remove('is-hl', 'is-dim');
+        } else if (el.dataset.tileGroup === groupKey) {
+          el.classList.add('is-hl');
+          el.classList.remove('is-dim');
+        } else {
+          el.classList.add('is-dim');
+          el.classList.remove('is-hl');
+        }
+      });
+
+      if (!groupKey) {
+        readout.textContent = defaultSummary;
+        return;
+      }
+
+      const matching = root.querySelector<SVGGElement>(`[data-tile-group="${groupKey}"]`);
+      if (matching) {
+        const label = matching.dataset.tileDesc ?? '';
+        readout.textContent = label;
+      }
+    };
+
+    const render = () => {
+      const cols = Math.max(1, Math.floor(drawerW / UNIT));
+      const rows = Math.max(1, Math.floor(drawerD / UNIT));
+      const rimX = drawerW - cols * UNIT;
+      const rimY = drawerD - rows * UNIT;
+      const maxU = Math.floor(bedMm / UNIT);
+
+      const colSpans = splitBalanced(cols, maxU);
+      const rowSpans = splitBalanced(rows, maxU);
+
+      const groupMap = new Map<string, { label: string; colorIdx: number; count: number }>();
+      const tiles: Tile[] = [];
+
+      let yU = 0;
+      let tileCounter = 0;
+      for (const rSpan of rowSpans) {
+        let xU = 0;
+        for (const cSpan of colSpans) {
+          const minS = Math.min(cSpan, rSpan);
+          const maxS = Math.max(cSpan, rSpan);
+          const groupKey = `${minS}x${maxS}`;
+          let info = groupMap.get(groupKey);
+          if (!info) {
+            const idx = groupMap.size;
+            const letter = String.fromCharCode(65 + idx);
+            info = { label: `Group ${letter}`, colorIdx: idx % PALETTE.length, count: 0 };
+            groupMap.set(groupKey, info);
+          }
+          info.count++;
+          tiles.push({
+            id: `t-${tileCounter++}`,
+            xU,
+            yU,
+            wU: cSpan,
+            hU: rSpan,
+            groupKey,
+            groupLabel: info.label,
+            colorIdx: info.colorIdx,
+          });
+          xU += cSpan;
+        }
+        yU += rSpan;
+      }
+
+      const plates = packPlates(tiles, maxU);
+
+      // Update labels
+      if (dimLabel) dimLabel.textContent = `${drawerW} × ${drawerD} mm`;
+      if (gridLabel) gridLabel.textContent = `${cols}×${rows}u · rim ${rimX}×${rimY} mm`;
+      if (bedLabel) {
+        const printerName = bedMm === 180 ? 'Bambu A1 mini' : 'Bambu P1S';
+        bedLabel.textContent = `${printerName} · ${bedMm} mm (${maxU}×${maxU}u)`;
+      }
+      if (outLeft) {
+        outLeft.textContent = `Bambu .3MF · ${plates.length} plate${plates.length === 1 ? '' : 's'} packed`;
+      }
+      if (outRight) {
+        outRight.textContent = `${groupMap.size} unique tile shape${groupMap.size === 1 ? '' : 's'} (rotations merged)`;
+      }
+
+      defaultSummary = `${cols}×${rows}u grid · ${tiles.length} tiles · ${groupMap.size} unique groups · ${plates.length} print plate${plates.length === 1 ? '' : 's'} · hover a tile`;
+      readout.textContent = defaultSummary;
+
+      if (wSlider) wSlider.value = String(drawerW);
+      if (dSlider) dSlider.value = String(drawerD);
+      if (wVal) wVal.textContent = `${drawerW} mm`;
+      if (dVal) dVal.textContent = `${drawerD} mm`;
+
+      // Render Drawer SVG
+      drawerGroup.innerHTML = '';
+      const boxW = 208;
+      const boxH = 182;
+      const scale = Math.min(boxW / drawerW, boxH / drawerD);
+      const drawW = drawerW * scale;
+      const drawH = drawerD * scale;
+      const originX = 34 + (232 - drawW) / 2;
+      const originY = 48 + (206 - drawH) / 2;
+
+      const rimRect = document.createElementNS(SVG_NS, 'rect');
+      rimRect.setAttribute('x', originX.toFixed(1));
+      rimRect.setAttribute('y', originY.toFixed(1));
+      rimRect.setAttribute('width', drawW.toFixed(1));
+      rimRect.setAttribute('height', drawH.toFixed(1));
+      rimRect.setAttribute('rx', '6');
+      rimRect.setAttribute('fill', '#11111a');
+      rimRect.setAttribute('stroke', '#323246');
+      rimRect.setAttribute('stroke-dasharray', '4 3');
+      drawerGroup.appendChild(rimRect);
+
+      const gridOffsetX = originX + (rimX * 0.5) * scale;
+      const gridOffsetY = originY + (rimY * 0.5) * scale;
+
+      for (const t of tiles) {
+        const pal = PALETTE[t.colorIdx];
+        const info = groupMap.get(t.groupKey);
+        const x = gridOffsetX + t.xU * UNIT * scale + 1.5;
+        const y = gridOffsetY + t.yU * UNIT * scale + 1.5;
+        const w = Math.max(8, t.wU * UNIT * scale - 3);
+        const h = Math.max(8, t.hU * UNIT * scale - 3);
+
+        const g = document.createElementNS(SVG_NS, 'g');
+        g.classList.add('gf-tile');
+        g.setAttribute('tabindex', '0');
+        g.setAttribute('role', 'button');
+        g.dataset.tileGroup = t.groupKey;
+        const desc = `${t.groupLabel} · ${t.wU}×${t.hU}u (${t.wU * UNIT}×${t.hU * UNIT} mm) · ${info?.count ?? 1}× copies`;
+        g.dataset.tileDesc = desc;
+        g.setAttribute('aria-label', desc);
+
+        const rect = document.createElementNS(SVG_NS, 'rect');
+        rect.setAttribute('x', x.toFixed(1));
+        rect.setAttribute('y', y.toFixed(1));
+        rect.setAttribute('width', w.toFixed(1));
+        rect.setAttribute('height', h.toFixed(1));
+        rect.setAttribute('rx', '4');
+        rect.setAttribute('fill', pal.fill);
+        rect.setAttribute('stroke', pal.stroke);
+        rect.setAttribute('stroke-width', '1.2');
+        g.appendChild(rect);
+
+        if (w >= 28 && h >= 18) {
+          const txt = document.createElementNS(SVG_NS, 'text');
+          txt.setAttribute('x', (x + w / 2).toFixed(1));
+          txt.setAttribute('y', (y + h / 2 + 3.5).toFixed(1));
+          txt.setAttribute('text-anchor', 'middle');
+          txt.setAttribute('fill', pal.text);
+          txt.setAttribute('font-family', 'ui-monospace, SFMono-Regular, Menlo, monospace');
+          txt.setAttribute('font-size', w < 42 ? '8.5' : '10');
+          txt.textContent = `${t.wU}×${t.hU}`;
+          g.appendChild(txt);
+        }
+
+        g.addEventListener('pointerenter', () => setHighlight(t.groupKey));
+        g.addEventListener('pointerleave', () => setHighlight(null));
+        g.addEventListener('focus', () => setHighlight(t.groupKey));
+        g.addEventListener('blur', () => setHighlight(null));
+
+        drawerGroup.appendChild(g);
+      }
+
+      // Render Plate 1 on Bed SVG
+      bedGroup.innerHTML = '';
+      const plate1 = plates[0] ?? [];
+      const bedSizePx = 152;
+      const bedX0 = 356 + (250 - bedSizePx) / 2;
+      const bedY0 = 84;
+      const unitPx = bedSizePx / maxU;
+
+      const bedPlateOutline = document.createElementNS(SVG_NS, 'rect');
+      bedPlateOutline.setAttribute('x', bedX0.toFixed(1));
+      bedPlateOutline.setAttribute('y', bedY0.toFixed(1));
+      bedPlateOutline.setAttribute('width', bedSizePx.toFixed(1));
+      bedPlateOutline.setAttribute('height', bedSizePx.toFixed(1));
+      bedPlateOutline.setAttribute('rx', '6');
+      bedPlateOutline.setAttribute('fill', '#101018');
+      bedPlateOutline.setAttribute('stroke', '#2a2a3b');
+      bedGroup.appendChild(bedPlateOutline);
+
+      for (const p of plate1) {
+        const pal = PALETTE[p.colorIdx];
+        const info = groupMap.get(p.groupKey);
+        const x = bedX0 + p.bedX * unitPx + 2;
+        const y = bedY0 + p.bedY * unitPx + 2;
+        const w = Math.max(8, p.bedW * unitPx - 4);
+        const h = Math.max(8, p.bedH * unitPx - 4);
+
+        const g = document.createElementNS(SVG_NS, 'g');
+        g.classList.add('gf-tile');
+        g.setAttribute('tabindex', '0');
+        g.setAttribute('role', 'button');
+        g.dataset.tileGroup = p.groupKey;
+        const rotNote = p.rotated ? ' · rotated 90°' : '';
+        const desc = `${p.groupLabel} · ${p.bedW}×${p.bedH}u (${p.bedW * UNIT}×${p.bedH * UNIT} mm)${rotNote} · ${info?.count ?? 1}× copies`;
+        g.dataset.tileDesc = desc;
+        g.setAttribute('aria-label', desc);
+
+        const rect = document.createElementNS(SVG_NS, 'rect');
+        rect.setAttribute('x', x.toFixed(1));
+        rect.setAttribute('y', y.toFixed(1));
+        rect.setAttribute('width', w.toFixed(1));
+        rect.setAttribute('height', h.toFixed(1));
+        rect.setAttribute('rx', '4');
+        rect.setAttribute('fill', pal.fill);
+        rect.setAttribute('stroke', pal.stroke);
+        rect.setAttribute('stroke-width', '1.2');
+        g.appendChild(rect);
+
+        if (w >= 26 && h >= 18) {
+          const txt = document.createElementNS(SVG_NS, 'text');
+          txt.setAttribute('x', (x + w / 2).toFixed(1));
+          txt.setAttribute('y', (y + h / 2 + 3.5).toFixed(1));
+          txt.setAttribute('text-anchor', 'middle');
+          txt.setAttribute('fill', pal.text);
+          txt.setAttribute('font-family', 'ui-monospace, SFMono-Regular, Menlo, monospace');
+          txt.setAttribute('font-size', '9.5');
+          txt.textContent = `${p.bedW}×${p.bedH}${p.rotated ? '↻' : ''}`;
+          g.appendChild(txt);
+        }
+
+        g.addEventListener('pointerenter', () => setHighlight(p.groupKey));
+        g.addEventListener('pointerleave', () => setHighlight(null));
+        g.addEventListener('focus', () => setHighlight(p.groupKey));
+        g.addEventListener('blur', () => setHighlight(null));
+
+        bedGroup.appendChild(g);
+      }
+
+      if (plates.length > 1) {
+        const badge = document.createElementNS(SVG_NS, 'text');
+        badge.setAttribute('x', '594');
+        badge.setAttribute('y', '244');
+        badge.setAttribute('text-anchor', 'end');
+        badge.setAttribute('class', 'diag-sub');
+        badge.textContent = `Plate 1 / ${plates.length}`;
+        bedGroup.appendChild(badge);
+      }
+    };
+
+    presetBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const raw = btn.dataset.gfPreset ?? '480x410';
+        const [w, d] = raw.split('x').map(Number);
+        if (w && d) {
+          drawerW = w;
+          drawerD = d;
+          presetBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          render();
+        }
+      });
+    });
+
+    bedBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const nextBed = Number(btn.dataset.gfBedBtn);
+        if (nextBed) {
+          bedMm = nextBed;
+          bedBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          render();
+        }
+      });
+    });
+
+    const syncPresetState = () => {
+      const key = `${drawerW}x${drawerD}`;
+      presetBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.gfPreset === key)));
+    };
+
+    wSlider?.addEventListener('input', () => {
+      drawerW = Number(wSlider.value);
+      syncPresetState();
+      render();
+    });
+
+    dSlider?.addEventListener('input', () => {
+      drawerD = Number(dSlider.value);
+      syncPresetState();
+      render();
+    });
+
+    render();
+  });
+</script>

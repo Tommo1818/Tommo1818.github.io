@@ -1,56 +1,82 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import HeroCanvas from '../components/HeroCanvas.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { site, links, experience, education, skillGroups, posts, outside, music } from '../data/site';
+import {
+  site,
+  links,
+  experience,
+  education,
+  earlierEducation,
+  skillGroups,
+  posts,
+  outside,
+  music,
+} from '../data/site';
 
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const featured = work.filter((entry) => entry.data.featured);
+
+const parseStat = (raw: string) => {
+  const m = raw.match(/^(\d+(?:\.\d+)?)(.*)$/);
+  if (!m) return { count: null, decimals: 0, suffix: '' };
+  const numStr = m[1];
+  const dot = numStr.indexOf('.');
+  return {
+    count: numStr,
+    decimals: dot >= 0 ? numStr.length - dot - 1 : 0,
+    suffix: m[2] ?? '',
+  };
+};
 ---
 
 <Base>
   <!-- ───────────────────────── Hero ───────────────────────── -->
-  <section class="hero wrap">
-    <p class="hero-kicker">Data · Software · Hardware · Making</p>
-    <h1>
-      <span class="grad">{site.name}</span>
-    </h1>
-    <p class="hero-lede">
-      I take systems apart, work out how they tick, and ship tools that make them better —
-      whether that is a <strong>data pipeline</strong>, a <strong>firmware protocol</strong>,
-      or a <strong>drawer full of Gridfinity</strong>.
-    </p>
+  <section class="hero">
+    <HeroCanvas />
+    <div class="wrap hero-content">
+      <p class="hero-kicker hero-enter" style="--enter-i: 0">Data · Software · Hardware · Making</p>
+      <h1 class="hero-enter" style="--enter-i: 1">
+        <span class="grad">{site.name}</span>
+      </h1>
+      <p class="hero-lede hero-enter" style="--enter-i: 2">
+        I take systems apart, work out how they tick, and ship tools that make them better —
+        whether that is a <strong>data pipeline</strong>, a <strong>firmware protocol</strong>,
+        or a <strong>drawer full of Gridfinity</strong>.
+      </p>
 
-    <div class="hero-actions">
-      <span class="pill">{site.availability}</span>
+      <div class="hero-actions hero-enter" style="--enter-i: 3">
+        <span class="pill">{site.availability}</span>
+      </div>
+
+      <div class="hero-actions hero-enter" style="--enter-i: 4">
+        <a class="btn btn--primary" href="#work">
+          See the work
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          GitHub
+        </a>
+        <a class="btn" href={links.linkedin} target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4v15h-4V8Zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V23h-4V8Z"/></svg>
+          LinkedIn
+        </a>
+        <button class="btn" type="button" data-print>Download CV</button>
+      </div>
+
+      <div class="hero-meta hero-enter" style="--enter-i: 5">
+        <span><b>Geospatial Data Engineer</b> · Aspia Space</span>
+        <span><b>MSc Data Science</b> · Bristol, 2026–27</span>
+        <span><b>BSc Computer Science (2:1)</b> · Swansea</span>
+        <span><b>Technical Support</b> · Options Technology</span>
+      </div>
+
+      <p class="print-contact">
+        tommo1818.github.io · linkedin.com/in/tom-vernon-7442b0197 · github.com/Tommo1818
+      </p>
     </div>
-
-    <div class="hero-actions">
-      <a class="btn btn--primary" href="#work">
-        See the work
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-        GitHub
-      </a>
-      <a class="btn" href={links.linkedin} target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4v15h-4V8Zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V23h-4V8Z"/></svg>
-        LinkedIn
-      </a>
-      <button class="btn" type="button" data-print>Download CV</button>
-    </div>
-
-    <div class="hero-meta">
-      <span><b>MSc Data Science</b> · Bristol, in progress</span>
-      <span><b>BSc Computer Science</b> · Swansea</span>
-      <span><b>1 yr</b> data engineering</span>
-      <span><b>1 yr</b> technical support, finance</span>
-    </div>
-
-    <p class="print-contact">
-      tommo1818.github.io · linkedin.com/in/tom-vernon-7442b0197 · github.com/Tommo1818
-    </p>
   </section>
 
   <!-- ───────────────────────── About ───────────────────────── -->
@@ -62,10 +88,12 @@ const featured = work.filter((entry) => entry.data.featured);
       </div>
       <div class="about-body">
         <p>
-          I started in computer science at Swansea, spent a year on first- and second-line
-          technical support in financial services, then a year as a data engineer. I am now
-          studying for an MSc in Data Science at Bristol. That path left me equally at home
-          debugging someone&rsquo;s laptop at 9am and arguing about evaluation metrics at 9pm.
+          I started stripping down and salvaging electronics in Jersey before studying Computer
+          Science (2:1) at Swansea. After a year on first- and second-line technical support at
+          Options Technology in London, I joined Aspia Space as a Geospatial Data Engineer Intern
+          and stepped up to Geospatial Data Engineer — now alongside an MSc in Data Science at
+          Bristol. That path left me equally at home debugging someone&rsquo;s laptop at 9am and
+          reasoning about data pipelines or evaluation metrics at 9pm.
         </p>
         <p>
           Outside work I build things: a browser tool that generates printer-ready{' '}
@@ -96,7 +124,8 @@ const featured = work.filter((entry) => entry.data.featured);
         <h2 class="section-title">Things I built, and what was hard about them.</h2>
         <p class="section-lede">
           Not a repository list. Each one starts with a problem I actually had, and ends with
-          the part that turned out to be the real work.
+          the part that turned out to be the real work. Interact with the diagrams below or open
+          each case study.
         </p>
       </div>
 
@@ -116,35 +145,84 @@ const featured = work.filter((entry) => entry.data.featured);
     <div class="wrap">
       <div class="section-head" data-reveal>
         <p class="eyebrow">03 — Experience &amp; education</p>
-        <h2 class="section-title">Two years of shipping, now going deeper.</h2>
+        <h2 class="section-title">From hardware benches to geospatial pipelines — and going deeper.</h2>
       </div>
 
+      <p class="tl-group-label" data-reveal>Experience</p>
       <div class="timeline">
-        {experience.map((item) => (
-          <article class="tl-item">
-            <div class="tl-when">{item.when}</div>
-            <div>
-              <div class="tl-role">{item.role}</div>
-              {item.org && <div class="tl-org">{item.org}</div>}
-              {item.blurb && <p class="tl-note">{item.blurb}</p>}
-              {item.points && item.points.length > 0 && (
-                <ul>
-                  {item.points.map((point) => <li>{point}</li>)}
-                </ul>
-              )}
-            </div>
-          </article>
-        ))}
+        {experience.map((item, idx) => {
+          const isCurrent =
+            item.when.includes('Present') || Boolean(item.subRoles?.some((sr) => sr.current));
+          return (
+            <article class="tl-item" data-reveal data-delay={String(idx * 65)}>
+              <div class="tl-when">
+                <span
+                  class={`tl-node ${isCurrent ? 'tl-node--current' : ''}`}
+                  aria-hidden="true"
+                />
+                <span>{item.when}</span>
+              </div>
+              <div>
+                <div class="tl-role">
+                  <span>{item.role}</span>
+                  {item.grade && <span class="tl-grade">{item.grade}</span>}
+                </div>
+                {item.org && (
+                  <div class="tl-org">
+                    {item.org}
+                    {item.location && <span class="tl-loc"> · {item.location}</span>}
+                  </div>
+                )}
 
-        {education.map((item) => (
-          <article class="tl-item">
-            <div class="tl-when">{item.when}</div>
+                {item.subRoles && item.subRoles.length > 0 && (
+                  <ul class="tl-subroles" aria-label="Role progression">
+                    {item.subRoles.map((sr) => (
+                      <li class={sr.current ? 'is-current' : ''}>
+                        <strong>{sr.role}</strong>
+                        <span>{sr.when}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {item.blurb && <p class="tl-note">{item.blurb}</p>}
+                {item.points && item.points.length > 0 && (
+                  <ul>
+                    {item.points.map((point) => <li>{point}</li>)}
+                  </ul>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <p class="tl-group-label tl-group-label--gap" data-reveal>Education</p>
+      <div class="timeline">
+        {education.map((item, idx) => (
+          <article class="tl-item" data-reveal data-delay={String(idx * 65)}>
+            <div class="tl-when">
+              <span class="tl-node" aria-hidden="true" />
+              <span>{item.when}</span>
+            </div>
             <div>
-              <div class="tl-role">{item.role}</div>
-              <div class="tl-org">{item.org}</div>
+              <div class="tl-role">
+                <span>{item.role}</span>
+                {item.grade && <span class="tl-grade">{item.grade}</span>}
+              </div>
+              <div class="tl-org">
+                {item.org}
+                {item.location && <span class="tl-loc"> · {item.location}</span>}
+              </div>
               {item.blurb && <p class="tl-note">{item.blurb}</p>}
+              {item.activities && item.activities.length > 0 && (
+                <div class="tl-activities" aria-label="Activities and societies">
+                  <span class="tl-act-label">Societies:</span>
+                  {item.activities.map((act) => <span class="chip">{act}</span>)}
+                </div>
+              )}
               {item.link && (
-                <p class="tl-note">
+                <p class="tl-note tl-link">
                   <a href={item.link.href} target="_blank" rel="noopener noreferrer">
                     {item.link.label} ↗
                   </a>
@@ -153,6 +231,18 @@ const featured = work.filter((entry) => entry.data.featured);
             </div>
           </article>
         ))}
+      </div>
+
+      <div class="tl-earlier" data-reveal>
+        <span class="tl-earlier-label">Earlier schooling</span>
+        <div class="tl-earlier-list">
+          {earlierEducation.map((school, i) => (
+            <span>
+              {i > 0 && <span class="tl-sep" aria-hidden="true"> · </span>}
+              <b>{school.school}</b> ({school.when})
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   </section>
@@ -170,8 +260,8 @@ const featured = work.filter((entry) => entry.data.featured);
       </div>
 
       <div class="skills">
-        {skillGroups.map((group) => (
-          <div class="skill">
+        {skillGroups.map((group, i) => (
+          <div class="skill" data-spotlight data-reveal data-delay={String(i * 55)}>
             <h3>{group.title}</h3>
             <ul>
               {group.items.map((item) => <li>{item}</li>)}
@@ -191,7 +281,7 @@ const featured = work.filter((entry) => entry.data.featured);
         <p class="section-lede" set:html={music.blurb} />
       </div>
 
-      <div class="music-grid">
+      <div class="music-grid" data-reveal data-delay="60">
         <a class="release-hero" href={music.latest.href} target="_blank" rel="noopener noreferrer">
           <img
             src={music.art}
@@ -200,7 +290,12 @@ const featured = work.filter((entry) => entry.data.featured);
             height="640"
           />
           <div class="release-hero-body">
-            <span class="card-kicker">Latest release</span>
+            <span class="release-kicker-row">
+              <span class="eq-bars" aria-hidden="true">
+                <i></i><i></i><i></i><i></i>
+              </span>
+              <span class="card-kicker">Latest release</span>
+            </span>
             <strong>{music.latest.title}</strong>
             <span class="release-hero-cta">Play on Spotify ↗</span>
           </div>
@@ -208,12 +303,21 @@ const featured = work.filter((entry) => entry.data.featured);
 
         <div>
           <div class="stat-band">
-            {music.stats.map((stat) => (
-              <div>
-                <b>{stat.value}</b>
-                <span>{stat.label}</span>
-              </div>
-            ))}
+            {music.stats.map((stat) => {
+              const parsed = parseStat(stat.value);
+              return (
+                <div>
+                  <b
+                    data-count={parsed.count ?? undefined}
+                    data-decimals={String(parsed.decimals)}
+                    data-suffix={parsed.suffix}
+                  >
+                    {stat.value}
+                  </b>
+                  <span>{stat.label}</span>
+                </div>
+              );
+            })}
           </div>
 
           <ul class="release-list">
@@ -249,8 +353,16 @@ const featured = work.filter((entry) => entry.data.featured);
       </div>
 
       <div class="writing">
-        {posts.map((post) => (
-          <a class="post" href={post.href} target="_blank" rel="noopener noreferrer">
+        {posts.map((post, i) => (
+          <a
+            class="post"
+            href={post.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-spotlight
+            data-reveal
+            data-delay={String(i * 70)}
+          >
             <span class="tag">{post.tag}</span>
             <h3>{post.title}</h3>
             <p>{post.excerpt}</p>
@@ -275,8 +387,8 @@ const featured = work.filter((entry) => entry.data.featured);
       </div>
 
       <div class="outside">
-        {outside.map((item) => (
-          <div class="outside-item">
+        {outside.map((item, i) => (
+          <div class="outside-item" data-spotlight data-reveal data-delay={String(i * 70)}>
             <h3>{item.title}</h3>
             <p set:html={item.body} />
           </div>
@@ -287,7 +399,7 @@ const featured = work.filter((entry) => entry.data.featured);
 
   <!-- ───────────────────────── Contact ───────────────────────── -->
   <section class="contact" id="contact">
-    <div class="wrap">
+    <div class="wrap" data-reveal>
       <p class="eyebrow" style="justify-content:center">08 — Contact</p>
       <h2>Want to build something?</h2>
       <p>

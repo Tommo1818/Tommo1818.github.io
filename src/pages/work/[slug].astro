@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import WorkDiagram from '../../components/diagrams/WorkDiagram.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('work');
@@ -19,7 +20,7 @@ const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
   <article class="wrap study">
     <a class="back" href="/#work">← All work</a>
 
-    <header class="study-head">
+    <header class="study-head" data-reveal>
       <p class="card-kicker">{kicker} · {year}</p>
       <h1>{title}</h1>
       <p class="study-summary">{summary}</p>
@@ -29,13 +30,12 @@ const { title, summary, kicker, year, stack, live, repo, diagram } = entry.data;
     </header>
 
     {diagram && (
-      <figure class="study-figure">
-        <img src={diagram} alt={`Diagram: ${title}`} width="640" height="360" />
+      <figure class="study-figure" data-reveal data-delay="80">
+        <WorkDiagram slug={entry.id} diagram={diagram} title={title} mode="full" />
       </figure>
     )}
 
-
-    <div class="study-body">
+    <div class="study-body" data-reveal data-delay="140">
       <Content />
     </div>
 

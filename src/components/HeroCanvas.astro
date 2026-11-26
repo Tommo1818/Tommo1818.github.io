@@ -1,0 +1,267 @@
+---
+---
+<canvas class="hero-canvas" aria-hidden="true"></canvas>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('.hero-canvas');
+  const hero = canvas?.closest<HTMLElement>('.hero');
+
+  if (canvas && hero) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const coarse = window.matchMedia('(pointer: coarse)').matches;
+
+      let width = 0;
+      let height = 0;
+      let dpr = 1;
+      let rafId = 0;
+      let running = false;
+      let inView = true;
+
+      const pointer = { x: -9999, y: -9999, active: false };
+
+      type Dot = { x: number; y: number; gx: number; gy: number; phase: number };
+      let dots: Dot[] = [];
+
+      const buildGrid = () => {
+        dots = [];
+        const step = width < 640 ? 34 : 38;
+        const offsetX = (width % step) / 2;
+        const offsetY = (height % step) / 2;
+        for (let x = offsetX; x <= width; x += step) {
+          for (let y = offsetY; y <= height; y += step) {
+            dots.push({
+              x,
+              y,
+              gx: x / Math.max(1, width),
+              gy: y / Math.max(1, height),
+              phase: x * 0.014 + y * 0.019,
+            });
+          }
+        }
+      };
+
+      const resize = () => {
+        const rect = hero.getBoundingClientRect();
+        width = Math.max(300, Math.round(rect.width));
+        height = Math.max(260, Math.round(rect.height));
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        buildGrid();
+      };
+
+      const cubicPoint = (
+        t: number,
+        p0: [number, number],
+        p1: [number, number],
+        p2: [number, number],
+        p3: [number, number],
+      ): [number, number] => {
+        const mt = 1 - t;
+        const mt2 = mt * mt;
+        const t2 = t * t;
+        return [
+          mt2 * mt * p0[0] + 3 * mt2 * t * p1[0] + 3 * mt * t2 * p2[0] + t2 * t * p3[0],
+          mt2 * mt * p0[1] + 3 * mt2 * t * p1[1] + 3 * mt * t2 * p2[1] + t2 * t * p3[1],
+        ];
+      };
+
+      const drawFrame = (now: number) => {
+        const time = now * 0.001;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+
+        // 1. Subtle geospatial coordinate dot grid
+        const radius = 145;
+        const radiusSq = radius * radius;
+
+        for (let i = 0; i < dots.length; i++) {
+          const d = dots[i];
+          const wave = Math.sin(d.phase + time * 0.9) * 0.5 + 0.5;
+          let alpha = 0.075 + wave * 0.07;
+          let r = 1.05;
+          let fill = `rgba(167, 139, 250, ${alpha.toFixed(3)})`;
+
+          if (pointer.active && !coarse) {
+            const dx = d.x - pointer.x;
+            const dy = d.y - pointer.y;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < radiusSq) {
+              const influence = 1 - Math.sqrt(distSq) / radius;
+              alpha = Math.min(0.65, alpha + influence * 0.45);
+              r = 1.05 + influence * 1.45;
+              fill =
+                influence > 0.45
+                  ? `rgba(125, 211, 252, ${alpha.toFixed(3)})`
+                  : `rgba(196, 177, 255, ${alpha.toFixed(3)})`;
+
+              if (influence > 0.55) {
+                ctx.beginPath();
+                ctx.moveTo(d.x, d.y);
+                ctx.lineTo(pointer.x, pointer.y);
+                ctx.strokeStyle = `rgba(167, 139, 250, ${(influence * 0.14).toFixed(3)})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+              }
+            }
+          }
+
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = fill;
+          ctx.fill();
+        }
+
+        // 2. Two gentle orbital ground-track arcs + drifting telemetry nodes
+        const tracks: Array<{
+          p0: [number, number];
+          p1: [number, number];
+          p2: [number, number];
+          p3: [number, number];
+          color: string;
+          glow: string;
+          speed: number;
+          offset: number;
+          tag: string;
+        }> = [
+          {
+            p0: [width * -0.04, height * 0.78],
+            p1: [width * 0.28, height * 0.44],
+            p2: [width * 0.66, height * 0.14],
+            p3: [width * 1.06, height * 0.34],
+            color: 'rgba(167, 139, 250, 0.20)',
+            glow: 'rgba(167, 139, 250, 0.85)',
+            speed: 0.055,
+            offset: 0.15,
+            tag: '50.15°N 5.10°W',
+          },
+          {
+            p0: [width * 0.12, height * 1.04],
+            p1: [width * 0.42, height * 0.72],
+            p2: [width * 0.74, height * 0.52],
+            p3: [width * 1.05, height * 0.12],
+            color: 'rgba(125, 211, 252, 0.16)',
+            glow: 'rgba(125, 211, 252, 0.85)',
+            speed: 0.04,
+            offset: 0.62,
+            tag: 'SAR-PASS',
+          },
+        ];
+
+        ctx.save();
+        ctx.font = '10px ui-monospace, SFMono-Regular, Menlo, monospace';
+        for (const tr of tracks) {
+          ctx.beginPath();
+          ctx.moveTo(tr.p0[0], tr.p0[1]);
+          ctx.bezierCurveTo(tr.p1[0], tr.p1[1], tr.p2[0], tr.p2[1], tr.p3[0], tr.p3[1]);
+          ctx.setLineDash([4, 6]);
+          ctx.lineDashOffset = -(time * 14);
+          ctx.strokeStyle = tr.color;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          ctx.setLineDash([]);
+          const progress = reduced ? tr.offset : (time * tr.speed + tr.offset) % 1;
+          const [sx, sy] = cubicPoint(progress, tr.p0, tr.p1, tr.p2, tr.p3);
+
+          const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, 16);
+          grad.addColorStop(0, tr.glow);
+          grad.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(sx, sy, 16, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(sx, sy, 2.3, 0, Math.PI * 2);
+          ctx.fillStyle = '#ececf2';
+          ctx.fill();
+
+          if (width >= 720) {
+            ctx.fillStyle = 'rgba(155, 155, 172, 0.35)';
+            ctx.fillText(tr.tag, sx + 9, sy - 6);
+          }
+        }
+        ctx.restore();
+      };
+
+      const tick = (now: number) => {
+        if (!running) return;
+        drawFrame(now);
+        rafId = requestAnimationFrame(tick);
+      };
+
+      const start = () => {
+        if (reduced || running || document.hidden || !inView) return;
+        running = true;
+        rafId = requestAnimationFrame(tick);
+      };
+
+      const stop = () => {
+        running = false;
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      };
+
+      resize();
+      if (reduced) {
+        drawFrame(0);
+      } else {
+        start();
+      }
+
+      if ('ResizeObserver' in window) {
+        const ro = new ResizeObserver(() => {
+          resize();
+          if (reduced) drawFrame(0);
+        });
+        ro.observe(hero);
+      }
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            inView = entries[0]?.isIntersecting ?? true;
+            if (inView) {
+              if (reduced) drawFrame(0);
+              else start();
+            } else {
+              stop();
+            }
+          },
+          { threshold: 0.01 },
+        );
+        io.observe(hero);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop();
+        else if (inView && !reduced) start();
+      });
+
+      if (!coarse) {
+        hero.addEventListener(
+          'pointermove',
+          (e) => {
+            const rect = hero.getBoundingClientRect();
+            pointer.x = e.clientX - rect.left;
+            pointer.y = e.clientY - rect.top;
+            pointer.active = true;
+            if (reduced) drawFrame(0);
+          },
+          { passive: true },
+        );
+        hero.addEventListener('pointerleave', () => {
+          pointer.active = false;
+          if (reduced) drawFrame(0);
+        });
+      }
+    }
+  }
+</script>

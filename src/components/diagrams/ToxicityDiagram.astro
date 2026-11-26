@@ -1,0 +1,280 @@
+---
+interface Props {
+  mode?: 'card' | 'full';
+}
+
+const { mode = 'card' } = Astro.props;
+const idSuffix = mode;
+---
+
+<div class={`diagram-wrap diagram-wrap--${mode}`} data-diagram="toxicity" data-mode={mode}>
+  <div class="diagram-stage">
+    <svg viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Interactive Counter-Strike chat toxicity NLP pipeline and human-rater disagreement diagram">
+      <defs>
+        <marker id={`tx-arrow-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#7a7a92" />
+        </marker>
+        <marker id={`tx-arrow-back-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc" />
+        </marker>
+      </defs>
+
+      <text x="20" y="30" class="diag-kicker">DEMO FILES → CHAT PARSER → DEEP LEARNING → HUMAN EVALUATION</text>
+
+      <!-- Stage 1 -->
+      <g class="tx-stage" data-tx-stage="0" role="button" tabindex="0">
+        <rect x="20" y="76" width="126" height="122" rx="12" fill="#12121a" stroke="#2a2a3a" />
+        <text x="83" y="114" text-anchor="middle" class="diag-title">Demo files</text>
+        <text x="83" y="135" text-anchor="middle" class="diag-sub">real Valve .dem</text>
+        <text x="83" y="168" text-anchor="middle" class="diag-mono" fill="#9b9bac" data-tx-raw-msg>"kill guy ct…"</text>
+      </g>
+
+      <!-- Stage 2 -->
+      <g class="tx-stage" data-tx-stage="1" role="button" tabindex="0">
+        <rect x="178" y="76" width="126" height="122" rx="12" fill="#12121a" stroke="#2a2a3a" />
+        <text x="241" y="114" text-anchor="middle" class="diag-title">Chat parser</text>
+        <text x="241" y="135" text-anchor="middle" class="diag-sub">domain tokens</text>
+        <text x="241" y="168" text-anchor="middle" class="diag-mono" fill="#a78bfa" data-tx-tokens>[kill, ct, bomb]</text>
+      </g>
+
+      <!-- Stage 3 -->
+      <g class="tx-stage" data-tx-stage="2" role="button" tabindex="0">
+        <rect x="336" y="76" width="126" height="122" rx="12" fill="#12121a" stroke="#2a2a3a" />
+        <text x="399" y="114" text-anchor="middle" class="diag-title">Toxicity model</text>
+        <text x="399" y="135" text-anchor="middle" class="diag-sub" data-tx-score-label>score: 0.81 (flagged)</text>
+        <rect x="356" y="156" width="86" height="9" rx="4.5" fill="#1b1b26" />
+        <rect x="356" y="156" width="70" height="9" rx="4.5" fill="#f87171" class="tx-bar-fill" data-tx-bar />
+      </g>
+
+      <!-- Stage 4 -->
+      <g class="tx-stage" data-tx-stage="3" role="button" tabindex="0">
+        <rect x="494" y="76" width="126" height="122" rx="12" fill="#12121a" stroke="#7dd3fc" stroke-opacity="0.55" />
+        <text x="557" y="114" text-anchor="middle" class="diag-title">Human raters</text>
+        <text x="557" y="135" text-anchor="middle" class="diag-sub" data-tx-rater-label>0 / 5 marked toxic</text>
+        <g data-tx-dots>
+          <circle cx="523" cy="164" r="5" fill="#1d1d2a" stroke="#3c3c52" />
+          <circle cx="540" cy="164" r="5" fill="#1d1d2a" stroke="#3c3c52" />
+          <circle cx="557" cy="164" r="5" fill="#1d1d2a" stroke="#3c3c52" />
+          <circle cx="574" cy="164" r="5" fill="#1d1d2a" stroke="#3c3c52" />
+          <circle cx="591" cy="164" r="5" fill="#1d1d2a" stroke="#3c3c52" />
+        </g>
+      </g>
+
+      <!-- Forward arrows -->
+      <line x1="148" y1="137" x2="174" y2="137" stroke="#5a5a72" stroke-width="1.5" marker-end={`url(#tx-arrow-${idSuffix})`} />
+      <line x1="306" y1="137" x2="332" y2="137" stroke="#5a5a72" stroke-width="1.5" marker-end={`url(#tx-arrow-${idSuffix})`} />
+      <line x1="464" y1="137" x2="490" y2="137" stroke="#5a5a72" stroke-width="1.5" marker-end={`url(#tx-arrow-${idSuffix})`} />
+
+      <!-- Feedback arc -->
+      <path d="M 557 202 L 557 248 L 399 248 L 399 206" fill="none" stroke="#7dd3fc" stroke-opacity="0.85" stroke-width="1.7" class="diag-flow-line-rev" marker-end={`url(#tx-arrow-back-${idSuffix})`} data-tx-feedback-arc />
+      <circle cx="557" cy="202" r="4.5" fill="#7dd3fc" opacity="0" data-tx-feedback-dot />
+      <text x="478" y="270" text-anchor="middle" class="diag-mono" fill="#7dd3fc" data-tx-feedback-label>
+        Disagreement detected → feeds back into fine-tuning
+      </text>
+
+      <!-- Signal pulse dot -->
+      <circle cx="83" cy="137" r="4.5" fill="#a78bfa" opacity="0" data-tx-pulse />
+
+      <!-- Verdict Banner -->
+      <rect x="20" y="298" width="600" height="44" rx="8" fill="#101018" stroke="#26263a" />
+      <text x="320" y="324" text-anchor="middle" class="diag-mono" data-tx-finding>
+        Naive classifier flags "kill" &amp; "bomb"; 0/5 human raters mark it toxic.
+      </text>
+    </svg>
+  </div>
+
+  <div class="diagram-controls">
+    <div class="diag-group" role="group" aria-label="Counter-Strike chat samples">
+      <button class="diag-btn" type="button" data-tx-sample="0" aria-pressed="false">"drop awp mid pls"</button>
+      <button class="diag-btn" type="button" data-tx-sample="1" aria-pressed="true">"kill guy ct then bomb"</button>
+      <button class="diag-btn" type="button" data-tx-sample="2" aria-pressed="false">"uninstall already bot"</button>
+      <button class="diag-btn" type="button" data-tx-sample="3" aria-pressed="false">"stop throwing u troll"</button>
+    </div>
+  </div>
+
+  <div class="diag-readout" aria-live="polite" data-tx-readout>
+    Callout false positive · Model: 0.81 · Human raters: 0/5 · Feedback loop active
+  </div>
+</div>
+
+<script>
+  type Sample = {
+    shortMsg: string;
+    tokens: string;
+    score: number;
+    raters: number;
+    disagree: boolean;
+    verdict: string;
+    readout: string;
+  };
+
+  const SAMPLES: Sample[] = [
+    {
+      shortMsg: '"drop awp mid"',
+      tokens: '[drop, awp, mid]',
+      score: 0.04,
+      raters: 0,
+      disagree: false,
+      verdict: 'Standard tactical buy request; model and all 5 raters agree it is clean.',
+      readout: 'Agreement (Clean) · Model: 0.04 · Human raters: 0/5',
+    },
+    {
+      shortMsg: '"kill ct bomb"',
+      tokens: '[kill, ct, bomb]',
+      score: 0.81,
+      raters: 0,
+      disagree: true,
+      verdict: 'Naive classifier flags "kill" & "bomb"; 0/5 human raters mark it toxic.',
+      readout: 'Disagreement (False Positive) · Model: 0.81 · Raters: 0/5 · Fine-tuning loop triggered',
+    },
+    {
+      shortMsg: '"uninstall bot"',
+      tokens: '[uninstall, bot]',
+      score: 0.54,
+      raters: 3,
+      disagree: true,
+      verdict: 'Borderline trash talk: raters split 3/5 — human agreement sets the threshold.',
+      readout: 'Rater Split (60%) · Model: 0.54 · Human raters: 3/5 · Needs calibration',
+    },
+    {
+      shortMsg: '"throwing troll"',
+      tokens: '[throwing, troll]',
+      score: 0.91,
+      raters: 5,
+      disagree: false,
+      verdict: 'Griefing accusation & insult: deep learning model and 5/5 raters agree.',
+      readout: 'Agreement (Toxic) · Model: 0.91 · Human raters: 5/5',
+    },
+  ];
+
+  const STAGE_NOTES = [
+    'Demo parser: extracts team/all-chat messages and round timestamps from raw Valve .dem files.',
+    'Chat tokenizer: preserves Counter-Strike slang, map callouts (ct, awp, mid) and deliberate misspellings.',
+    'Deep learning scorer: predicts toxicity probability before thresholding against sanction risk.',
+    'Human evaluation: 5 raters judge real match context — rater disagreement drives fine-tuning.',
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-diagram="toxicity"]').forEach((root) => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const rawMsgEl = root.querySelector<SVGTextElement>('[data-tx-raw-msg]');
+    const tokensEl = root.querySelector<SVGTextElement>('[data-tx-tokens]');
+    const scoreLabelEl = root.querySelector<SVGTextElement>('[data-tx-score-label]');
+    const barEl = root.querySelector<SVGRectElement>('[data-tx-bar]');
+    const raterLabelEl = root.querySelector<SVGTextElement>('[data-tx-rater-label]');
+    const dotGroup = root.querySelector<SVGGElement>('[data-tx-dots]');
+    const feedbackArc = root.querySelector<SVGPathElement>('[data-tx-feedback-arc]');
+    const feedbackLabel = root.querySelector<SVGTextElement>('[data-tx-feedback-label]');
+    const feedbackDot = root.querySelector<SVGCircleElement>('[data-tx-feedback-dot]');
+    const pulseDot = root.querySelector<SVGCircleElement>('[data-tx-pulse]');
+    const findingEl = root.querySelector<SVGTextElement>('[data-tx-finding]');
+    const readoutEl = root.querySelector<HTMLElement>('[data-tx-readout]');
+
+    const sampleBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tx-sample]'));
+    const stageEls = Array.from(root.querySelectorAll<SVGGElement>('[data-tx-stage]'));
+
+    if (!readoutEl) return;
+
+    let animToken = 0;
+
+    const animateDotAlong = (
+      dot: SVGCircleElement | null,
+      points: Array<[number, number]>,
+      duration: number,
+      token: number,
+    ) => {
+      if (!dot || reduced) return;
+      dot.setAttribute('opacity', '1');
+      const start = performance.now();
+      const segs = points.length - 1;
+      const step = (now: number) => {
+        if (token !== animToken) {
+          dot.setAttribute('opacity', '0');
+          return;
+        }
+        const t = Math.min(1, (now - start) / duration);
+        const scaled = t * segs;
+        const idx = Math.min(segs - 1, Math.floor(scaled));
+        const localT = scaled - idx;
+        const [x0, y0] = points[idx];
+        const [x1, y1] = points[idx + 1];
+        dot.setAttribute('cx', (x0 + (x1 - x0) * localT).toFixed(1));
+        dot.setAttribute('cy', (y0 + (y1 - y0) * localT).toFixed(1));
+        if (t < 1) requestAnimationFrame(step);
+        else dot.setAttribute('opacity', '0');
+      };
+      requestAnimationFrame(step);
+    };
+
+    const selectSample = (idx: number, animate: boolean) => {
+      const s = SAMPLES[idx] ?? SAMPLES[1];
+      const token = ++animToken;
+
+      sampleBtns.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.txSample) === idx)));
+
+      if (rawMsgEl) rawMsgEl.textContent = s.shortMsg;
+      if (tokensEl) tokensEl.textContent = s.tokens;
+
+      const scoreState = s.score >= 0.7 ? 'flagged' : s.score >= 0.45 ? 'borderline' : 'clean';
+      const barColor = s.score >= 0.7 ? '#f87171' : s.score >= 0.45 ? '#fbbf24' : '#4ade80';
+      if (scoreLabelEl) scoreLabelEl.textContent = `score: ${s.score.toFixed(2)} (${scoreState})`;
+      if (barEl) {
+        barEl.setAttribute('width', (86 * s.score).toFixed(1));
+        barEl.setAttribute('fill', barColor);
+      }
+
+      if (raterLabelEl) raterLabelEl.textContent = `${s.raters} / 5 marked toxic`;
+      if (dotGroup) {
+        const circles = Array.from(dotGroup.querySelectorAll('circle'));
+        circles.forEach((c, ci) => {
+          const active = ci < s.raters;
+          c.setAttribute('fill', active ? '#f87171' : '#1d1d2a');
+          c.setAttribute('stroke', active ? '#f87171' : '#4ade80');
+        });
+      }
+
+      if (feedbackArc && feedbackLabel) {
+        feedbackArc.setAttribute('stroke-opacity', s.disagree ? '0.9' : '0.22');
+        feedbackLabel.setAttribute('fill-opacity', s.disagree ? '1' : '0.45');
+        feedbackLabel.textContent = s.disagree
+          ? 'Disagreement detected → feeds back into fine-tuning'
+          : 'Model & human raters align — no tuning penalty';
+      }
+
+      if (findingEl) findingEl.textContent = s.verdict;
+      readoutEl.textContent = s.readout;
+
+      if (animate && !reduced) {
+        animateDotAlong(pulseDot, [[83, 137], [557, 137]], 480, token);
+        if (s.disagree) {
+          window.setTimeout(() => {
+            if (token === animToken) {
+              animateDotAlong(feedbackDot, [[557, 202], [557, 248], [399, 248], [399, 206]], 540, token);
+            }
+          }, 420);
+        }
+      }
+    };
+
+    sampleBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        selectSample(Number(btn.dataset.txSample ?? 1), true);
+      });
+    });
+
+    stageEls.forEach((stage, idx) => {
+      const inspectStage = () => {
+        stageEls.forEach((el, i) => el.classList.toggle('is-selected', i === idx));
+        readoutEl.textContent = STAGE_NOTES[idx] ?? '';
+      };
+      stage.addEventListener('click', inspectStage);
+      stage.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          inspectStage();
+        }
+      });
+    });
+
+    selectSample(1, false);
+  });
+</script>

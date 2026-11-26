@@ -21,8 +21,11 @@ src/
 ├─ data/site.ts           # links, experience, education, skills, posts, "outside" copy
 ├─ content/work/*.md      # one case study per file (frontmatter + Markdown body)
 ├─ content.config.ts      # case study schema
-├─ layouts/Base.astro     # <head>, nav, footer, SEO, JSON-LD, reveal animation
-├─ components/ProjectCard.astro
+├─ layouts/Base.astro     # <head>, nav, footer, SEO, JSON-LD, reveal & scroll scripts
+├─ components/
+│  ├─ HeroCanvas.astro    # subtle interactive geospatial dot-matrix & orbital hero canvas
+│  ├─ ProjectCard.astro
+│  └─ diagrams/           # interactive SVG case study diagrams (card + full inspector modes)
 ├─ pages/index.astro      # the homepage
 ├─ pages/work/[slug].astro
 └─ styles/global.css      # design tokens + all styles, including print rules
@@ -54,18 +57,16 @@ is the house style.
 Everything below is deliberately left blank rather than invented — blank fields simply
 don't render.
 
-- [x] Employer names — Options Technology, Asia Space
+- [x] Employer names — Aspia Space, Options Technology, ThreeSixty Jersey
 - [x] Music links — Spotify artist + Bandcamp / SoundCloud / Apple / Instagram
 - [x] LinkedIn URL — linkedin.com/in/tom-vernon-7442b0197
-- [ ] Dates for the Swansea degree and the two jobs (currently "1 year" / "In progress")
+- [x] Dates, roles and grades from LinkedIn (Aspia Space, Options Technology, ThreeSixty Jersey, Bristol, Swansea, Malvern College & earlier schooling)
 - [ ] A contact email (`links.email`) — currently points at the blog's contact page
 - [ ] `og-image.png` (1200×630) plus the matching `og:image` meta in `Base.astro`
-- [ ] Real screenshots inside the case studies — the diagrams are hand-authored SVG for now
+- [ ] Real screenshots inside the case studies — interactive SVG diagrams live in `src/components/diagrams/` (static SVGs in `public/diagrams/` kept as fallback)
 - [ ] Location, if you want it on the site (currently omitted)
 
-Diagrams live in `public/diagrams/*.svg` and are referenced from the `diagram:` field in
-each case study's frontmatter. They appear both on the card and at the top of the case
-study page.
+Interactive diagrams live in `src/components/diagrams/` and render both in compact mode on homepage cards and in full-inspector mode on each `/work/[slug]/` case study page (static fallback SVGs remain in `public/diagrams/*.svg`).
 
 ## Deploying
 

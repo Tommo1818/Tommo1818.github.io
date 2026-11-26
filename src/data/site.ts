@@ -30,34 +30,58 @@ export const links = {
   music: 'https://solo.to/tomvernon2',
 };
 
+export type SubRole = {
+  role: string;
+  when: string;
+  current?: boolean;
+};
+
 export type Entry = {
   role: string;
   org: string;
+  location?: string;
   when: string;
+  grade?: string;
   blurb?: string;
+  subRoles?: SubRole[];
   points?: string[];
+  activities?: string[];
   link?: { label: string; href: string };
   note?: string;
 };
 
 export const experience: Entry[] = [
   {
-    role: 'Data Engineer',
-    org: 'Asia Space',
-    when: '1 year',
+    role: 'Geospatial Data Engineer',
+    org: 'Aspia Space',
+    when: 'Nov 2025 – Present',
+    subRoles: [
+      { role: 'Geospatial Data Engineer', when: 'Mar 2026 – Present', current: true },
+      { role: 'Geospatial Data Engineer Intern', when: 'Nov 2025 – Feb 2026' },
+    ],
     blurb:
-      'A year building and maintaining the pipelines that turn raw operational data into something people can actually query and trust.',
+      'Promoted from intern to Geospatial Data Engineer — building and maintaining pipelines that turn raw Earth-observation and geospatial data into datasets teams can reliably query and trust.',
     points: [],
   },
   {
     role: 'Technical Support Engineer',
     org: 'Options Technology',
-    when: '1 year',
-    blurb: 'First- and second-line support in a regulated finance environment.',
+    location: 'London Area, UK',
+    when: 'Aug 2024 – Aug 2025',
+    blurb: 'First- and second-line support in a regulated financial services environment.',
     points: [
       'Front-line triage through to second-line diagnosis, owning issues end to end rather than handing them off.',
       'Worked directly with users and internal systems where downtime has a real cost, so clarity and accuracy mattered more than speed alone.',
     ],
+  },
+  {
+    role: 'Disassembly Engineer',
+    org: 'ThreeSixty Jersey',
+    location: 'Jersey',
+    when: 'Sep 2019 – Feb 2020',
+    blurb:
+      'An environmentally conscious company specialising in recycling and repurposing electronics from around the island — early hands-on work stripping down, diagnosing and salvaging hardware.',
+    points: [],
   },
 ];
 
@@ -65,25 +89,38 @@ export const education: Entry[] = [
   {
     role: 'MSc Data Science',
     org: 'University of Bristol',
-    when: 'In progress',
+    when: 'Sep 2026 – Sep 2027',
     blurb:
-      'Current postgraduate study across large-scale data engineering, statistical methods and the organisational side of technical work.',
-    link: {
-      label: 'Coursework hub',
-      href: 'https://github.com/Tommo1818/data-science-helper',
-    },
+      'Postgraduate study across large-scale data engineering, statistical methods and the organisational side of technical work.',
+    activities: ['Badminton', 'Music Production', 'DJ', 'Computer Gaming', 'Anime'],
   },
   {
     role: 'BSc (Hons) Computer Science',
     org: 'Swansea University',
-    when: '',
+    when: 'Nov 2020 – Jan 2024',
+    grade: '2:1',
     blurb:
       'Undergraduate computer science, finishing with a dissertation on detecting toxicity in real Counter-Strike chat using NLP and deep learning, evaluated with human raters.',
+    activities: ['DJ Society', 'eSports Society', 'Motorsports Club', 'Badminton Society'],
     link: {
       label: 'Read the dissertation',
       href: 'https://github.com/Tommo1818/csgo-detoxify-final-project',
     },
   },
+  {
+    role: 'A Levels',
+    org: 'Malvern College',
+    when: 'Sep 2017 – Jul 2019',
+    grade: 'C, B, A, A',
+    blurb: 'Maths, Physics, Music Technology and Extended Project.',
+    activities: ['Badminton Club'],
+  },
+];
+
+export const earlierEducation = [
+  { school: 'Hautlieu School', when: 'Sep 2015 – Jul 2017' },
+  { school: 'Victoria College Jersey', when: 'Sep 2013 – Jul 2015' },
+  { school: 'Cité Scolaire Internationale de Lyon', when: 'Sep 2011 – Jul 2013' },
 ];
 
 export const skillGroups: { title: string; items: string[] }[] = [
@@ -93,7 +130,7 @@ export const skillGroups: { title: string; items: string[] }[] = [
   },
   {
     title: 'Data & ML',
-    items: ['pandas', 'NumPy', 'scikit-learn', 'NLP & transformers', 'Jupyter', 'Data pipelines', 'Human evaluation'],
+    items: ['Geospatial pipelines', 'pandas', 'NumPy', 'scikit-learn', 'NLP & transformers', 'Jupyter', 'Data pipelines', 'Human evaluation'],
   },
   {
     title: 'AI workflows',
@@ -121,7 +158,7 @@ export const music = {
   art: '/music/miracle.jpg',
   latest: {
     title: 'Miracle (Tom Vernon Remix)',
-    href: 'https://open.spotify.com/album/0oDK8Gcvq2BYC1wnfbEHeX',
+    href: 'https://open.spotify.com/album/0oDK8Gcvq2BYc1wnfbEHeX',
   },
   stats: [
     { value: '13k+', label: 'monthly listeners' },

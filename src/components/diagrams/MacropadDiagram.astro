@@ -1,0 +1,309 @@
+---
+interface Props {
+  mode?: 'card' | 'full';
+}
+
+const { mode = 'card' } = Astro.props;
+const idSuffix = mode;
+---
+
+<div class={`diagram-wrap diagram-wrap--${mode}`} data-diagram="macropad" data-mode={mode}>
+  <div class="diagram-stage">
+    <svg viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Interactive WebHID CH57x macropad configurator and write-readback protocol simulator">
+      <defs>
+        <marker id={`mp-arrow-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc" />
+        </marker>
+        <marker id={`mp-arrow-up-${idSuffix}`} viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a78bfa" />
+        </marker>
+      </defs>
+
+      <text x="26" y="30" class="diag-kicker">WEBHID · WRITE → READ BACK → VERIFY</text>
+
+      <!-- Macropad Body -->
+      <rect x="26" y="88" width="184" height="126" rx="14" fill="#101018" stroke="#2c2c3e" />
+      <text x="118" y="109" text-anchor="middle" class="diag-sub" data-mp-pad-label>LAYER 1 · DEV · STATIC</text>
+
+      <!-- 3 Interactive Keycaps -->
+      <g class="mp-key" data-mp-key="0" role="button" tabindex="0" aria-label="Trigger Key 1">
+        <rect x="38" y="122" width="48" height="72" rx="8" fill="#171724" stroke="#a78bfa" stroke-width="1.4" class="mp-key-glow" />
+        <rect x="42" y="126" width="40" height="58" rx="6" fill="#1d1d2d" stroke="#36364c" class="mp-key-cap" />
+        <text x="62" y="159" text-anchor="middle" class="diag-mono" data-mp-klabel="0">Build</text>
+      </g>
+
+      <g class="mp-key" data-mp-key="1" role="button" tabindex="0" aria-label="Trigger Key 2">
+        <rect x="94" y="122" width="48" height="72" rx="8" fill="#171724" stroke="#a78bfa" stroke-width="1.4" class="mp-key-glow" />
+        <rect x="98" y="126" width="40" height="58" rx="6" fill="#1d1d2d" stroke="#36364c" class="mp-key-cap" />
+        <text x="118" y="159" text-anchor="middle" class="diag-mono" data-mp-klabel="1">Term</text>
+      </g>
+
+      <g class="mp-key" data-mp-key="2" role="button" tabindex="0" aria-label="Trigger Key 3">
+        <rect x="150" y="122" width="48" height="72" rx="8" fill="#171724" stroke="#a78bfa" stroke-width="1.4" class="mp-key-glow" />
+        <rect x="154" y="126" width="40" height="58" rx="6" fill="#1d1d2d" stroke="#36364c" class="mp-key-cap" />
+        <text x="174" y="159" text-anchor="middle" class="diag-mono" data-mp-klabel="2">Diff</text>
+      </g>
+
+      <!-- HID Interface -->
+      <rect x="252" y="102" width="144" height="98" rx="12" fill="#12121a" stroke="#2e2e42" />
+      <text x="324" y="142" text-anchor="middle" class="diag-title">HID interface</text>
+      <text x="324" y="164" text-anchor="middle" class="diag-mono" fill="#a78bfa">0xFF00 / 0x01</text>
+
+      <!-- CH57x Firmware -->
+      <rect x="438" y="102" width="176" height="98" rx="12" fill="#12121a" stroke="#2e2e42" data-mp-mcu-box />
+      <text x="526" y="142" text-anchor="middle" class="diag-title">CH57x firmware</text>
+      <text x="526" y="164" text-anchor="middle" class="diag-sub">3 layers · 6 effects</text>
+
+      <!-- Outbound Wire -->
+      <line x1="212" y1="150" x2="246" y2="150" stroke="#7dd3fc" stroke-opacity="0.55" stroke-width="1.5" class="diag-flow-line" marker-end={`url(#mp-arrow-${idSuffix})`} />
+      <line x1="398" y1="150" x2="432" y2="150" stroke="#7dd3fc" stroke-opacity="0.55" stroke-width="1.5" class="diag-flow-line" marker-end={`url(#mp-arrow-${idSuffix})`} />
+
+      <!-- Return Readback Arc -->
+      <path d="M 526 204 C 526 266, 118 266, 118 220" fill="none" stroke="#a78bfa" stroke-opacity="0.6" stroke-width="1.6" stroke-dasharray="5 5" class="diag-flow-line-rev" marker-end={`url(#mp-arrow-up-${idSuffix})`} />
+
+      <!-- Animated Packet Dots -->
+      <circle cx="212" cy="150" r="4.5" fill="#7dd3fc" opacity="0" data-mp-pkt-out />
+      <circle cx="526" cy="204" r="4.5" fill="#4ade80" opacity="0" data-mp-pkt-back />
+
+      <!-- Verification status pill inside SVG -->
+      <rect x="220" y="266" width="212" height="28" rx="999" fill="#12121b" stroke="#4ade80" stroke-opacity="0.45" data-mp-verify-pill />
+      <text x="326" y="284" text-anchor="middle" class="diag-mono" fill="#4ade80" data-mp-verify-text>✓ Verified · read-back matched</text>
+
+      <!-- Footer bar -->
+      <rect x="26" y="310" width="588" height="32" rx="8" fill="#101018" stroke="#26263a" />
+      <text x="42" y="330" class="diag-mono" data-mp-frame-text>OUT [0x03 0x01 0x00] · Click any keycap or Write & Verify to trace HID traffic</text>
+    </svg>
+  </div>
+
+  <div class="diagram-controls">
+    <div class="diag-group" role="group" aria-label="Macropad layers">
+      <button class="diag-btn" type="button" data-mp-layer="0" aria-pressed="true">L1 · Dev</button>
+      <button class="diag-btn" type="button" data-mp-layer="1" aria-pressed="false">L2 · Media</button>
+      <button class="diag-btn" type="button" data-mp-layer="2" aria-pressed="false">L3 · Edit</button>
+    </div>
+
+    <div class="diag-group">
+      <button class="diag-btn diag-btn--accent" type="button" data-mp-write>Write &amp; Verify</button>
+    </div>
+  </div>
+
+  {mode === 'full' && (
+    <div class="diagram-controls diagram-controls--sub">
+      <div class="diag-group" role="group" aria-label="LED firmware effect">
+        <span class="diag-inline-label">LED effect:</span>
+        <button class="diag-btn" type="button" data-mp-effect="static" aria-pressed="true">Static</button>
+        <button class="diag-btn" type="button" data-mp-effect="breathing" aria-pressed="false">Breathing</button>
+        <button class="diag-btn" type="button" data-mp-effect="spectrum" aria-pressed="false">Spectrum</button>
+        <button class="diag-btn" type="button" data-mp-effect="reactive" aria-pressed="false">Reactive</button>
+      </div>
+    </div>
+  )}
+
+  <div class="diag-readout" aria-live="polite" data-mp-readout>
+    Layer 1 (Dev) · Keys: Build / Term / Diff · Read-back verified
+  </div>
+</div>
+
+<script>
+  const LAYERS = [
+    {
+      name: 'Dev',
+      color: '#a78bfa',
+      keys: [
+        { label: 'Build', hex: '0x03 0x01 0x05 0x28', macro: 'Ctrl+Shift+B' },
+        { label: 'Term', hex: '0x03 0x01 0x04 0x35', macro: 'Ctrl+`' },
+        { label: 'Diff', hex: '0x03 0x01 0x02 0x0A', macro: 'Alt+G D' },
+      ],
+    },
+    {
+      name: 'Media',
+      color: '#7dd3fc',
+      keys: [
+        { label: 'Prev', hex: '0x03 0x02 0xB6 0x00', macro: 'HID Consumer Prev' },
+        { label: 'Play', hex: '0x03 0x02 0xCD 0x00', macro: 'HID Play / Pause' },
+        { label: 'Next', hex: '0x03 0x02 0xB5 0x00', macro: 'HID Consumer Next' },
+      ],
+    },
+    {
+      name: 'Edit',
+      color: '#4ade80',
+      keys: [
+        { label: 'Undo', hex: '0x03 0x03 0x01 0x1D', macro: 'Ctrl+Z' },
+        { label: 'Cut', hex: '0x03 0x03 0x01 0x1B', macro: 'Ctrl+X' },
+        { label: 'Export', hex: '0x03 0x03 0x05 0x08', macro: 'Ctrl+Shift+E' },
+      ],
+    },
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-diagram="macropad"]').forEach((root) => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const keyGroups = Array.from(root.querySelectorAll<SVGGElement>('[data-mp-key]'));
+    const keyLabels = Array.from(root.querySelectorAll<SVGTextElement>('[data-mp-klabel]'));
+    const padLabel = root.querySelector<SVGTextElement>('[data-mp-pad-label]');
+    const verifyPill = root.querySelector<SVGRectElement>('[data-mp-verify-pill]');
+    const verifyText = root.querySelector<SVGTextElement>('[data-mp-verify-text]');
+    const frameText = root.querySelector<SVGTextElement>('[data-mp-frame-text]');
+    const pktOut = root.querySelector<SVGCircleElement>('[data-mp-pkt-out]');
+    const pktBack = root.querySelector<SVGCircleElement>('[data-mp-pkt-back]');
+    const readout = root.querySelector<HTMLElement>('[data-mp-readout]');
+
+    const layerBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-mp-layer]'));
+    const effectBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-mp-effect]'));
+    const writeBtn = root.querySelector<HTMLButtonElement>('[data-mp-write]');
+
+    if (!readout) return;
+
+    let layerIdx = 0;
+    let effect = 'static';
+    let animToken = 0;
+
+    const applyVisuals = () => {
+      const layer = LAYERS[layerIdx];
+      root.dataset.effect = effect;
+      root.style.setProperty('--mp-led', layer.color);
+
+      if (padLabel) {
+        padLabel.textContent = `LAYER ${layerIdx + 1} · ${layer.name.toUpperCase()} · ${effect.toUpperCase()}`;
+      }
+
+      keyLabels.forEach((lbl, idx) => {
+        lbl.textContent = layer.keys[idx]?.label ?? '';
+      });
+
+      keyGroups.forEach((kg) => {
+        const glow = kg.querySelector<SVGRectElement>('.mp-key-glow');
+        if (glow) glow.setAttribute('stroke', layer.color);
+      });
+    };
+
+    const runPacket = (
+      dot: SVGCircleElement | null | undefined,
+      duration: number,
+      getPos: (t: number) => [number, number],
+      token: number,
+    ) =>
+      new Promise<void>((resolve) => {
+        if (!dot || reduced) {
+          resolve();
+          return;
+        }
+        dot.setAttribute('opacity', '1');
+        const start = performance.now();
+        const step = (now: number) => {
+          if (token !== animToken) {
+            dot.setAttribute('opacity', '0');
+            resolve();
+            return;
+          }
+          const t = Math.min(1, (now - start) / duration);
+          const [x, y] = getPos(t);
+          dot.setAttribute('cx', x.toFixed(1));
+          dot.setAttribute('cy', y.toFixed(1));
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            dot.setAttribute('opacity', '0');
+            resolve();
+          }
+        };
+        requestAnimationFrame(step);
+      });
+
+    const triggerWriteVerify = async (summaryLabel?: string) => {
+      const token = ++animToken;
+      const layer = LAYERS[layerIdx];
+
+      if (verifyText && verifyPill) {
+        verifyText.textContent = 'Writing EEPROM…';
+        verifyText.setAttribute('fill', '#fbbf24');
+        verifyPill.setAttribute('stroke', '#fbbf24');
+      }
+      if (frameText) {
+        frameText.textContent = `OUT [${layer.keys[0].hex}] → HID 0xFF00/0x01 → CH57x`;
+      }
+      readout.textContent = summaryLabel ?? `Writing Layer ${layerIdx + 1} (${layer.name}) to CH57x flash…`;
+
+      await runPacket(pktOut, 420, (t) => [212 + (434 - 212) * t, 150], token);
+      if (token !== animToken) return;
+
+      if (verifyText) verifyText.textContent = 'Reading back bytes…';
+      if (frameText) {
+        frameText.textContent = `IN  [0x03 0x${String(layerIdx + 1).padStart(2, '0')} ACK] ← verifying against buffer`;
+      }
+
+      await runPacket(
+        pktBack,
+        520,
+        (t) => {
+          const mt = 1 - t;
+          const p0: [number, number] = [526, 204];
+          const p1: [number, number] = [526, 266];
+          const p2: [number, number] = [118, 266];
+          const p3: [number, number] = [118, 220];
+          return [
+            mt * mt * mt * p0[0] + 3 * mt * mt * t * p1[0] + 3 * mt * t * t * p2[0] + t * t * t * p3[0],
+            mt * mt * mt * p0[1] + 3 * mt * mt * t * p1[1] + 3 * mt * t * t * p2[1] + t * t * t * p3[1],
+          ];
+        },
+        token,
+      );
+      if (token !== animToken) return;
+
+      if (verifyText && verifyPill) {
+        verifyText.textContent = '✓ Verified · read-back matched';
+        verifyText.setAttribute('fill', '#4ade80');
+        verifyPill.setAttribute('stroke', '#4ade80');
+      }
+      readout.textContent =
+        summaryLabel ??
+        `Layer ${layerIdx + 1} (${layer.name}) · ${layer.keys.map((k) => k.label).join(' / ')} · Read-back verified`;
+    };
+
+    const triggerKey = (idx: number) => {
+      const layer = LAYERS[layerIdx];
+      const key = layer.keys[idx];
+      const kg = keyGroups[idx];
+      if (!key || !kg) return;
+
+      kg.classList.add('is-pressed');
+      window.setTimeout(() => kg.classList.remove('is-pressed'), 180);
+
+      if (frameText) {
+        frameText.textContent = `KEY ${idx + 1} [${key.label}] → ${key.macro} · HID [${key.hex}]`;
+      }
+      triggerWriteVerify(`Key ${idx + 1} (${key.label} · ${key.macro}) · HID [${key.hex}] verified`);
+    };
+
+    keyGroups.forEach((kg, idx) => {
+      kg.addEventListener('click', () => triggerKey(idx));
+      kg.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerKey(idx);
+        }
+      });
+    });
+
+    layerBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        layerIdx = Number(btn.dataset.mpLayer ?? 0);
+        layerBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        applyVisuals();
+        triggerWriteVerify();
+      });
+    });
+
+    effectBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        effect = btn.dataset.mpEffect ?? 'static';
+        effectBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        applyVisuals();
+        triggerWriteVerify(`LED effect set to "${effect}" on Layer ${layerIdx + 1} · read-back verified`);
+      });
+    });
+
+    writeBtn?.addEventListener('click', () => triggerWriteVerify());
+
+    applyVisuals();
+  });
+</script>
