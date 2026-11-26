@@ -75,7 +75,7 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, width, height);
 
-        // 1. Subtle geospatial coordinate dot grid
+        // 1. Subtle ambient dot lattice
         const radius = 145;
         const radiusSq = radius * radius;
 
@@ -116,7 +116,7 @@
           ctx.fill();
         }
 
-        // 2. Two gentle orbital ground-track arcs + drifting telemetry nodes
+        // 2. Two gentle signal traces + drifting packets
         const tracks: Array<{
           p0: [number, number];
           p1: [number, number];
@@ -126,7 +126,6 @@
           glow: string;
           speed: number;
           offset: number;
-          tag: string;
         }> = [
           {
             p0: [width * -0.04, height * 0.78],
@@ -137,7 +136,6 @@
             glow: 'rgba(167, 139, 250, 0.85)',
             speed: 0.055,
             offset: 0.15,
-            tag: '50.15°N 5.10°W',
           },
           {
             p0: [width * 0.12, height * 1.04],
@@ -148,7 +146,6 @@
             glow: 'rgba(125, 211, 252, 0.85)',
             speed: 0.04,
             offset: 0.62,
-            tag: 'SAR-PASS',
           },
         ];
 
@@ -180,11 +177,6 @@
           ctx.arc(sx, sy, 2.3, 0, Math.PI * 2);
           ctx.fillStyle = '#ececf2';
           ctx.fill();
-
-          if (width >= 720) {
-            ctx.fillStyle = 'rgba(155, 155, 172, 0.35)';
-            ctx.fillText(tr.tag, sx + 9, sy - 6);
-          }
         }
         ctx.restore();
       };

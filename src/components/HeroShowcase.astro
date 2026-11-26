@@ -3,94 +3,196 @@
 <div class="hero-showcase" data-hero-showcase data-active="geospatial">
   <div class="showcase-hud">
     <span class="showcase-hud-dot" aria-hidden="true"></span>
-    <span class="showcase-hud-tag" data-sc-hud>50.15°N 5.10°W · SAR</span>
-    <span class="showcase-hud-mode">LIVE TELEMETRY</span>
+    <span class="showcase-hud-tag" data-sc-hud>FIELD DATA · CONTOURS</span>
+    <span class="showcase-hud-mode">LIVE SIGNAL</span>
   </div>
 
   <div class="showcase-stage">
-    <svg viewBox="0 0 420 310" width="420" height="310" role="img" aria-label="Interactive domain orbital showcase: Geospatial, Hardware, Data & ML, Audio">
+    <svg
+      viewBox="0 0 440 316"
+      width="440"
+      height="316"
+      role="img"
+      aria-label="Interactive workbench showcase: geospatial, hardware, data and audio modules"
+    >
       <defs>
-        <radialGradient id="hs-sc-core-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.32" />
-          <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.10" />
-          <stop offset="100%" stop-color="#06060b" stop-opacity="0" />
-        </radialGradient>
-        <linearGradient id="hs-sc-sweep" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.34" />
-          <stop offset="100%" stop-color="#a78bfa" stop-opacity="0" />
+        <linearGradient id="hs-chassis" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#12121c" />
+          <stop offset="55%" stop-color="#0c0c14" />
+          <stop offset="100%" stop-color="#101019" />
         </linearGradient>
+        <linearGradient id="hs-eq" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#f472b6" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#f472b6" />
+        </linearGradient>
+        <linearGradient id="hs-bus" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#a78bfa" stop-opacity="0" />
+          <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#f472b6" stop-opacity="0" />
+        </linearGradient>
+        <clipPath id="hs-clip-geo"><rect x="32" y="62" width="174" height="84" /></clipPath>
+        <clipPath id="hs-clip-hw"><rect x="234" y="62" width="174" height="84" /></clipPath>
+        <clipPath id="hs-clip-data"><rect x="32" y="188" width="174" height="84" /></clipPath>
+        <clipPath id="hs-clip-audio"><rect x="234" y="188" width="174" height="84" /></clipPath>
       </defs>
 
-      <!-- Background Aura -->
-      <circle cx="210" cy="152" r="134" fill="url(#hs-sc-core-glow)" />
+      <!-- Chassis -->
+      <rect x="8" y="8" width="424" height="300" rx="16" fill="url(#hs-chassis)" stroke="#2a2a3e" />
+      <circle cx="18" cy="20" r="2.4" fill="#0a0a11" stroke="#393952" />
+      <circle cx="422" cy="20" r="2.4" fill="#0a0a11" stroke="#393952" />
+      <circle cx="18" cy="296" r="2.4" fill="#0a0a11" stroke="#393952" />
+      <circle cx="422" cy="296" r="2.4" fill="#0a0a11" stroke="#393952" />
+      <text x="34" y="26" class="sc-chassis-label">TV-01 · MODULAR WORKBENCH</text>
+      <text x="406" y="26" class="sc-chassis-label" text-anchor="end">04 CHANNELS</text>
 
-      <!-- Concentric Orbital Rings -->
-      <circle cx="210" cy="152" r="120" fill="none" stroke="#26263a" stroke-dasharray="3 5" />
-      <circle cx="210" cy="152" r="88" fill="none" stroke="#2c2c42" />
-      <circle cx="210" cy="152" r="52" fill="none" stroke="#3b3b58" stroke-dasharray="6 4" />
-
-      <!-- Rotating Orbit Track 1 -->
-      <g class="sc-orbit sc-orbit--a">
-        <ellipse cx="210" cy="152" rx="116" ry="44" fill="none" stroke="#a78bfa" stroke-opacity="0.28" stroke-width="1.1" transform="rotate(-24 210 152)" />
-        <circle cx="316" cy="105" r="3.5" fill="#c4b1ff" />
+      <!-- 01 — Geospatial -->
+      <g class="sc-module is-active" data-sc-node="geospatial" style="--sc-accent: #a78bfa" role="button" tabindex="0" aria-label="Geospatial module">
+        <rect class="sc-module-frame" x="24" y="38" width="190" height="116" rx="10" fill="#0d0d16" stroke="#27273b" />
+        <circle cx="37" cy="51" r="2.4" fill="#a78bfa" />
+        <text x="45" y="55" class="sc-module-label">GEOSPATIAL</text>
+        <text x="202" y="55" class="sc-module-index" text-anchor="end">01</text>
+        <g clip-path="url(#hs-clip-geo)">
+          <rect x="32" y="62" width="174" height="84" fill="#08080e" />
+          <g stroke="#1a1a2a" stroke-width="0.6">
+            <path d="M32 80 H206 M32 98 H206 M32 116 H206 M32 134 H206" />
+            <path d="M56 62 V146 M92 62 V146 M128 62 V146 M164 62 V146 M200 62 V146" />
+          </g>
+          <g fill="none" stroke="#453a6e" stroke-width="1" stroke-linecap="round">
+            <path d="M32 138 C58 120 76 126 100 108 C124 90 146 98 172 82 C186 74 196 74 206 68" />
+            <path d="M32 124 C60 106 78 112 104 94 C130 76 150 84 176 68" />
+            <path d="M32 150 C64 132 86 138 112 120 C138 102 158 110 190 92" />
+          </g>
+          <path class="sc-route" d="M44 140 C78 128 92 106 122 102 C152 98 164 78 196 70" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" />
+          <g fill="#0b0b14" stroke="#a78bfa" stroke-width="1.2">
+            <circle cx="44" cy="140" r="2.6" />
+            <circle cx="122" cy="102" r="2.6" />
+            <circle cx="196" cy="70" r="3" />
+          </g>
+          <circle class="sc-ping" cx="196" cy="70" r="4" fill="none" stroke="#a78bfa" />
+          <text x="38" y="72" class="sc-scene-tag">51°N / 4°W</text>
+          <text x="200" y="141" text-anchor="end" class="sc-scene-tag">ELEV 24M</text>
+        </g>
       </g>
 
-      <!-- Rotating Orbit Track 2 -->
-      <g class="sc-orbit sc-orbit--b">
-        <ellipse cx="210" cy="152" rx="112" ry="42" fill="none" stroke="#38bdf8" stroke-opacity="0.24" stroke-width="1.1" transform="rotate(26 210 152)" />
-        <circle cx="110" cy="102" r="3.2" fill="#7dd3fc" />
+      <!-- 02 — Hardware -->
+      <g class="sc-module" data-sc-node="hardware" style="--sc-accent: #38bdf8" role="button" tabindex="0" aria-label="Hardware module">
+        <rect class="sc-module-frame" x="226" y="38" width="190" height="116" rx="10" fill="#0d0d16" stroke="#27273b" />
+        <circle cx="239" cy="51" r="2.4" fill="#38bdf8" />
+        <text x="247" y="55" class="sc-module-label">HARDWARE</text>
+        <text x="404" y="55" class="sc-module-index" text-anchor="end">02</text>
+        <g clip-path="url(#hs-clip-hw)">
+          <rect x="234" y="62" width="174" height="84" fill="#081015" />
+          <g fill="none" stroke="#17404f" stroke-width="1" stroke-linecap="round">
+            <path d="M234 82 H266 L276 92 H297" />
+            <path d="M234 128 H268 L280 116 H297" />
+            <path d="M343 96 H368 L378 86 H408" />
+            <path d="M343 110 H364 L376 120 H408" />
+            <path d="M234 104 H258 L270 110 H290" />
+          </g>
+          <g fill="none" stroke="#38bdf8" stroke-width="0.9" stroke-linecap="round" opacity="0.75">
+            <path class="sc-trace" d="M234 82 H266 L276 92 H297" />
+            <path class="sc-trace sc-trace--slow" d="M343 110 H364 L376 120 H408" />
+          </g>
+          <g fill="#38bdf8" opacity="0.55">
+            <circle cx="236" cy="82" r="1.7" />
+            <circle cx="236" cy="128" r="1.7" />
+            <circle cx="406" cy="86" r="1.7" />
+            <circle cx="406" cy="120" r="1.7" />
+          </g>
+          <rect x="297" y="88" width="46" height="30" rx="3" fill="#0c1a22" stroke="#38bdf8" />
+          <g stroke="#38bdf8" stroke-width="1">
+            <path d="M293 94 H297 M293 100 H297 M293 106 H297 M293 112 H297" />
+            <path d="M343 94 H347 M343 100 H347 M343 106 H347 M343 112 H347" />
+          </g>
+          <text x="320" y="106" text-anchor="middle" class="sc-chip-label">ESP32</text>
+          <rect x="250" y="118" width="14" height="7" rx="1.5" fill="#0f2028" stroke="#2c6b80" />
+          <rect x="272" y="68" width="10" height="6" rx="1.5" fill="#0f2028" stroke="#2c6b80" />
+          <circle class="sc-led" cx="248" cy="72" r="2.8" fill="#4ade80" />
+          <circle class="sc-led sc-led--slow" cx="390" cy="134" r="2.4" fill="#38bdf8" />
+          <text x="400" y="74" text-anchor="end" class="sc-scene-tag">REV B</text>
+          <text x="240" y="140" class="sc-scene-tag">TV / IO</text>
+        </g>
       </g>
 
-      <!-- Radar Sweep Cone -->
-      <g class="sc-sweep">
-        <path d="M210,152 L210,64 A88,88 0 0,1 286,108 Z" fill="url(#hs-sc-sweep)" />
+      <!-- 03 — Data & ML -->
+      <g class="sc-module" data-sc-node="data" style="--sc-accent: #4ade80" role="button" tabindex="0" aria-label="Data and machine learning module">
+        <rect class="sc-module-frame" x="24" y="164" width="190" height="116" rx="10" fill="#0d0d16" stroke="#27273b" />
+        <circle cx="37" cy="177" r="2.4" fill="#4ade80" />
+        <text x="45" y="181" class="sc-module-label">DATA &amp; ML</text>
+        <text x="202" y="181" class="sc-module-index" text-anchor="end">03</text>
+        <g clip-path="url(#hs-clip-data)">
+          <rect x="32" y="188" width="174" height="84" fill="#08080e" />
+          <g stroke="#1a2c22" stroke-width="1">
+            <path d="M52 252 L118 228 M84 212 L118 228 M118 246 L118 228 M152 208 L118 228 M186 240 L118 228 M84 212 L152 208 M52 252 L118 246 M118 246 L186 240" />
+          </g>
+          <g stroke="#4ade80" stroke-width="0.9" opacity="0.65">
+            <path class="sc-trace" d="M52 252 L118 228 M84 212 L118 228 M152 208 L118 228" />
+            <path class="sc-trace sc-trace--slow" d="M118 246 L186 240 M186 240 L118 228" />
+          </g>
+          <g fill="#08080e" stroke="#4ade80" stroke-width="1.2">
+            <circle cx="52" cy="252" r="3.2" />
+            <circle cx="84" cy="212" r="3.2" />
+            <circle cx="118" cy="246" r="3.2" />
+            <circle cx="152" cy="208" r="3.2" />
+            <circle cx="186" cy="240" r="3.2" />
+          </g>
+          <circle cx="118" cy="228" r="5" fill="#4ade80" />
+          <circle class="sc-ping" cx="118" cy="228" r="6" fill="none" stroke="#4ade80" />
+          <text x="38" y="198" class="sc-scene-tag">EMBEDDING GRAPH</text>
+          <text x="200" y="266" text-anchor="end" class="sc-scene-tag">LOSS ↓</text>
+        </g>
       </g>
 
-      <!-- Central Geospatial Globe -->
-      <circle cx="210" cy="152" r="36" fill="#0d0d17" stroke="#5b5b7a" stroke-width="1.2" />
-      <ellipse cx="210" cy="152" rx="17" ry="36" fill="none" stroke="#363650" stroke-width="1" />
-      <line x1="174" y1="152" x2="246" y2="152" stroke="#363650" stroke-width="1" />
-      <line x1="180" y1="134" x2="240" y2="134" stroke="#2b2b42" stroke-width="0.9" />
-      <line x1="180" y1="170" x2="240" y2="170" stroke="#2b2b42" stroke-width="0.9" />
-      <circle cx="210" cy="152" r="4" fill="#ececf2" />
-
-      <!-- Node Connectors -->
-      <line x1="118" y1="78" x2="184" y2="128" stroke="#a78bfa" stroke-opacity="0.45" stroke-dasharray="3 3" />
-      <line x1="302" y1="78" x2="236" y2="128" stroke="#38bdf8" stroke-opacity="0.45" stroke-dasharray="3 3" />
-      <line x1="116" y1="226" x2="184" y2="176" stroke="#4ade80" stroke-opacity="0.45" stroke-dasharray="3 3" />
-      <line x1="304" y1="226" x2="236" y2="176" stroke="#f472b6" stroke-opacity="0.45" stroke-dasharray="3 3" />
-
-      <!-- 4 Interactive Nodes -->
-      <g class="sc-node is-active" data-sc-node="geospatial" role="button" tabindex="0" aria-label="Geospatial telemetry">
-        <rect x="20" y="46" width="112" height="36" rx="10" fill="#12121d" stroke="#a78bfa" />
-        <circle cx="34" cy="64" r="4" fill="#a78bfa" />
-        <text x="45" y="68" class="sc-node-text">Geospatial</text>
+      <!-- 04 — Audio -->
+      <g class="sc-module" data-sc-node="audio" style="--sc-accent: #f472b6" role="button" tabindex="0" aria-label="Audio module">
+        <rect class="sc-module-frame" x="226" y="164" width="190" height="116" rx="10" fill="#0d0d16" stroke="#27273b" />
+        <circle cx="239" cy="177" r="2.4" fill="#f472b6" />
+        <text x="247" y="181" class="sc-module-label">AUDIO</text>
+        <text x="404" y="181" class="sc-module-index" text-anchor="end">04</text>
+        <g clip-path="url(#hs-clip-audio)">
+          <rect x="234" y="188" width="174" height="84" fill="#08080e" />
+          <g class="sc-vinyl">
+            <circle cx="278" cy="230" r="27" fill="#101018" stroke="#3a3a50" />
+            <circle cx="278" cy="230" r="21" fill="none" stroke="#2c2c42" stroke-dasharray="2 4" />
+            <circle cx="278" cy="230" r="16" fill="none" stroke="#2c2c42" stroke-dasharray="2 4" />
+            <circle cx="278" cy="230" r="11" fill="none" stroke="#3a2a44" />
+            <circle cx="278" cy="230" r="7" fill="#f472b6" fill-opacity="0.85" />
+            <circle cx="278" cy="230" r="1.6" fill="#08080e" />
+            <path d="M278 205 A25 25 0 0 1 299 220" fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="2" />
+          </g>
+          <circle cx="330" cy="202" r="2.8" fill="#55556e" />
+          <path d="M330 202 L307 219" stroke="#6f6f8a" stroke-width="2" stroke-linecap="round" />
+          <rect x="301" y="216" width="7" height="4" rx="1" fill="#8a8aa6" transform="rotate(38 304.5 218)" />
+          <g fill="url(#hs-eq)">
+            <rect class="sc-eq-bar" style="--i: 0" x="340" y="246" width="5" height="18" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 1" x="348" y="234" width="5" height="30" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 2" x="356" y="252" width="5" height="12" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 3" x="364" y="240" width="5" height="24" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 4" x="372" y="230" width="5" height="34" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 5" x="380" y="248" width="5" height="16" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 6" x="388" y="238" width="5" height="26" rx="2" />
+            <rect class="sc-eq-bar" style="--i: 7" x="396" y="254" width="5" height="10" rx="2" />
+          </g>
+          <text x="278" y="268" text-anchor="middle" class="sc-scene-tag">33⅓</text>
+          <text x="400" y="268" text-anchor="end" class="sc-scene-tag">124 BPM</text>
+        </g>
       </g>
 
-      <g class="sc-node" data-sc-node="hardware" role="button" tabindex="0" aria-label="Hardware telemetry">
-        <rect x="288" y="46" width="112" height="36" rx="10" fill="#12121d" stroke="#2f2f45" />
-        <circle cx="302" cy="64" r="4" fill="#38bdf8" />
-        <text x="313" y="68" class="sc-node-text">Hardware</text>
+      <!-- Signal bus -->
+      <line x1="40" y1="294" x2="400" y2="294" stroke="#1b1b2a" stroke-width="1" />
+      <line class="sc-bus-line" x1="40" y1="294" x2="400" y2="294" stroke="url(#hs-bus)" stroke-width="1" stroke-dasharray="3 9" />
+      <g fill="#0a0a12" stroke="#33334a">
+        <circle cx="78" cy="294" r="3" />
+        <circle cx="172" cy="294" r="3" />
+        <circle cx="268" cy="294" r="3" />
+        <circle cx="362" cy="294" r="3" />
       </g>
-
-      <g class="sc-node" data-sc-node="data" role="button" tabindex="0" aria-label="Data & ML telemetry">
-        <rect x="20" y="220" width="112" height="36" rx="10" fill="#12121d" stroke="#2f2f45" />
-        <circle cx="34" cy="238" r="4" fill="#4ade80" />
-        <text x="45" y="242" class="sc-node-text">Data &amp; ML</text>
-      </g>
-
-      <g class="sc-node" data-sc-node="audio" role="button" tabindex="0" aria-label="Audio telemetry">
-        <rect x="288" y="220" width="112" height="36" rx="10" fill="#12121d" stroke="#2f2f45" />
-        <circle cx="302" cy="238" r="4" fill="#f472b6" />
-        <text x="313" y="242" class="sc-node-text">Audio</text>
-      </g>
-
-      <!-- Bottom status readout inside SVG -->
-      <rect x="20" y="270" width="380" height="28" rx="8" fill="#0d0d16" stroke="#26263a" />
-      <text x="210" y="288" text-anchor="middle" class="sc-svg-caption" data-sc-caption>
-        Aspia Space · Earth observation pipelines
-      </text>
+      <circle class="sc-bus-dot" cx="78" cy="294" r="2" style="fill: var(--showcase-accent, #a78bfa)" />
     </svg>
+  </div>
+
+  <div class="showcase-caption">
+    <span data-sc-caption>Geospatial · Earth-observation pipelines &amp; terrain data</span>
   </div>
 
   <div class="showcase-pills" role="group" aria-label="Focus domain">
@@ -106,34 +208,34 @@
     {
       id: 'geospatial',
       color: '#a78bfa',
-      hud: '50.15°N 5.10°W · SAR',
-      caption: 'Aspia Space · Earth observation pipelines',
+      hud: 'FIELD DATA · CONTOURS',
+      caption: 'Geospatial · Earth-observation pipelines & terrain data',
     },
     {
       id: 'hardware',
       color: '#38bdf8',
-      hud: 'HID 0xFF00 · 42MM',
-      caption: 'WebHID · Gridfinity CAD · ESP32',
+      hud: 'PCB · ESP32 · CAD',
+      caption: 'Hardware · Parametric CAD, PCBs & custom rigs',
     },
     {
       id: 'data',
       color: '#4ade80',
-      hud: 'MSc DATA · 2026–27',
-      caption: 'Bristol MSc · NLP & human evaluation',
+      hud: 'MSC DATA · 2026–27',
+      caption: 'Data & ML · Pipelines, NLP & human evaluation',
     },
     {
       id: 'audio',
       color: '#f472b6',
       hud: 'LOST PALMS · 124 BPM',
-      caption: 'Tom Vernon · 13k+ monthly listeners',
+      caption: 'Audio · Tom Vernon · 13k+ monthly listeners',
     },
   ];
 
   document.querySelectorAll<HTMLElement>('[data-hero-showcase]').forEach((root) => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hudEl = root.querySelector<HTMLElement>('[data-sc-hud]');
-    const captionEl = root.querySelector<SVGTextElement>('[data-sc-caption]');
-    const nodeEls = Array.from(root.querySelectorAll<SVGGElement>('[data-sc-node]'));
+    const captionEl = root.querySelector<HTMLElement>('[data-sc-caption]');
+    const moduleEls = Array.from(root.querySelectorAll<SVGGElement>('[data-sc-node]'));
     const btnEls = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-sc-btn]'));
 
     let idx = 0;
@@ -150,11 +252,8 @@
       if (hudEl) hudEl.textContent = mode.hud;
       if (captionEl) captionEl.textContent = mode.caption;
 
-      nodeEls.forEach((n) => {
-        const active = n.dataset.scNode === mode.id;
-        n.classList.toggle('is-active', active);
-        const box = n.querySelector<SVGRectElement>('rect');
-        if (box) box.setAttribute('stroke', active ? mode.color : '#2f2f45');
+      moduleEls.forEach((module) => {
+        module.classList.toggle('is-active', module.dataset.scNode === mode.id);
       });
 
       btnEls.forEach((b) => {
@@ -162,14 +261,14 @@
       });
     };
 
-    nodeEls.forEach((node) => {
+    moduleEls.forEach((module) => {
       const pick = () => {
         userPaused = true;
         if (timer) window.clearInterval(timer);
-        select(node.dataset.scNode ?? 'geospatial');
+        select(module.dataset.scNode ?? 'geospatial');
       };
-      node.addEventListener('click', pick);
-      node.addEventListener('keydown', (e) => {
+      module.addEventListener('click', pick);
+      module.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           pick();

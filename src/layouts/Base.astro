@@ -119,10 +119,13 @@ const personSchema = {
     <footer class="footer">
       <div class="wrap footer-inner">
         <span class="mono">© {new Date().getFullYear()} {site.name}</span>
-        <span class="mono">
-          <a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
-          <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a> ·
-          <a href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a> ·
+        <span class="mono footer-links">
+          <a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <span class="footer-sep" aria-hidden="true">·</span>
+          <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span class="footer-sep" aria-hidden="true">·</span>
+          <a href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a>
+          <span class="footer-sep" aria-hidden="true">·</span>
           <a href="/#contact">Contact</a>
         </span>
       </div>

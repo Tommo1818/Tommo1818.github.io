@@ -472,20 +472,128 @@ img { max-width: 100%; height: auto; display: block; }
   display: block;
 }
 
-.sc-orbit {
-  transform-origin: 210px 152px;
+.sc-chassis-label {
+  font-family: var(--font-mono);
+  font-size: 7.2px;
+  letter-spacing: 0.14em;
+  fill: #66667e;
 }
 
-.sc-orbit--a {
-  animation: sc-spin 22s linear infinite;
+.sc-module {
+  cursor: pointer;
+  outline: none;
+  opacity: 0.78;
+  transition: opacity 0.25s ease;
 }
 
-.sc-orbit--b {
-  animation: sc-spin-rev 28s linear infinite;
+.sc-module:hover,
+.sc-module:focus-visible,
+.sc-module.is-active {
+  opacity: 1;
 }
 
-.sc-sweep {
-  transform-origin: 210px 152px;
+.sc-module-frame {
+  transition: stroke 0.25s ease, fill 0.25s ease;
+}
+
+.sc-module.is-active .sc-module-frame,
+.sc-module:hover .sc-module-frame,
+.sc-module:focus-visible .sc-module-frame {
+  stroke: var(--sc-accent);
+}
+
+.sc-module-label {
+  font-family: var(--font-mono);
+  font-size: 7.2px;
+  letter-spacing: 0.14em;
+  fill: #b9b9cf;
+  transition: fill 0.25s ease;
+}
+
+.sc-module.is-active .sc-module-label { fill: #f4f4fb; }
+
+.sc-module-index {
+  font-family: var(--font-mono);
+  font-size: 6.6px;
+  letter-spacing: 0.08em;
+  fill: #57576e;
+}
+
+.sc-scene-tag {
+  font-family: var(--font-mono);
+  font-size: 5.8px;
+  letter-spacing: 0.08em;
+  fill: #6f6f89;
+}
+
+.sc-chip-label {
+  font-family: var(--font-mono);
+  font-size: 6.2px;
+  letter-spacing: 0.08em;
+  fill: #bfeaff;
+}
+
+.showcase-caption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border-top: 1px solid var(--line);
+  background: rgba(9, 9, 15, 0.8);
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.showcase-caption::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--showcase-accent, var(--accent));
+  box-shadow: 0 0 8px var(--showcase-accent, var(--accent));
+}
+
+.sc-route {
+  stroke-dasharray: 4 4;
+  animation: sc-dash 2.6s linear infinite;
+}
+
+.sc-trace {
+  stroke-dasharray: 3 6;
+  animation: sc-dash 2.2s linear infinite;
+}
+
+.sc-trace--slow { animation-duration: 3.6s; }
+
+@keyframes sc-dash {
+  to { stroke-dashoffset: -18; }
+}
+
+.sc-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sc-ping 2.8s ease-out infinite;
+}
+
+@keyframes sc-ping {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  70%, 100% { transform: scale(2.1); opacity: 0; }
+}
+
+.sc-led { animation: sc-blink 2.2s ease-in-out infinite; }
+.sc-led--slow { animation-duration: 3.4s; animation-delay: -1.4s; }
+
+@keyframes sc-blink {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+.sc-vinyl {
+  transform-box: view-box;
+  transform-origin: 278px 230px;
   animation: sc-spin 9s linear infinite;
 }
 
@@ -494,36 +602,27 @@ img { max-width: 100%; height: auto; display: block; }
   to { transform: rotate(360deg); }
 }
 
-@keyframes sc-spin-rev {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
+.sc-eq-bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: sc-eq 1.1s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i, 0) * -0.12s);
 }
 
-.sc-node {
-  cursor: pointer;
-  outline: none;
+@keyframes sc-eq {
+  from { transform: scaleY(0.35); }
+  to { transform: scaleY(1); }
 }
 
-.sc-node rect {
-  transition: stroke 0.2s ease, fill 0.2s ease;
-}
+.sc-bus-line { animation: sc-dash 5s linear infinite; }
 
-.sc-node:hover rect,
-.sc-node:focus-visible rect,
-.sc-node.is-active rect {
-  fill: #19192a;
-}
+.sc-bus-dot { animation: sc-bus 6s linear infinite; }
 
-.sc-node-text {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  fill: #ececf5;
-}
-
-.sc-svg-caption {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  fill: #b9b9ce;
+@keyframes sc-bus {
+  0% { transform: translateX(0); opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { transform: translateX(284px); opacity: 0; }
 }
 
 .showcase-pills {
@@ -2035,6 +2134,15 @@ a.chip:hover { border-color: var(--accent); color: var(--fg); }
 .footer a:hover { color: var(--accent-soft); }
 .footer .mono { font-family: var(--font-mono); font-size: 0.74rem; }
 
+.footer-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-sep { color: var(--line-hi); }
+
 /* ---------- Reveal ---------- */
 
 .js [data-reveal] {
@@ -2061,9 +2169,14 @@ a.chip:hover { border-color: var(--accent); color: var(--fg); }
   .pill::before,
   .tl-live-dot,
   .cd-live-dot,
-  .sc-orbit--a,
-  .sc-orbit--b,
-  .sc-sweep,
+  .sc-route,
+  .sc-trace,
+  .sc-ping,
+  .sc-led,
+  .sc-vinyl,
+  .sc-eq-bar,
+  .sc-bus-line,
+  .sc-bus-dot,
   .bento-wave rect,
   .diag-flow-line,
   .diag-flow-line-rev,
