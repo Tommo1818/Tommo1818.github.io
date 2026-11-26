@@ -22,8 +22,6 @@ export const links = {
   blog: 'https://tomsblog.data.blog/',
   /** The blog's own contact page — swap for a dedicated address when there is one. */
   contact: 'https://tomsblog.data.blog/contact/',
-  polarsteps:
-    'https://www.polarsteps.com/TomVernon/7568138-tom-and-kath-return-to-japan',
   /** TODO: fill in when available — hidden until then. */
   email: '',
   linkedin: 'https://www.linkedin.com/in/tom-vernon-7442b0197',
