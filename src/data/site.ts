@@ -152,7 +152,7 @@ export const skillGroups: SkillGroup[] = [
     shortLabel: 'Code',
     title: 'Languages',
     accent: 'cyan',
-    items: ['Python', 'TypeScript / JS', 'SQL', 'C / C++', 'C#', 'PHP', 'GDScript'],
+    items: ['Python', 'Java', 'C# (Unity)', 'SQL', 'C / C++', 'PHP', 'GDScript'],
   },
   {
     id: 'ai',
