@@ -258,7 +258,7 @@ export const outside = [
   },
   {
     title: 'PC building',
-    body: 'Custom rigs & troubleshooting from BIOS to drivers.',
+    body: 'Custom rigs for other people — spec’d, built and supported from BIOS to drivers.',
   },
   {
     title: 'Making',

@@ -2432,6 +2432,33 @@ a.chip {
 
 a.chip:hover { border-color: var(--accent); color: var(--fg); }
 
+.sound-teaching {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.6rem;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.sound-teaching-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+}
+
+.sound-teaching a {
+  color: var(--accent-soft);
+  text-decoration: none;
+}
+
+.sound-teaching a:hover { color: var(--fg); }
+
 /* ---------- Outside ---------- */
 
 .outside {
