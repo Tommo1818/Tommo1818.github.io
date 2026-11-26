@@ -21,6 +21,7 @@ const parseStat = (raw: string) => {
 };
 
 const tools = ['Python', 'TypeScript', 'SQL', 'Docker', 'Linux', 'ESP32', 'Astro'];
+const spotifyHref = music.links.find((link) => link.label === 'Spotify')?.href ?? links.music;
 ---
 
 <Base>
@@ -424,14 +425,17 @@ const tools = ['Python', 'TypeScript', 'SQL', 'Docker', 'Linux', 'ESP32', 'Astro
     <div class="wrap" data-reveal>
       <div class="contact-card" data-spotlight>
         <p class="room-label" style="justify-content: center; --room-accent: #4ade80">Contact</p>
-        <h2>Let&rsquo;s make something.</h2>
-        <p>Open to data, software and engineering roles — or a good side project.</p>
+        <h2>Say hello.</h2>
+        <p>For a build, a record, a lesson, a trip or a role — the door&rsquo;s open.</p>
         <div class="contact-actions">
           <a class="btn btn--primary" href={links.contact} target="_blank" rel="noopener noreferrer">Get in touch</a>
-          <a class="btn" href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="btn" href={spotifyHref} target="_blank" rel="noopener noreferrer">Spotify</a>
           <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="btn" href="/cv">CV</a>
+          <a class="btn" href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a class="btn" href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a>
+        </div>
+        <div class="contact-recruiter">
+          Hiring? The short version is in the <a href="/cv">CV ↗</a>.
         </div>
       </div>
     </div>

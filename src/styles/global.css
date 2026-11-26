@@ -2520,6 +2520,23 @@ a.chip:hover { border-color: var(--accent); color: var(--fg); }
 
 .contact-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; }
 
+.contact-recruiter {
+  margin: 1.25rem auto 0;
+  padding-top: 1rem;
+  max-width: 34rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--dim);
+}
+
+.contact-recruiter a {
+  color: var(--accent-soft);
+  text-decoration: none;
+}
+
+.contact-recruiter a:hover { color: var(--fg); }
+
 /* ---------- Footer ---------- */
 
 .footer {
